@@ -1,0 +1,625 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ImageProcessNative</name>
+    </assembly>
+    <members>
+        <member name="T:ImageProcessNative.Processor">
+            <summary>
+            The Processor class provides a CLS compliant, Object (native) interface to the
+            MATLAB functions contained in the files:
+            <newpara></newpara>
+            F:\PersonalProject\Stone\matlab\Closing.m
+            <newpara></newpara>
+            F:\PersonalProject\Stone\matlab\Fill.m
+            <newpara></newpara>
+            F:\PersonalProject\Stone\matlab\Inverse.m
+            <newpara></newpara>
+            F:\PersonalProject\Stone\matlab\Opening.m
+            <newpara></newpara>
+            F:\PersonalProject\Stone\matlab\ToBinary.m
+            <newpara></newpara>
+            F:\PersonalProject\Stone\matlab\TraceBoundary.m
+            </summary>
+            <remarks>
+            @Version 4.0
+            </remarks>
+        </member>
+        <member name="M:ImageProcessNative.Processor.#cctor">
+            <summary internal= "true">
+            The static constructor instantiates and initializes the MATLAB Runtime instance.
+            </summary>
+        </member>
+        <member name="M:ImageProcessNative.Processor.#ctor">
+            <summary>
+            Constructs a new instance of the Processor class.
+            </summary>
+        </member>
+        <member name="M:ImageProcessNative.Processor.Finalize">
+            <summary internal= "true">
+            Class destructor called by the CLR garbage collector.
+            </summary>
+        </member>
+        <member name="M:ImageProcessNative.Processor.Dispose">
+            <summary>
+            Frees the native resources associated with this object
+            </summary>
+        </member>
+        <member name="M:ImageProcessNative.Processor.Dispose(System.Boolean)">
+            <summary internal= "true">
+            Internal dispose function
+            </summary>
+        </member>
+        <member name="M:ImageProcessNative.Processor.Closing">
+             <summary>
+             Provides a single output, 0-input Objectinterface to the Closing MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Closing(System.Object)">
+             <summary>
+             Provides a single output, 1-input Objectinterface to the Closing MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Closing(System.Object,System.Object)">
+             <summary>
+             Provides a single output, 2-input Objectinterface to the Closing MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <param name="filtertype">Input argument #2</param>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Closing(System.Object,System.Object,System.Object)">
+             <summary>
+             Provides a single output, 3-input Objectinterface to the Closing MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <param name="filtertype">Input argument #2</param>
+             <param name="filtersize">Input argument #3</param>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Closing(System.Int32)">
+             <summary>
+             Provides the standard 0-input Object interface to the Closing MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Closing(System.Int32,System.Object)">
+             <summary>
+             Provides the standard 1-input Object interface to the Closing MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Closing(System.Int32,System.Object,System.Object)">
+             <summary>
+             Provides the standard 2-input Object interface to the Closing MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <param name="filtertype">Input argument #2</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Closing(System.Int32,System.Object,System.Object,System.Object)">
+             <summary>
+             Provides the standard 3-input Object interface to the Closing MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <param name="filtertype">Input argument #2</param>
+             <param name="filtersize">Input argument #3</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Closing(System.Int32,System.Object[]@,System.Object[],System.Object[])">
+             <summary>
+             Provides an interface for the Closing function in which the input and output
+             arguments are specified as an array of Objects.
+             </summary>
+             <remarks>
+             This method will allocate and return by reference the output argument
+             array.<newpara></newpara>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return</param>
+             <param name= "argsOut">Array of Object output arguments</param>
+             <param name= "argsIn">Array of Object input arguments</param>
+             <param name= "varArgsIn">Array of Object representing variable input
+             arguments</param>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Fill">
+             <summary>
+             Provides a single output, 0-input Objectinterface to the Fill MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Fill(System.Object)">
+             <summary>
+             Provides a single output, 1-input Objectinterface to the Fill MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Fill(System.Object,System.Object)">
+             <summary>
+             Provides a single output, 2-input Objectinterface to the Fill MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <param name="location">Input argument #2</param>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Fill(System.Int32)">
+             <summary>
+             Provides the standard 0-input Object interface to the Fill MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Fill(System.Int32,System.Object)">
+             <summary>
+             Provides the standard 1-input Object interface to the Fill MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Fill(System.Int32,System.Object,System.Object)">
+             <summary>
+             Provides the standard 2-input Object interface to the Fill MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <param name="location">Input argument #2</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Fill(System.Int32,System.Object[]@,System.Object[],System.Object[])">
+             <summary>
+             Provides an interface for the Fill function in which the input and output
+             arguments are specified as an array of Objects.
+             </summary>
+             <remarks>
+             This method will allocate and return by reference the output argument
+             array.<newpara></newpara>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return</param>
+             <param name= "argsOut">Array of Object output arguments</param>
+             <param name= "argsIn">Array of Object input arguments</param>
+             <param name= "varArgsIn">Array of Object representing variable input
+             arguments</param>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Inverse">
+             <summary>
+             Provides a single output, 0-input Objectinterface to the Inverse MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Inverse(System.Object)">
+             <summary>
+             Provides a single output, 1-input Objectinterface to the Inverse MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Inverse(System.Int32)">
+             <summary>
+             Provides the standard 0-input Object interface to the Inverse MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Inverse(System.Int32,System.Object)">
+             <summary>
+             Provides the standard 1-input Object interface to the Inverse MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Inverse(System.Int32,System.Object[]@,System.Object[],System.Object[])">
+             <summary>
+             Provides an interface for the Inverse function in which the input and output
+             arguments are specified as an array of Objects.
+             </summary>
+             <remarks>
+             This method will allocate and return by reference the output argument
+             array.<newpara></newpara>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return</param>
+             <param name= "argsOut">Array of Object output arguments</param>
+             <param name= "argsIn">Array of Object input arguments</param>
+             <param name= "varArgsIn">Array of Object representing variable input
+             arguments</param>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Opening">
+             <summary>
+             Provides a single output, 0-input Objectinterface to the Opening MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Opening(System.Object)">
+             <summary>
+             Provides a single output, 1-input Objectinterface to the Opening MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Opening(System.Object,System.Object)">
+             <summary>
+             Provides a single output, 2-input Objectinterface to the Opening MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <param name="filtertype">Input argument #2</param>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Opening(System.Object,System.Object,System.Object)">
+             <summary>
+             Provides a single output, 3-input Objectinterface to the Opening MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <param name="filtertype">Input argument #2</param>
+             <param name="filtersize">Input argument #3</param>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Opening(System.Int32)">
+             <summary>
+             Provides the standard 0-input Object interface to the Opening MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Opening(System.Int32,System.Object)">
+             <summary>
+             Provides the standard 1-input Object interface to the Opening MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Opening(System.Int32,System.Object,System.Object)">
+             <summary>
+             Provides the standard 2-input Object interface to the Opening MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <param name="filtertype">Input argument #2</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Opening(System.Int32,System.Object,System.Object,System.Object)">
+             <summary>
+             Provides the standard 3-input Object interface to the Opening MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <param name="filtertype">Input argument #2</param>
+             <param name="filtersize">Input argument #3</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Opening(System.Int32,System.Object[]@,System.Object[],System.Object[])">
+             <summary>
+             Provides an interface for the Opening function in which the input and output
+             arguments are specified as an array of Objects.
+             </summary>
+             <remarks>
+             This method will allocate and return by reference the output argument
+             array.<newpara></newpara>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return</param>
+             <param name= "argsOut">Array of Object output arguments</param>
+             <param name= "argsIn">Array of Object input arguments</param>
+             <param name= "varArgsIn">Array of Object representing variable input
+             arguments</param>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.ToBinary">
+             <summary>
+             Provides a single output, 0-input Objectinterface to the ToBinary MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.ToBinary(System.Object)">
+             <summary>
+             Provides a single output, 1-input Objectinterface to the ToBinary MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.ToBinary(System.Object,System.Object)">
+             <summary>
+             Provides a single output, 2-input Objectinterface to the ToBinary MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <param name="threshold">Input argument #2</param>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.ToBinary(System.Int32)">
+             <summary>
+             Provides the standard 0-input Object interface to the ToBinary MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.ToBinary(System.Int32,System.Object)">
+             <summary>
+             Provides the standard 1-input Object interface to the ToBinary MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.ToBinary(System.Int32,System.Object,System.Object)">
+             <summary>
+             Provides the standard 2-input Object interface to the ToBinary MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <param name="threshold">Input argument #2</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.ToBinary(System.Int32,System.Object[]@,System.Object[],System.Object[])">
+             <summary>
+             Provides an interface for the ToBinary function in which the input and output
+             arguments are specified as an array of Objects.
+             </summary>
+             <remarks>
+             This method will allocate and return by reference the output argument
+             array.<newpara></newpara>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return</param>
+             <param name= "argsOut">Array of Object output arguments</param>
+             <param name= "argsIn">Array of Object input arguments</param>
+             <param name= "varArgsIn">Array of Object representing variable input
+             arguments</param>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.TraceBoundary">
+             <summary>
+             Provides a single output, 0-input Objectinterface to the TraceBoundary MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.TraceBoundary(System.Object)">
+             <summary>
+             Provides a single output, 1-input Objectinterface to the TraceBoundary MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.TraceBoundary(System.Object,System.Object)">
+             <summary>
+             Provides a single output, 2-input Objectinterface to the TraceBoundary MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <param name="conn">Input argument #2</param>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.TraceBoundary(System.Object,System.Object,System.Object)">
+             <summary>
+             Provides a single output, 3-input Objectinterface to the TraceBoundary MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <param name="conn">Input argument #2</param>
+             <param name="option">Input argument #3</param>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.TraceBoundary(System.Int32)">
+             <summary>
+             Provides the standard 0-input Object interface to the TraceBoundary MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.TraceBoundary(System.Int32,System.Object)">
+             <summary>
+             Provides the standard 1-input Object interface to the TraceBoundary MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.TraceBoundary(System.Int32,System.Object,System.Object)">
+             <summary>
+             Provides the standard 2-input Object interface to the TraceBoundary MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <param name="conn">Input argument #2</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.TraceBoundary(System.Int32,System.Object,System.Object,System.Object)">
+             <summary>
+             Provides the standard 3-input Object interface to the TraceBoundary MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <param name="conn">Input argument #2</param>
+             <param name="option">Input argument #3</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.TraceBoundary(System.Int32,System.Object[]@,System.Object[],System.Object[])">
+             <summary>
+             Provides an interface for the TraceBoundary function in which the input and
+             output
+             arguments are specified as an array of Objects.
+             </summary>
+             <remarks>
+             This method will allocate and return by reference the output argument
+             array.<newpara></newpara>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return</param>
+             <param name= "argsOut">Array of Object output arguments</param>
+             <param name= "argsIn">Array of Object input arguments</param>
+             <param name= "varArgsIn">Array of Object representing variable input
+             arguments</param>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.WaitForFiguresToDie">
+             <summary>
+             This method will cause a MATLAB figure window to behave as a modal dialog box.
+             The method will not return until all the figure windows associated with this
+             component have been closed.
+             </summary>
+             <remarks>
+             An application should only call this method when required to keep the
+             MATLAB figure window from disappearing.  Other techniques, such as calling
+             Console.ReadLine() from the application should be considered where
+             possible.</remarks>
+            
+        </member>
+    </members>
+</doc>
