@@ -22,7 +22,9 @@ namespace From {
         }
 
         private void Fill_Click(object sender, EventArgs e) {
-            imageform.SetImage(PImage.processor.Fill(imageform.CurrentImageArray,(MWNumericArray)(new int[] {1,1})));
+            FillOption f = new FillOption(imageform);
+            f.Show();
+           
         }
 
         private void Opening_Click(object sender, EventArgs e) {
@@ -39,7 +41,8 @@ namespace From {
         }
 
         private void Trace_Btn_Click(object sender, EventArgs e) {
-
+            TraceBoundaryOption f = new TraceBoundaryOption(imageform);
+            f.Show();
         }
 
         private void Undo_Click(object sender, EventArgs e) {
@@ -52,6 +55,20 @@ namespace From {
 
         private void Form3_Load(object sender, EventArgs e) {
             TopMost = true;
+        }
+
+        private void erosion_Click(object sender, EventArgs e) {
+            FilterPicker f = new FilterPicker((filter, size) => {
+                imageform.SetImage(PImage.processor.Erosion(imageform.CurrentImageArray, filter, size));
+            });
+            f.Show();
+        }
+
+        private void dilation_Click(object sender, EventArgs e) {
+            FilterPicker f = new FilterPicker((filter, size) => {
+                imageform.SetImage(PImage.processor.Dialation(imageform.CurrentImageArray, filter, size));
+            });
+            f.Show();
         }
     }
 }

@@ -49,5 +49,9 @@ namespace From {
         private void Cancel_Click(object sender, EventArgs e) {
             this.Close();
         }
+
+        private void FilterPicker_Load(object sender, EventArgs e) {
+
+        }
     }
 }

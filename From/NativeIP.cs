@@ -74,6 +74,10 @@ namespace From {
                 var convLineIdx = 0;
                 var hmax = src.Height - 1;
                 var wmax = src.Width - 1;
+                int skip = 1;
+                if (src.PixelFormat == PixelFormat.Format24bppRgb)
+                    skip = 3;
+
                 for (int y = 0; y < hmax; y++) {
                     // find indexes for source/destination lines
 
@@ -84,7 +88,8 @@ namespace From {
                     var srcIdx = srcLineIdx;
                     for (int x = 0; x < wmax; x++) {
                         // index for source pixel (32bbp, rgba format)
-                        srcIdx += 1;
+                        
+                        srcIdx += skip;
                         //var r = pixel[2];
                         //var g = pixel[1];
                         //var b = pixel[0];

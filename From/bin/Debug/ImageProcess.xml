@@ -11,6 +11,10 @@
             <newpara></newpara>
             F:\PersonalProject\Stone\matlab\Closing.m
             <newpara></newpara>
+            F:\PersonalProject\Stone\matlab\Dialation.m
+            <newpara></newpara>
+            F:\PersonalProject\Stone\matlab\Erosion.m
+            <newpara></newpara>
             F:\PersonalProject\Stone\matlab\Fill.m
             <newpara></newpara>
             F:\PersonalProject\Stone\matlab\Inverse.m
@@ -149,6 +153,226 @@
         <member name="M:ImageProcess.Processor.Closing(System.Int32,MathWorks.MATLAB.NET.Arrays.MWArray[]@,MathWorks.MATLAB.NET.Arrays.MWArray[])">
              <summary>
              Provides an interface for the Closing function in which the input and output
+             arguments are specified as an array of MWArrays.
+             </summary>
+             <remarks>
+             This method will allocate and return by reference the output argument
+             array.<newpara></newpara>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return</param>
+             <param name= "argsOut">Array of MWArray output arguments</param>
+             <param name= "argsIn">Array of MWArray input arguments</param>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.Dialation">
+             <summary>
+             Provides a single output, 0-input MWArrayinterface to the Dialation MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <returns>An MWArray containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.Dialation(MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides a single output, 1-input MWArrayinterface to the Dialation MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <returns>An MWArray containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.Dialation(MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides a single output, 2-input MWArrayinterface to the Dialation MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <param name="filtertype">Input argument #2</param>
+             <returns>An MWArray containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.Dialation(MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides a single output, 3-input MWArrayinterface to the Dialation MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <param name="filtertype">Input argument #2</param>
+             <param name="filtersize">Input argument #3</param>
+             <returns>An MWArray containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.Dialation(System.Int32)">
+             <summary>
+             Provides the standard 0-input MWArray interface to the Dialation MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.Dialation(System.Int32,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides the standard 1-input MWArray interface to the Dialation MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.Dialation(System.Int32,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides the standard 2-input MWArray interface to the Dialation MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <param name="filtertype">Input argument #2</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.Dialation(System.Int32,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides the standard 3-input MWArray interface to the Dialation MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <param name="filtertype">Input argument #2</param>
+             <param name="filtersize">Input argument #3</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.Dialation(System.Int32,MathWorks.MATLAB.NET.Arrays.MWArray[]@,MathWorks.MATLAB.NET.Arrays.MWArray[])">
+             <summary>
+             Provides an interface for the Dialation function in which the input and output
+             arguments are specified as an array of MWArrays.
+             </summary>
+             <remarks>
+             This method will allocate and return by reference the output argument
+             array.<newpara></newpara>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return</param>
+             <param name= "argsOut">Array of MWArray output arguments</param>
+             <param name= "argsIn">Array of MWArray input arguments</param>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.Erosion">
+             <summary>
+             Provides a single output, 0-input MWArrayinterface to the Erosion MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <returns>An MWArray containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.Erosion(MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides a single output, 1-input MWArrayinterface to the Erosion MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <returns>An MWArray containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.Erosion(MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides a single output, 2-input MWArrayinterface to the Erosion MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <param name="filtertype">Input argument #2</param>
+             <returns>An MWArray containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.Erosion(MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides a single output, 3-input MWArrayinterface to the Erosion MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <param name="filtertype">Input argument #2</param>
+             <param name="filtersize">Input argument #3</param>
+             <returns>An MWArray containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.Erosion(System.Int32)">
+             <summary>
+             Provides the standard 0-input MWArray interface to the Erosion MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.Erosion(System.Int32,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides the standard 1-input MWArray interface to the Erosion MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.Erosion(System.Int32,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides the standard 2-input MWArray interface to the Erosion MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <param name="filtertype">Input argument #2</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.Erosion(System.Int32,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides the standard 3-input MWArray interface to the Erosion MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <param name="filtertype">Input argument #2</param>
+             <param name="filtersize">Input argument #3</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.Erosion(System.Int32,MathWorks.MATLAB.NET.Arrays.MWArray[]@,MathWorks.MATLAB.NET.Arrays.MWArray[])">
+             <summary>
+             Provides an interface for the Erosion function in which the input and output
              arguments are specified as an array of MWArrays.
              </summary>
              <remarks>

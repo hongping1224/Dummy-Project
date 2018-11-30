@@ -34,3 +34,8 @@ F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.csproj.GenerateResource.Cach
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.csproj.CoreCompileInputs.cache
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.exe
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.pdb
+F:\PersonalProject\Stone\UIForm\From\bin\Debug\ImageProcess.dll
+F:\PersonalProject\Stone\UIForm\From\bin\Debug\ImageProcessNative.dll
+F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.FillOption.resources
+F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.Logs.resources
+F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.TraceBoundaryOption.resources

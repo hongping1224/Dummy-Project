@@ -31,6 +31,8 @@
             this.Trace_Btn = new System.Windows.Forms.Button();
             this.Undo_Btn = new System.Windows.Forms.Button();
             this.Redo_Btn = new System.Windows.Forms.Button();
+            this.erosion = new System.Windows.Forms.Button();
+            this.dilation = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,12 +53,14 @@
             this.flowLayoutPanel1.Controls.Add(this.Fill_Btn);
             this.flowLayoutPanel1.Controls.Add(this.Opening_Btn);
             this.flowLayoutPanel1.Controls.Add(this.Closing_Btn);
+            this.flowLayoutPanel1.Controls.Add(this.erosion);
+            this.flowLayoutPanel1.Controls.Add(this.dilation);
             this.flowLayoutPanel1.Controls.Add(this.Trace_Btn);
             this.flowLayoutPanel1.Controls.Add(this.Undo_Btn);
             this.flowLayoutPanel1.Controls.Add(this.Redo_Btn);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(481, 60);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(514, 60);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
             // Fill_Btn
@@ -95,7 +99,7 @@
             // Trace_Btn
             // 
             this.Trace_Btn.Font = new System.Drawing.Font("Arial Narrow", 8F);
-            this.Trace_Btn.Location = new System.Drawing.Point(227, 3);
+            this.Trace_Btn.Location = new System.Drawing.Point(339, 3);
             this.Trace_Btn.Name = "Trace_Btn";
             this.Trace_Btn.Size = new System.Drawing.Size(50, 50);
             this.Trace_Btn.TabIndex = 6;
@@ -106,7 +110,7 @@
             // Undo_Btn
             // 
             this.Undo_Btn.Font = new System.Drawing.Font("Arial Narrow", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Undo_Btn.Location = new System.Drawing.Point(283, 3);
+            this.Undo_Btn.Location = new System.Drawing.Point(395, 3);
             this.Undo_Btn.Name = "Undo_Btn";
             this.Undo_Btn.Size = new System.Drawing.Size(50, 50);
             this.Undo_Btn.TabIndex = 3;
@@ -117,7 +121,7 @@
             // Redo_Btn
             // 
             this.Redo_Btn.Font = new System.Drawing.Font("Arial Narrow", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Redo_Btn.Location = new System.Drawing.Point(339, 3);
+            this.Redo_Btn.Location = new System.Drawing.Point(451, 3);
             this.Redo_Btn.Name = "Redo_Btn";
             this.Redo_Btn.Size = new System.Drawing.Size(50, 50);
             this.Redo_Btn.TabIndex = 4;
@@ -125,14 +129,36 @@
             this.Redo_Btn.UseVisualStyleBackColor = true;
             this.Redo_Btn.Click += new System.EventHandler(this.Redo_Click);
             // 
+            // erosion
+            // 
+            this.erosion.Font = new System.Drawing.Font("Arial Narrow", 8F);
+            this.erosion.Location = new System.Drawing.Point(227, 3);
+            this.erosion.Name = "erosion";
+            this.erosion.Size = new System.Drawing.Size(50, 50);
+            this.erosion.TabIndex = 7;
+            this.erosion.Text = "Erosion";
+            this.erosion.UseVisualStyleBackColor = true;
+            this.erosion.Click += new System.EventHandler(this.erosion_Click);
+            // 
+            // dilation
+            // 
+            this.dilation.Font = new System.Drawing.Font("Arial Narrow", 8F);
+            this.dilation.Location = new System.Drawing.Point(283, 3);
+            this.dilation.Name = "dilation";
+            this.dilation.Size = new System.Drawing.Size(50, 50);
+            this.dilation.TabIndex = 8;
+            this.dilation.Text = "Dilation";
+            this.dilation.UseVisualStyleBackColor = true;
+            this.dilation.Click += new System.EventHandler(this.dilation_Click);
+            // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(393, 61);
+            this.ClientSize = new System.Drawing.Size(513, 61);
             this.Controls.Add(this.flowLayoutPanel1);
-            this.MaximumSize = new System.Drawing.Size(409, 100);
-            this.MinimumSize = new System.Drawing.Size(409, 100);
+            this.MaximumSize = new System.Drawing.Size(529, 100);
+            this.MinimumSize = new System.Drawing.Size(529, 100);
             this.Name = "Form3";
             this.Text = "Form3";
             this.Load += new System.EventHandler(this.Form3_Load);
@@ -151,5 +177,7 @@
         private System.Windows.Forms.Button Redo_Btn;
         private System.Windows.Forms.Button Closing_Btn;
         private System.Windows.Forms.Button Trace_Btn;
+        private System.Windows.Forms.Button erosion;
+        private System.Windows.Forms.Button dilation;
     }
 }

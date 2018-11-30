@@ -32,8 +32,12 @@ namespace From {
             saveFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
             if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 var filePath = saveFileDialog1.FileName;
-                form2.OriImage.Save(filePath);
+                form2.CurrentImage.Save(filePath);
             }
+        }
+
+        private void fileToolStripMenuItem_Click(object sender, EventArgs e) {
+
         }
     }
 }

@@ -35,11 +35,13 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ImageProcess">
-      <HintPath>..\..\..\matlab\ImageProcess\for_testing\ImageProcess.dll</HintPath>
+    <Reference Include="ImageProcess, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\matlab\ImageProcess\for_testing\ImageProcess.dll</HintPath>
     </Reference>
-    <Reference Include="ImageProcessNative">
-      <HintPath>..\..\..\matlab\ImageProcess\for_testing\ImageProcessNative.dll</HintPath>
+    <Reference Include="ImageProcessNative, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\matlab\ImageProcess\for_testing\ImageProcessNative.dll</HintPath>
     </Reference>
     <Reference Include="MWArray, Version=2.17.1.0, Culture=neutral, PublicKeyToken=e1d84a0da19db86f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -58,6 +60,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FillOption.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FillOption.Designer.cs">
+      <DependentUpon>FillOption.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logs.Designer.cs">
+      <DependentUpon>Logs.cs</DependentUpon>
+    </Compile>
     <Compile Include="NativeIP.cs" />
     <Compile Include="FilterPicker.cs">
       <SubType>Form</SubType>
@@ -86,6 +100,16 @@
     <Compile Include="PImage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Step.cs" />
+    <Compile Include="TraceBoundaryOption.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TraceBoundaryOption.Designer.cs">
+      <DependentUpon>TraceBoundaryOption.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="FillOption.resx">
+      <DependentUpon>FillOption.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FilterPicker.resx">
       <DependentUpon>FilterPicker.cs</DependentUpon>
     </EmbeddedResource>
@@ -98,6 +122,9 @@
     <EmbeddedResource Include="Form3.resx">
       <DependentUpon>Form3.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Logs.resx">
+      <DependentUpon>Logs.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -107,6 +134,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="TraceBoundaryOption.resx">
+      <DependentUpon>TraceBoundaryOption.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
