@@ -20,6 +20,7 @@ namespace From {
 
         Form2 image;
         public FillOption(Form2 from) : this() {
+            this.Text = "Fill";
             image = from;
         }
 

@@ -25,8 +25,10 @@ namespace From {
             comboBox1.SelectedIndex = 0;
             button1.Focus();
         }
-        public FilterPicker(Action<string, int> OnOk) : this() {
+        public FilterPicker(string name,Action<string, int> OnOk) : this() {
             this.OnOk += OnOk;
+            this.Text = name;
+            
         }
 
         public Action<string,int> OnOk;

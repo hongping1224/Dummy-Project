@@ -12,9 +12,12 @@ namespace From {
             InitializeComponent();
         }
         public Form2 imageform;
+        public Form optionform = null;
+
         public Form3(Form2 image) : this() {
             imageform = image;
         }
+
         private void Inverse_Click(object sender, EventArgs e) {
             Bitmap bi = new Bitmap(imageform.CurrentImage.Width, imageform.CurrentImage.Height, PixelFormat.Format1bppIndexed);
             NativeIP.FastInvertBinary(imageform.CurrentImage, bi);
@@ -22,26 +25,45 @@ namespace From {
         }
 
         private void Fill_Click(object sender, EventArgs e) {
+            if (optionform != null) {
+                return;
+            }
             FillOption f = new FillOption(imageform);
+            optionform = f;
+            f.FormClosed += OptionFormClosed;
             f.Show();
-           
         }
 
         private void Opening_Click(object sender, EventArgs e) {
-            FilterPicker f = new FilterPicker((filter, size) => {
+            if (optionform != null) {
+                return;
+            }
+            FilterPicker f = new FilterPicker("Opening",(filter, size) => {
                 imageform.SetImage(PImage.processor.Opening(imageform.CurrentImageArray,filter,size));
             });
+            optionform = f;
+            f.FormClosed += OptionFormClosed;
             f.Show();
         }
         private void Closing_Click(object sender, EventArgs e) {
-            FilterPicker f = new FilterPicker((filter, size) => {
+            if (optionform != null) {
+                return;
+            }
+            FilterPicker f = new FilterPicker("Closing", (filter, size) => {
                 imageform.SetImage(PImage.processor.Closing(imageform.CurrentImageArray, filter, size));
             });
+            optionform = f;
+            f.FormClosed += OptionFormClosed;
             f.Show();
         }
 
         private void Trace_Btn_Click(object sender, EventArgs e) {
+            if (optionform != null) {
+                return;
+            }
             TraceBoundaryOption f = new TraceBoundaryOption(imageform);
+            optionform = f;
+            f.FormClosed += OptionFormClosed;
             f.Show();
         }
 
@@ -58,17 +80,33 @@ namespace From {
         }
 
         private void erosion_Click(object sender, EventArgs e) {
-            FilterPicker f = new FilterPicker((filter, size) => {
+            if (optionform != null) {
+                return;
+            }
+            FilterPicker f = new FilterPicker("Erosion",(filter, size) => {
                 imageform.SetImage(PImage.processor.Erosion(imageform.CurrentImageArray, filter, size));
             });
+            optionform = f;
+            f.FormClosed += OptionFormClosed;
             f.Show();
         }
 
         private void dilation_Click(object sender, EventArgs e) {
-            FilterPicker f = new FilterPicker((filter, size) => {
+            if(optionform != null) {
+                return;
+            }
+
+            FilterPicker f = new FilterPicker("Dilation",(filter, size) => {
                 imageform.SetImage(PImage.processor.Dialation(imageform.CurrentImageArray, filter, size));
             });
+            optionform = f;
+            f.FormClosed += OptionFormClosed;
             f.Show();
+
+        }
+
+        private void OptionFormClosed(object sender, FormClosedEventArgs e) {
+            optionform = null;
         }
     }
 }

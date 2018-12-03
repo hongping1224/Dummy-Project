@@ -23,6 +23,7 @@ namespace From {
    
         Form2 image;
         public TraceBoundaryOption(Form2 imageform) : this() {
+            this.Text = "Trace Boundary";
             image = imageform;
         }
 
