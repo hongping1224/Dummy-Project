@@ -25,6 +25,10 @@
         private void InitializeComponent() {
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuStrip2 = new System.Windows.Forms.MenuStrip();
+            this.saveLogsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.menuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -42,11 +46,28 @@
             // 
             // menuStrip1
             // 
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Location = new System.Drawing.Point(0, 24);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(352, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // menuStrip2
+            // 
+            this.menuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveLogsToolStripMenuItem});
+            this.menuStrip2.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip2.Name = "menuStrip2";
+            this.menuStrip2.Size = new System.Drawing.Size(352, 24);
+            this.menuStrip2.TabIndex = 2;
+            this.menuStrip2.Text = "menuStrip2";
+            // 
+            // saveLogsToolStripMenuItem
+            // 
+            this.saveLogsToolStripMenuItem.Name = "saveLogsToolStripMenuItem";
+            this.saveLogsToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
+            this.saveLogsToolStripMenuItem.Text = "SaveLogs";
+            this.saveLogsToolStripMenuItem.Click += new System.EventHandler(this.saveLogsToolStripMenuItem_Click);
             // 
             // Logs
             // 
@@ -55,9 +76,12 @@
             this.ClientSize = new System.Drawing.Size(352, 344);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.menuStrip2);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Logs";
             this.Text = "Logs";
+            this.menuStrip2.ResumeLayout(false);
+            this.menuStrip2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -67,5 +91,8 @@
 
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip menuStrip2;
+        private System.Windows.Forms.ToolStripMenuItem saveLogsToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
