@@ -35,6 +35,7 @@ namespace From {
         private void button1_Click(object sender, EventArgs e) {
             if (hole) {
                 image.SetImage(PImage.processor.Fill(image.CurrentImageArray, (MWArray)("holes")));
+                image.logs.AddLog(new Step("Fill", new string[] { "options:holes" }));
                 this.Close();
             } else {
                 int x = 1;
@@ -52,6 +53,8 @@ namespace From {
                     return;
                 }
                 image.SetImage(PImage.processor.Fill(image.CurrentImageArray, (MWNumericArray)new int[] { x, y }));
+                image.logs.AddLog(new Step("Fill", new string[] { "Coordinate", "x:"+x.ToString(), "y:"+y.ToString() }));
+
                 this.Close();
             }
 

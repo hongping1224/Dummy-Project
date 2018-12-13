@@ -31,6 +31,8 @@ namespace From {
         public Stack<Bitmap> undo;
         public Stack<Bitmap> redo;
         public Form3 tool;
+        public Logs logs;
+     
         #region open
         public Form2(Bitmap image) : this() {
             Bitmap bi = new Bitmap(image.Width, image.Height,PixelFormat.Format1bppIndexed);
@@ -43,7 +45,8 @@ namespace From {
             tool = new Form3(this);
             tool.Show();
             tool.BringToFront();
-
+            logs = new Logs();
+            logs.Show();
         }
         private void Form2_Load(object sender, EventArgs e) {
             SetImage(OriImage);
@@ -89,6 +92,7 @@ namespace From {
             Console.WriteLine(undo.Count);
             redo.Push(CurrentImage);
             setImage(undo.Pop());
+            logs.Undo();
         }
         public void Redo() {
             if(redo.Count ==0) {
@@ -97,6 +101,7 @@ namespace From {
             Console.WriteLine(redo.Count);
             undo.Push(CurrentImage);
             setImage(redo.Pop());
+            logs.Redo();
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e) {

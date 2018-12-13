@@ -50,6 +50,7 @@ namespace From {
             Bitmap ab = new Bitmap(image.CurrentImage.Width, image.CurrentImage.Height, PixelFormat.Format1bppIndexed);
             NativeIP.FastInvertBinary(aa, ab);
             image.SetImage(ab);
+            image.logs.AddLog(new Step("TraceBoundary", parameters: new string[] { "connection:"+ conn.ToString(), "option:" + option }));
             //image.SetImage(PImage.processor.ToBinary(a,0));
             this.Close();
         }

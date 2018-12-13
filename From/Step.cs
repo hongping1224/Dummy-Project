@@ -5,17 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace From {
-    class Step {
-        public enum Function {
-
-        }
-
-        public Function func;
+    public class Step {
+        public string function;
         public string[] parameters;
+        private Step() {
+            function = "";
+            parameters = new string[0];
+        }
+        public Step(string funcName, string[] parameters) {
+            this.function = funcName;
+            this.parameters = parameters;
+        }
 
         public override string ToString() {
             StringBuilder b = new StringBuilder();
-            b.Append(func.ToString());
+            b.Append(function);
             foreach (string s in parameters) {
                 b.Append(",");
                 b.Append(s);

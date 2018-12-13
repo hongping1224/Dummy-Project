@@ -12,17 +12,52 @@ namespace From {
     public partial class Logs : Form {
         public Logs() {
             InitializeComponent();
+            logs = new Stack<Step>();
+            redo = new Stack<Step>();
         }
-        Stack<string> logs;
-
-        public void AddLog(string Log) {
+        Stack<Step> logs;
+        Stack<Step> redo;
+        public void AddLog(Step Log) {
             logs.Push(Log);
+            RefreshLog();
         }
-        public string RemoveLog() {
-            return logs.Pop();
+        public void RefreshLog() {
+            StringBuilder b = new StringBuilder();
+            Step[] ll = logs.ToArray();
+            for (int i = ll.Length-1; i >=0 ; i--) {
+                b.Append(ll[i].function);
+                foreach (string s in ll[i].parameters) {
+                    b.Append(",");
+                    b.Append(s);
+                }
+                b.Append("\n");
+            }
+            richTextBox1.Text = b.ToString();
         }
-        public string[] GetLogs() {
+        public Step RemoveLog() {
+            Step Log = logs.Pop();
+            string s = richTextBox1.Text;
+            s.Substring(0,s.LastIndexOf("\n"));
+            return Log;
+        }
+
+        public Step[] GetLogs() {
             return logs.ToArray();
+        }
+
+        public void Undo() {
+            if (logs.Count == 0) {
+                return;
+            }
+            redo.Push(logs.Pop());
+            RefreshLog();
+        }
+        public void Redo() {
+            if (redo.Count == 0) {
+                return;
+            }
+            logs.Push(redo.Pop());
+            RefreshLog();
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e) {
