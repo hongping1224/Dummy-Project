@@ -18,8 +18,8 @@ namespace From {
         }
         bool hole = true;
 
-        Form2 image;
-        public FillOption(Form2 from) : this() {
+        ImageForm image;
+        public FillOption(ImageForm from) : this() {
             this.Text = "Fill";
             image = from;
         }
@@ -35,7 +35,7 @@ namespace From {
         private void button1_Click(object sender, EventArgs e) {
             if (hole) {
                 image.SetImage(PImage.processor.Fill(image.CurrentImageArray, (MWArray)("holes")));
-                image.logs.AddLog(new Step("Fill", new string[] { "options:holes" }));
+                image.logs.AddLog(new Step(Step.Fill, new string[] { "options:holes" }));
                 this.Close();
             } else {
                 int x = 1;
@@ -53,7 +53,7 @@ namespace From {
                     return;
                 }
                 image.SetImage(PImage.processor.Fill(image.CurrentImageArray, (MWNumericArray)new int[] { x, y }));
-                image.logs.AddLog(new Step("Fill", new string[] { "Coordinate", "x:"+x.ToString(), "y:"+y.ToString() }));
+                image.logs.AddLog(new Step(Step.Fill, new string[] { "Coordinate", "x:"+x.ToString(), "y:"+y.ToString() }));
 
                 this.Close();
             }

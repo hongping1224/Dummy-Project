@@ -10,10 +10,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MathWorks.MATLAB.NET.Arrays;
 namespace From {
-    public partial class Form2 : Form {
-        public Form2() {
-            InitializeComponent();
-        }
+    public partial class ImageForm : Form {
+
+         
+
+    
+
         public Bitmap OriImage;
         public Bitmap CurrentImage;
         private MWArray currentImageArray;
@@ -30,27 +32,61 @@ namespace From {
         }
         public Stack<Bitmap> undo;
         public Stack<Bitmap> redo;
-        public Form3 tool;
+        public ToolBar tool;
         public Logs logs;
-     
+
         #region open
-        public Form2(Bitmap image) : this() {
+        
+
+        private ImageForm() {
+            InitializeComponent();
+        }
+        public ImageForm(Bitmap image, Point p) : this() {
             Bitmap bi = new Bitmap(image.Width, image.Height,PixelFormat.Format1bppIndexed);
             NativeIP.FastBinaryConvert(image, bi);
             OriImage = bi;
             SetImage(OriImage);
+            pictureBox2.Image = OriImage;
             this.Resize += Form2_Resize;
+            StartPosition = FormStartPosition.Manual;
+            p.Y += 150;
+            Location = p;
+            pictureBox1.Parent = pictureBox2;
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.Location = pictureBox2.Location;
             undo = new Stack<Bitmap>();
             redo = new Stack<Bitmap>();
-            tool = new Form3(this);
-            tool.Show();
-            tool.BringToFront();
+            tool = new ToolBar(this);
+            tool.StartPosition = FormStartPosition.Manual;
+           
             logs = new Logs();
+            logs.StartPosition = FormStartPosition.Manual;
+
+            
+            tool.Show();
             logs.Show();
+            Reposition();
         }
+
+        private void Reposition() {
+            if (!maximise) {
+                if (tool != null) {
+                    Point tp = Location;
+                    tp.Y -= tool.Height;
+                    tool.Location = tp;
+                }
+                if (logs != null) {
+                    Point pp = Location;
+                    pp.X += Width;
+                    logs.Location = pp;
+                }
+            }
+        } 
+
         private void Form2_Load(object sender, EventArgs e) {
             SetImage(OriImage);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
             Form2_ResizeEnd(sender, e);
             
         }
@@ -80,12 +116,14 @@ namespace From {
         private void setImage(Bitmap image, MWArray imagearr) {
             CurrentImageArray = imagearr;
             CurrentImage = image;
-            pictureBox1.Image = CurrentImage;
+            trackBar1_Scroll(null, null);
+          //  pictureBox1.Image = CurrentImage;
             pictureBox1.Refresh();
         }
         #endregion
 
         public void Undo() {
+            
             if (undo.Count == 0) {
                 return;
             }
@@ -104,22 +142,19 @@ namespace From {
             logs.Redo();
         }
 
-        private void pictureBox1_MouseUp(object sender, MouseEventArgs e) {
-            return;
-          /*  Image b = pictureBox1.Image;
-            if (b != null) {
-                int x = b.Width * e.X / pictureBox1.Width;
-                int y = b.Height * e.Y / pictureBox1.Height;
-                MessageBox.Show(String.Format("X={0}, Y={1}", x, y));
-            }*/
-        }
+   
         private void RefreshPictureBoxSize() {
             int windowsize = Size.Width;
             if (Size.Width > Size.Height) {
                 windowsize = Size.Height;
             }
+          
+            pictureBox2.Size = Size;
+            pictureBox2.Location = new Point((Size.Width / 2) - (pictureBox2.Width / 2), (Size.Height / 2) - (pictureBox2.Height / 2));
+            pictureBox2.Refresh();
+
             pictureBox1.Size = Size;
-            pictureBox1.Location = new Point((Size.Width / 2) - (pictureBox1.Width / 2), (Size.Height / 2) - (pictureBox1.Height / 2));
+            pictureBox1.Location = new Point(0, 0);
             pictureBox1.Refresh();
         }
 
@@ -157,12 +192,18 @@ namespace From {
                 if (b.Width >= b.Height) {
                     pictureBox1.Width = windowsize;
                     pictureBox1.Height = (int)(windowsize * ((float)b.Height / b.Width));
+                    pictureBox2.Width = windowsize;
+                    pictureBox2.Height = (int)(windowsize * ((float)b.Height / b.Width));
                 } else {
                     pictureBox1.Height = windowsize;
                     pictureBox1.Width = (int)(windowsize * ((float)b.Width / b.Height));
+                    pictureBox2.Height = windowsize;
+                    pictureBox2.Width = (int)(windowsize * ((float)b.Width / b.Height));
                 }
-                pictureBox1.Location = new Point((Size.Width / 2) - (pictureBox1.Width / 2), (Size.Height / 2) - (pictureBox1.Height / 2));
+                pictureBox1.Location = new Point(0,0);
                 pictureBox1.Refresh();
+                pictureBox2.Location = new Point((Size.Width / 2) - (pictureBox2.Width / 2), (Size.Height / 2) - (pictureBox2.Height / 2));
+                pictureBox2.Refresh();
             } else if (maximise && WindowState == FormWindowState.Normal) {
                 maximise = false;
                 Image b = pictureBox1.Image;
@@ -182,6 +223,26 @@ namespace From {
                     RefreshPictureBoxSize();
                 }
             }
+            Reposition();
+        }
+
+        private void ImageForm_Move(object sender, EventArgs e) {
+            Reposition();
+        }
+
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e) {
+            pictureBox1.Visible = false;
+        }
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e) {
+            pictureBox1.Visible = true;
+            return;
+           
+        }
+        private void trackBar1_Scroll(object sender, EventArgs e) {
+            if (CurrentImage == null)
+                return;
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.Image = NativeIP.SetAlpha((Bitmap)CurrentImage, trackBar1.Value);
         }
     }
 }

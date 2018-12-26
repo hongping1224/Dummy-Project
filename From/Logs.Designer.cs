@@ -28,6 +28,8 @@
             this.menuStrip2 = new System.Windows.Forms.MenuStrip();
             this.saveLogsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.applyLogsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,7 +57,8 @@
             // menuStrip2
             // 
             this.menuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveLogsToolStripMenuItem});
+            this.saveLogsToolStripMenuItem,
+            this.applyLogsToolStripMenuItem});
             this.menuStrip2.Location = new System.Drawing.Point(0, 0);
             this.menuStrip2.Name = "menuStrip2";
             this.menuStrip2.Size = new System.Drawing.Size(352, 24);
@@ -68,6 +71,17 @@
             this.saveLogsToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
             this.saveLogsToolStripMenuItem.Text = "SaveLogs";
             this.saveLogsToolStripMenuItem.Click += new System.EventHandler(this.saveLogsToolStripMenuItem_Click);
+            // 
+            // applyLogsToolStripMenuItem
+            // 
+            this.applyLogsToolStripMenuItem.Name = "applyLogsToolStripMenuItem";
+            this.applyLogsToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
+            this.applyLogsToolStripMenuItem.Text = "ApplyLogs";
+            this.applyLogsToolStripMenuItem.Click += new System.EventHandler(this.applyLogsToolStripMenuItem_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // Logs
             // 
@@ -94,5 +108,7 @@
         private System.Windows.Forms.MenuStrip menuStrip2;
         private System.Windows.Forms.ToolStripMenuItem saveLogsToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.ToolStripMenuItem applyLogsToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }

@@ -27,8 +27,6 @@ F:\PersonalProject\Stone\UIForm\From\bin\Debug\MWArray.xml
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.csprojResolveAssemblyReference.cache
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.FilterPicker.resources
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.Form1.resources
-F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.Form2.resources
-F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.Form3.resources
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.Properties.Resources.resources
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.csproj.GenerateResource.Cache
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.csproj.CoreCompileInputs.cache
@@ -39,3 +37,5 @@ F:\PersonalProject\Stone\UIForm\From\bin\Debug\ImageProcessNative.dll
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.FillOption.resources
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.Logs.resources
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.TraceBoundaryOption.resources
+F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.ImageForm.resources
+F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.ToolBar.resources

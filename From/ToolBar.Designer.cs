@@ -1,5 +1,5 @@
 ﻿namespace From {
-    partial class Form3 {
+    partial class ToolBar {
         /// <summary>
         /// Required designer variable.
         /// </summary>

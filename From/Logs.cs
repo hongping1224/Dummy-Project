@@ -75,5 +75,20 @@ namespace From {
                 File.WriteAllText(filePath, Logs2String());
             }
         }
+
+        private void applyLogsToolStripMenuItem_Click(object sender, EventArgs e) {
+            openFileDialog1.Filter = "log files (*.log)|*.log|All files (*.*)|*.*";
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                var filePath = openFileDialog1.FileName;
+                //TODO
+                //read in file and apply the file
+                string[] logs = File.ReadAllLines(filePath);
+                foreach(string s in logs) {
+                    
+                }
+            }
+        }
+
+        
     }
 }

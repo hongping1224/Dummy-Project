@@ -15,7 +15,7 @@ namespace From {
         }
 
 
-        Form2 form2;
+        ImageForm form2;
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e) {
             openFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
@@ -23,7 +23,8 @@ namespace From {
                 var filePath = openFileDialog1.FileName;
                 Bitmap b = new Bitmap(filePath);
                 Console.WriteLine("Start Form2");
-                form2 = new Form2(b);
+                form2 = new ImageForm(b,this.Location);
+              
                 form2.Show();
             }
         }
