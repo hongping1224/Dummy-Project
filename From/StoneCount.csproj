@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D7422E50-B391-4F64-9E91-9C9AAAF574A6}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>From</RootNamespace>
-    <AssemblyName>From</AssemblyName>
+    <RootNamespace>StoneCount</RootNamespace>
+    <AssemblyName>StoneCount</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -133,6 +133,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="TraceBoundaryOption.resx">
       <DependentUpon>TraceBoundaryOption.cs</DependentUpon>
