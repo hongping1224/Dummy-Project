@@ -17,6 +17,8 @@
             <newpara></newpara>
             F:\PersonalProject\Stone\matlab\Fill.m
             <newpara></newpara>
+            F:\PersonalProject\Stone\matlab\FillHoles.m
+            <newpara></newpara>
             F:\PersonalProject\Stone\matlab\Inverse.m
             <newpara></newpara>
             F:\PersonalProject\Stone\matlab\Opening.m
@@ -410,7 +412,19 @@
              <remarks>
              </remarks>
              <param name="image">Input argument #1</param>
-             <param name="location">Input argument #2</param>
+             <param name="x">Input argument #2</param>
+             <returns>An MWArray containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.Fill(MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides a single output, 3-input MWArrayinterface to the Fill MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <param name="x">Input argument #2</param>
+             <param name="y">Input argument #3</param>
              <returns>An MWArray containing the first output argument.</returns>
             
         </member>
@@ -445,7 +459,21 @@
              </remarks>
              <param name="numArgsOut">The number of output arguments to return.</param>
              <param name="image">Input argument #1</param>
-             <param name="location">Input argument #2</param>
+             <param name="x">Input argument #2</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.Fill(System.Int32,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides the standard 3-input MWArray interface to the Fill MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <param name="x">Input argument #2</param>
+             <param name="y">Input argument #3</param>
              <returns>An Array of length "numArgsOut" containing the output
              arguments.</returns>
             
@@ -453,6 +481,64 @@
         <member name="M:ImageProcess.Processor.Fill(System.Int32,MathWorks.MATLAB.NET.Arrays.MWArray[]@,MathWorks.MATLAB.NET.Arrays.MWArray[])">
              <summary>
              Provides an interface for the Fill function in which the input and output
+             arguments are specified as an array of MWArrays.
+             </summary>
+             <remarks>
+             This method will allocate and return by reference the output argument
+             array.<newpara></newpara>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return</param>
+             <param name= "argsOut">Array of MWArray output arguments</param>
+             <param name= "argsIn">Array of MWArray input arguments</param>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.FillHoles">
+             <summary>
+             Provides a single output, 0-input MWArrayinterface to the FillHoles MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <returns>An MWArray containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.FillHoles(MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides a single output, 1-input MWArrayinterface to the FillHoles MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <returns>An MWArray containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.FillHoles(System.Int32)">
+             <summary>
+             Provides the standard 0-input MWArray interface to the FillHoles MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.FillHoles(System.Int32,MathWorks.MATLAB.NET.Arrays.MWArray)">
+             <summary>
+             Provides the standard 1-input MWArray interface to the FillHoles MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcess.Processor.FillHoles(System.Int32,MathWorks.MATLAB.NET.Arrays.MWArray[]@,MathWorks.MATLAB.NET.Arrays.MWArray[])">
+             <summary>
+             Provides an interface for the FillHoles function in which the input and output
              arguments are specified as an array of MWArrays.
              </summary>
              <remarks>

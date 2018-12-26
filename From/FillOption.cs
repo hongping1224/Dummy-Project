@@ -34,7 +34,7 @@ namespace From {
 
         private void button1_Click(object sender, EventArgs e) {
             if (hole) {
-                image.SetImage(PImage.processor.Fill(image.CurrentImageArray, (MWArray)("holes")));
+                image.SetImage(PImage.processor.FillHoles(image.CurrentImageArray));
                 image.logs.AddLog(new Step(Step.Fill, new string[] { "options:holes" }));
                 this.Close();
             } else {
@@ -52,8 +52,9 @@ namespace From {
                     MessageBox.Show("coordinates out of range");
                     return;
                 }
-                image.SetImage(PImage.processor.Fill(image.CurrentImageArray, (MWNumericArray)new int[] { x, y }));
-                image.logs.AddLog(new Step(Step.Fill, new string[] { "Coordinate", "x:"+x.ToString(), "y:"+y.ToString() }));
+                
+                image.SetImage(PImage.processor.Fill(image.CurrentImageArray, x,y));
+                image.logs.AddLog(new Step(Step.Fill, new string[] { "options:Coordinate", "x:"+x.ToString(), "y:"+y.ToString() }));
 
                 this.Close();
             }

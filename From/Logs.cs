@@ -7,6 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
+using System.Drawing.Imaging;
+
+using MathWorks.MATLAB.NET.Arrays;
 using System.IO;
 namespace From {
     public partial class Logs : Form {
@@ -17,6 +21,7 @@ namespace From {
         }
         Stack<Step> logs;
         Stack<Step> redo;
+        public ImageForm image;
         public void AddLog(Step Log) {
             logs.Push(Log);
             RefreshLog();
@@ -83,12 +88,18 @@ namespace From {
                 //TODO
                 //read in file and apply the file
                 string[] logs = File.ReadAllLines(filePath);
-                foreach(string s in logs) {
-                    
+                MWArray a = (MWArray)image.CurrentImageArray.Clone();
+                int h = image.CurrentImage.Height;
+                int w = image.CurrentImage.Width;
+
+                foreach (string s in logs) {
+                   a = Step.Execute(s,image.CurrentImage, a,w,h);
+                   image.SetImage(a);
+                   image.Refresh();
+                   Console.WriteLine(s);
                 }
             }
         }
 
-        
     }
 }

@@ -17,6 +17,8 @@
             <newpara></newpara>
             F:\PersonalProject\Stone\matlab\Fill.m
             <newpara></newpara>
+            F:\PersonalProject\Stone\matlab\FillHoles.m
+            <newpara></newpara>
             F:\PersonalProject\Stone\matlab\Inverse.m
             <newpara></newpara>
             F:\PersonalProject\Stone\matlab\Opening.m
@@ -408,7 +410,19 @@
              <remarks>
              </remarks>
              <param name="image">Input argument #1</param>
-             <param name="location">Input argument #2</param>
+             <param name="x">Input argument #2</param>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Fill(System.Object,System.Object,System.Object)">
+             <summary>
+             Provides a single output, 3-input Objectinterface to the Fill MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <param name="x">Input argument #2</param>
+             <param name="y">Input argument #3</param>
              <returns>An Object containing the first output argument.</returns>
             
         </member>
@@ -443,7 +457,21 @@
              </remarks>
              <param name="numArgsOut">The number of output arguments to return.</param>
              <param name="image">Input argument #1</param>
-             <param name="location">Input argument #2</param>
+             <param name="x">Input argument #2</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.Fill(System.Int32,System.Object,System.Object,System.Object)">
+             <summary>
+             Provides the standard 3-input Object interface to the Fill MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <param name="x">Input argument #2</param>
+             <param name="y">Input argument #3</param>
              <returns>An Array of length "numArgsOut" containing the output
              arguments.</returns>
             
@@ -451,6 +479,66 @@
         <member name="M:ImageProcessNative.Processor.Fill(System.Int32,System.Object[]@,System.Object[],System.Object[])">
              <summary>
              Provides an interface for the Fill function in which the input and output
+             arguments are specified as an array of Objects.
+             </summary>
+             <remarks>
+             This method will allocate and return by reference the output argument
+             array.<newpara></newpara>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return</param>
+             <param name= "argsOut">Array of Object output arguments</param>
+             <param name= "argsIn">Array of Object input arguments</param>
+             <param name= "varArgsIn">Array of Object representing variable input
+             arguments</param>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.FillHoles">
+             <summary>
+             Provides a single output, 0-input Objectinterface to the FillHoles MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.FillHoles(System.Object)">
+             <summary>
+             Provides a single output, 1-input Objectinterface to the FillHoles MATLAB
+             function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="image">Input argument #1</param>
+             <returns>An Object containing the first output argument.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.FillHoles(System.Int32)">
+             <summary>
+             Provides the standard 0-input Object interface to the FillHoles MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.FillHoles(System.Int32,System.Object)">
+             <summary>
+             Provides the standard 1-input Object interface to the FillHoles MATLAB function.
+             </summary>
+             <remarks>
+             </remarks>
+             <param name="numArgsOut">The number of output arguments to return.</param>
+             <param name="image">Input argument #1</param>
+             <returns>An Array of length "numArgsOut" containing the output
+             arguments.</returns>
+            
+        </member>
+        <member name="M:ImageProcessNative.Processor.FillHoles(System.Int32,System.Object[]@,System.Object[],System.Object[])">
+             <summary>
+             Provides an interface for the FillHoles function in which the input and output
              arguments are specified as an array of Objects.
              </summary>
              <remarks>

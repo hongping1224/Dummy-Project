@@ -48,6 +48,7 @@ namespace From {
             SetImage(OriImage);
             pictureBox2.Image = OriImage;
             this.Resize += Form2_Resize;
+            this.FormClosing += Form2_Closing;
             StartPosition = FormStartPosition.Manual;
             p.Y += 150;
             Location = p;
@@ -61,7 +62,7 @@ namespace From {
            
             logs = new Logs();
             logs.StartPosition = FormStartPosition.Manual;
-
+            logs.image = this;
             
             tool.Show();
             logs.Show();
@@ -81,8 +82,11 @@ namespace From {
                     logs.Location = pp;
                 }
             }
-        } 
-
+        }
+        private void Form2_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+            tool.Close();
+            logs.Close();
+        }
         private void Form2_Load(object sender, EventArgs e) {
             SetImage(OriImage);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -117,9 +121,11 @@ namespace From {
             CurrentImageArray = imagearr;
             CurrentImage = image;
             trackBar1_Scroll(null, null);
-          //  pictureBox1.Image = CurrentImage;
+            //pictureBox1.Image = CurrentImage;
             pictureBox1.Refresh();
         }
+
+      
         #endregion
 
         public void Undo() {

@@ -19,3 +19,4 @@ F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.csproj.GenerateResourc
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.csproj.CoreCompileInputs.cache
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.exe
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.pdb
+F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.csprojResolveAssemblyReference.cache

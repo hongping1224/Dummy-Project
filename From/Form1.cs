@@ -24,7 +24,6 @@ namespace From {
                 Bitmap b = new Bitmap(filePath);
                 Console.WriteLine("Start Form2");
                 form2 = new ImageForm(b,this.Location);
-              
                 form2.Show();
             }
         }
