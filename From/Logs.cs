@@ -85,18 +85,18 @@ namespace From {
             openFileDialog1.Filter = "log files (*.log)|*.log|All files (*.*)|*.*";
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 var filePath = openFileDialog1.FileName;
-                //TODO
-                //read in file and apply the file
                 string[] logs = File.ReadAllLines(filePath);
                 MWArray a = (MWArray)image.CurrentImageArray.Clone();
                 int h = image.CurrentImage.Height;
                 int w = image.CurrentImage.Width;
 
                 foreach (string s in logs) {
-                   a = Step.Execute(s,image.CurrentImage, a,w,h);
-                   image.SetImage(a);
-                   image.Refresh();
-                   Console.WriteLine(s);
+                    Step st = new Step(s);
+                    a = Step.Execute(st, image.CurrentImage, a, w, h);
+                    image.SetImage(a);
+                    image.Refresh();
+                    AddLog(st);
+                    Console.WriteLine(s);
                 }
             }
         }

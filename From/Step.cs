@@ -30,18 +30,7 @@ namespace From {
             this.function = funcName;
             this.parameters = parameters;
         }
-
-        public override string ToString() {
-            StringBuilder b = new StringBuilder();
-            b.Append(function);
-            foreach (string s in parameters) {
-                b.Append(",");
-                b.Append(s);
-            }
-            return b.ToString();
-        }
-
-        public static MWArray Execute(string step, Bitmap bit, MWArray image, int width, int height) {
+        public Step(string step) {
             string[] s = step.Substring(step.IndexOf(',') + 1).Split(',');
             //Console.WriteLine(step.Substring(step.IndexOf(',') + 1));
             string p = "";
@@ -51,8 +40,16 @@ namespace From {
                 p = step;
             }
             Step st = new Step(p, s);
-            MWArray tmp = Execute(st,bit, image, width,  height);
-            return tmp;
+        }
+
+        public override string ToString() {
+            StringBuilder b = new StringBuilder();
+            b.Append(function);
+            foreach (string s in parameters) {
+                b.Append(",");
+                b.Append(s);
+            }
+            return b.ToString();
         }
 
         public static MWArray Execute(Step step,Bitmap bit, MWArray image,int width,int height) {

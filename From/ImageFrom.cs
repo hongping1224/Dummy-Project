@@ -57,16 +57,29 @@ namespace From {
             pictureBox1.Location = pictureBox2.Location;
             undo = new Stack<Bitmap>();
             redo = new Stack<Bitmap>();
+
+            OpenToolBar();
+            OpenLogs();
+            Reposition();
+        }
+
+        public void OpenToolBar() {
             tool = new ToolBar(this);
             tool.StartPosition = FormStartPosition.Manual;
-           
+            tool.Show();
+            Point tp = Location;
+            tp.Y -= tool.Height;
+            tool.Location = tp;
+        }
+
+        public void OpenLogs() {
             logs = new Logs();
             logs.StartPosition = FormStartPosition.Manual;
             logs.image = this;
-            
-            tool.Show();
             logs.Show();
-            Reposition();
+            Point pp = Location;
+            pp.X += Width;
+            logs.Location = pp;
         }
 
         private void Reposition() {
