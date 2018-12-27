@@ -60,31 +60,19 @@ namespace From {
         }
 
         private void batchProcessToolStripMenuItem_Click(object sender, EventArgs e) {
-            folderBrowserDialog1.Description = "Pick Image Folder";
-           if(folderBrowserDialog1.ShowDialog() == DialogResult.OK) {
-                
-                string[] files = Directory.GetFiles(folderBrowserDialog1.SelectedPath);
-                folderBrowserDialog1.Description = "Pick Output Folder";
-
-                if (folderBrowserDialog1.ShowDialog() == DialogResult.OK) {
-                    string outputPath = folderBrowserDialog1.SelectedPath;
-                    openFileDialog1.Title = "Pick a log file";
-                    openFileDialog1.Filter = "log files (*.log)|*.log|All files (*.*)|*.*";
-                    if (openFileDialog1.ShowDialog() == DialogResult.OK) {
-                        var filePath = openFileDialog1.FileName;
-                        foreach (string file in files) {
-                            if (!file.Contains(".bmp")) {
-                                continue;
-                            }
-                            // Open image
-
-                            // Run Logs
-
-                            //Save Image
-                        }
-                    }
-                }
+            if (Application.OpenForms.OfType<BatchProcess>().Count() == 0) {
+                BatchProcess batchProcess = new BatchProcess();
+                StartPosition = FormStartPosition.Manual;
+                Point p = Location;
+                p.Y += 90;
+                batchProcess.Show();
+                batchProcess.Location = p;
+                batchProcess.Show();
+            } else {
+                BatchProcess batchProcess = Application.OpenForms.OfType<BatchProcess>().First();
+                batchProcess.Focus();
             }
+
         }
     }
 }

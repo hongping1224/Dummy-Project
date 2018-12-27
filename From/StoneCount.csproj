@@ -60,6 +60,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BatchProcess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BatchProcess.Designer.cs">
+      <DependentUpon>BatchProcess.cs</DependentUpon>
+    </Compile>
     <Compile Include="FillOption.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,6 +113,9 @@
     <Compile Include="TraceBoundaryOption.Designer.cs">
       <DependentUpon>TraceBoundaryOption.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="BatchProcess.resx">
+      <DependentUpon>BatchProcess.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FillOption.resx">
       <DependentUpon>FillOption.cs</DependentUpon>
     </EmbeddedResource>

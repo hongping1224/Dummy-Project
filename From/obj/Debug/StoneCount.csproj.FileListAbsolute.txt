@@ -20,3 +20,4 @@ F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.csproj.CoreCompileInpu
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.exe
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.pdb
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.csprojResolveAssemblyReference.cache
+F:\PersonalProject\Stone\UIForm\From\obj\Debug\From.BatchProcess.resources

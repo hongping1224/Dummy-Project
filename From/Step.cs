@@ -39,7 +39,8 @@ namespace From {
             } else {
                 p = step;
             }
-            Step st = new Step(p, s);
+            this.function = p;
+            this.parameters = s;
         }
 
         public override string ToString() {
@@ -53,6 +54,7 @@ namespace From {
         }
 
         public static MWArray Execute(Step step,Bitmap bit, MWArray image,int width,int height) {
+            Console.WriteLine(step.function);
             MWArray im =null;
             switch (step.function) {
                 case Opening:

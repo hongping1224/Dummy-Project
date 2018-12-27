@@ -101,5 +101,27 @@ namespace From {
             }
         }
 
+        public static Bitmap ApplyLog(Bitmap img, string[] logs) {
+            MWArray a = PImage.Bitmap2array(img);
+            Bitmap current = img;
+            int h = img.Height;
+            int w = img.Width;
+        
+            foreach (string s in logs) {
+                Step st = new Step(s);
+                Console.WriteLine(st.function);
+                var tmp = Step.Execute(st, current, a, w, h);
+                if(tmp != null) {
+                    a = tmp;
+                    current = PImage.Array2bitmap(a, w, h);
+                } else {
+                    Console.WriteLine("is null");
+                    break;
+                }
+              
+            }
+            return current;
+        }
+
     }
 }
