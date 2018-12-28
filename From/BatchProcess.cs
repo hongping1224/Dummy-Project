@@ -23,6 +23,10 @@ namespace From {
             string outputPath = OutputTextBox.Text;
             string logPath = LogTextBox.Text;
             string[] logs = File.ReadAllLines(logPath);
+            string prefix = "";
+            if(outputPath == InputTextBox.Text) {
+                prefix = "Result_";
+            }
             foreach (string file in files) {
                 if (!file.Contains(".bmp")) {
                     continue;
@@ -40,7 +44,9 @@ namespace From {
                 //Save Image
                 string filename = Path.GetFileName(file);
                 Console.WriteLine("Save");
-                result.Save(Path.Combine( outputPath , filename));
+                string op = Path.Combine(outputPath, prefix + filename);
+                Console.WriteLine(op);
+                result.Save(op);
 
             }
             Close();
