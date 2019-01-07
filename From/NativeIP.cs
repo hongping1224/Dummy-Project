@@ -95,8 +95,10 @@ namespace From {
                         //var b = pixel[0];
 
                         // could just check directly?
-                        //if (Color.FromArgb(r,g,b).GetBrightness() > 0.01f)
-                        if (!(sourcePixels[srcIdx] == 0)) {
+                        // if (Color.FromArgb(r,g,b).GetBrightness() > 0.01f)
+                         // 98 or  0
+                       if (sourcePixels[srcIdx] == 255) 
+                       {
                             // destination byte for pixel (1bpp, ie 8pixels per byte)
                             var idx = convLineIdx + (x >> 3);
                             // mask out pixel bit in destination byte

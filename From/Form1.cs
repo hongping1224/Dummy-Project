@@ -74,5 +74,12 @@ namespace From {
             }
 
         }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (Application.OpenForms.OfType<ImageForm>().Count() != 0) {
+                    form2.OpenToolBar();
+            }
+        }
+
     }
 }
