@@ -11,3 +11,5 @@ Executable is in  From\bin\Debug\StoneCount.exe
 Todo: 
 
 Add a new window for comparison
+
+fix the location of the transparency bar
