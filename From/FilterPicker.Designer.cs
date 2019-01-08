@@ -1,4 +1,4 @@
-﻿namespace From {
+﻿namespace StoneCount {
     partial class FilterPicker {
         /// <summary>
         /// Required designer variable.

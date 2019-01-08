@@ -1,4 +1,4 @@
-﻿namespace From {
+﻿namespace StoneCount {
     partial class FillOption {
         /// <summary>
         /// Required designer variable.

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using MathWorks.MATLAB.NET.Arrays;
 using ImageProcess;
 using System.Drawing.Imaging;
-namespace From {
+namespace StoneCount {
     class PImage{
 
         public static Processor processor = new Processor();

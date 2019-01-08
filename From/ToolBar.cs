@@ -6,7 +6,7 @@ using System.Drawing.Imaging;
 using MathWorks.MATLAB.NET.Arrays;
 using System.Windows.Forms;
 
-namespace From {
+namespace StoneCount {
     public partial class ToolBar : Form {
         public ToolBar() {
             InitializeComponent();

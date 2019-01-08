@@ -1,4 +1,4 @@
-﻿namespace From {
+﻿namespace StoneCount {
     partial class ToolBar {
         /// <summary>
         /// Required designer variable.

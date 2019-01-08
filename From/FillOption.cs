@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MathWorks.MATLAB.NET.Arrays;
 
-namespace From {
+namespace StoneCount {
     public partial class FillOption : Form {
        
         public FillOption() {

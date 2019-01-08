@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-
-namespace From {
+using System.Collections.Generic;
+namespace StoneCount {
     class NativeIP {
 
         public static unsafe void FastInvertBinary(Bitmap src, Bitmap conv) {
@@ -110,15 +110,19 @@ namespace From {
             src.UnlockBits(bmbo);
             conv.UnlockBits(bmdn);
         }
-        static Bitmap alphaout;
-        public static Bitmap SetAlpha(Bitmap bmpIn, int alpha) {
-            if(alphaout != null) {
-                alphaout.Dispose();
+        static Dictionary<string,Bitmap> alphaout = new Dictionary<string,Bitmap>();
+        public static Bitmap SetAlpha(Bitmap bmpIn,int w,int h,string name, int alpha) {
+            if (alphaout.ContainsKey(name)) {
+                if (alphaout[name] != null) {
+                    alphaout[name].Dispose();
+                }
+            } else {
+                alphaout.Add(name, null);
             }
-            alphaout = new Bitmap(bmpIn.Width, bmpIn.Height);
+            alphaout[name] = new Bitmap(w, h);
             float a = alpha / 255f;
-            Rectangle r = new Rectangle(0, 0, bmpIn.Width, bmpIn.Height);
-
+            Rectangle r = new Rectangle(0, 0,w, h);
+            Console.WriteLine(bmpIn);
             float[][] matrixItems = {
         new float[] {1, 0, 0, 0, 0},
         new float[] {0, 1, 0, 0, 0},
@@ -131,10 +135,10 @@ namespace From {
             ImageAttributes imageAtt = new ImageAttributes();
             imageAtt.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
-            using (Graphics g = Graphics.FromImage(alphaout))
+            using (Graphics g = Graphics.FromImage(alphaout[name]))
                 g.DrawImage(bmpIn, r, r.X, r.Y, r.Width, r.Height, GraphicsUnit.Pixel, imageAtt);
 
-            return alphaout;
+            return alphaout[name];
         }
 
     }

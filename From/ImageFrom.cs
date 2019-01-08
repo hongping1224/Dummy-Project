@@ -9,13 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MathWorks.MATLAB.NET.Arrays;
-namespace From {
+namespace StoneCount {
     public partial class ImageForm : Form {
-
-         
-
-    
-
         public Bitmap OriImage;
         public Bitmap CurrentImage;
         private MWArray currentImageArray;
@@ -34,7 +29,6 @@ namespace From {
         public Stack<Bitmap> redo;
         public ToolBar tool;
         public Logs logs;
-
         #region open
         
 
@@ -47,6 +41,11 @@ namespace From {
             OriImage = bi;
             SetImage(OriImage);
             pictureBox2.Image = OriImage;
+            if (OriImage.Width < 600 && OriImage.Height < 600) {
+                Size = new Size(OriImage.Width, OriImage.Height);
+            } else {
+                Size = new Size(600, 600);
+            }
             this.Resize += Form2_Resize;
             this.FormClosing += Form2_Closing;
             StartPosition = FormStartPosition.Manual;
@@ -84,15 +83,31 @@ namespace From {
 
         private void Reposition() {
             if (!maximise) {
-                if (tool != null) {
+                if (Application.OpenForms.OfType<ToolBar>().Count() != 0) {
                     Point tp = Location;
                     tp.Y -= tool.Height;
                     tool.Location = tp;
                 }
-                if (logs != null) {
+                if (Application.OpenForms.OfType<Logs>().Count() != 0) {
                     Point pp = Location;
                     pp.X += Width;
                     logs.Location = pp;
+                }
+            } else {
+                if (Application.OpenForms.OfType<ToolBar>().Count() != 0) {
+                    Point tp = Location;
+                    tp.Y += 100;
+                    tool.Location = tp;
+                }
+                if (Application.OpenForms.OfType<Logs>().Count() != 0) {
+                        Point pp = Location;
+                    if (Application.OpenForms.OfType<ToolBar>().Count() != 0) {
+                        pp.Y += 100 + tool.Height;
+                    } else {
+                        pp.Y += 100;
+                    }
+                    logs.Location = pp;
+
                 }
             }
         }
@@ -104,7 +119,8 @@ namespace From {
             SetImage(OriImage);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
-            Form2_ResizeEnd(sender, e);
+            RefreshPictureBoxSize();
+           // Form2_ResizeEnd(sender, e);
             
         }
         #endregion
@@ -123,6 +139,7 @@ namespace From {
             redo = new Stack<Bitmap>();
             setImage(image);
         }
+        public event Action<Bitmap> OnSetImage;
 
         private void setImage(Bitmap image) {
             setImage(image,null);
@@ -130,12 +147,17 @@ namespace From {
         private void setImage(MWArray imagearr) {
             setImage(PImage.Array2bitmap(imagearr, OriImage.Width, OriImage.Height), imagearr);
         }
+
         private void setImage(Bitmap image, MWArray imagearr) {
             CurrentImageArray = imagearr;
             CurrentImage = image;
+          
             trackBar1_Scroll(null, null);
             //pictureBox1.Image = CurrentImage;
             pictureBox1.Refresh();
+            if (OnSetImage != null) {
+                OnSetImage(CurrentImage);
+            }
         }
 
       
@@ -163,85 +185,45 @@ namespace From {
 
    
         private void RefreshPictureBoxSize() {
-            int windowsize = Size.Width;
-            if (Size.Width > Size.Height) {
-                windowsize = Size.Height;
+            float hwratio = (float)(OriImage.Height) / OriImage.Width;
+            float winratio = (float)(Size.Height) / Size.Width;
+            if (winratio > hwratio) {
+                pictureBox2.Size = new Size(Size.Width, (int)((Size.Width)/hwratio));
+                pictureBox2.Location = new Point(0, (int)((Size.Height/2f) - (pictureBox2.Height/2f))+7);
+                pictureBox2.Size = new Size(Size.Width-15, (int)((Size.Width-15) / hwratio));
+                pictureBox2.Refresh();
+            } else {
+                pictureBox2.Size = new Size( (int)((Size.Height) * hwratio), Size.Height);
+                //  pictureBox2.Location = new Point((Size.Width / 2) - (pictureBox2.Width / 2), (Size.Height / 2) - (pictureBox2.Height / 2));
+                pictureBox2.Location = new Point((int)((Size.Width / 2f)-(pictureBox2.Width / 2f))+ SystemInformation.ToolWindowCaptionHeight, 0);
+                pictureBox2.Size = new Size((int)((Size.Height- SystemInformation.ToolWindowCaptionHeight*2) * hwratio), Size.Height- SystemInformation.ToolWindowCaptionHeight*2);
+                pictureBox2.Refresh();
             }
           
-            pictureBox2.Size = Size;
-            pictureBox2.Location = new Point((Size.Width / 2) - (pictureBox2.Width / 2), (Size.Height / 2) - (pictureBox2.Height / 2));
-            pictureBox2.Refresh();
 
-            pictureBox1.Size = Size;
+            pictureBox1.Size = pictureBox2.Size;
             pictureBox1.Location = new Point(0, 0);
             pictureBox1.Refresh();
         }
 
       
 
-        private void Form2_ResizeEnd(object sender, EventArgs e) {
+     /*   private void Form2_ResizeEnd(object sender, EventArgs e) {
             Image b = pictureBox1.Image;
             if (b != null) {
-                float hwscale = (float)OriImage.Height / OriImage.Width;
-                int windowsize = Size.Height;
-                if (Size.Width > Size.Height) {
-                    windowsize = Size.Width;
-                }
-                Console.WriteLine("triggr");
-                if (hwscale <= 1) {
-                    //width is larger
-                    Size = new Size(windowsize, (int)(windowsize / hwscale));
-                } else {
-                    //height is larger
-                    Size = new Size((int)(windowsize * hwscale), windowsize);
-                }
                 RefreshPictureBoxSize();
             }
-        }
+        }*/
+
         bool maximise = false;
         //Maximize and minimize handle
         private void Form2_Resize(object sender, EventArgs e) {
             if (!maximise && WindowState == FormWindowState.Maximized) {
                 maximise = true;
-                int windowsize = Size.Width;
-                if (Size.Width > Size.Height) {
-                    windowsize = Size.Height;
-                }
-                Image b = pictureBox1.Image;
-                if (b.Width >= b.Height) {
-                    pictureBox1.Width = windowsize;
-                    pictureBox1.Height = (int)(windowsize * ((float)b.Height / b.Width));
-                    pictureBox2.Width = windowsize;
-                    pictureBox2.Height = (int)(windowsize * ((float)b.Height / b.Width));
-                } else {
-                    pictureBox1.Height = windowsize;
-                    pictureBox1.Width = (int)(windowsize * ((float)b.Width / b.Height));
-                    pictureBox2.Height = windowsize;
-                    pictureBox2.Width = (int)(windowsize * ((float)b.Width / b.Height));
-                }
-                pictureBox1.Location = new Point(0,0);
-                pictureBox1.Refresh();
-                pictureBox2.Location = new Point((Size.Width / 2) - (pictureBox2.Width / 2), (Size.Height / 2) - (pictureBox2.Height / 2));
-                pictureBox2.Refresh();
             } else if (maximise && WindowState == FormWindowState.Normal) {
                 maximise = false;
-                Image b = pictureBox1.Image;
-                if (b != null) {
-                    float hwscale = (float)OriImage.Height / OriImage.Width;
-                    int windowsize = Size.Height;
-                    if (Size.Width > Size.Height) {
-                        windowsize = Size.Width;
-                    }
-                    if (hwscale <= 1) {
-                        //width is larger
-                        Size = new Size(windowsize, (int)(windowsize / hwscale));
-                    } else {
-                        //height is larger
-                        Size = new Size((int)(windowsize * hwscale), windowsize);
-                    }
-                    RefreshPictureBoxSize();
-                }
             }
+            RefreshPictureBoxSize();
             Reposition();
         }
 
@@ -257,11 +239,12 @@ namespace From {
             return;
            
         }
+        string rd = "Image";
         private void trackBar1_Scroll(object sender, EventArgs e) {
             if (CurrentImage == null)
                 return;
             pictureBox1.BackColor = Color.Transparent;
-            pictureBox1.Image = NativeIP.SetAlpha((Bitmap)CurrentImage, trackBar1.Value);
+            pictureBox1.Image = NativeIP.SetAlpha((Bitmap)CurrentImage, CurrentImage.Width, CurrentImage.Height, rd, trackBar1.Value);
         }
     }
 }

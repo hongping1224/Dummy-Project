@@ -66,6 +66,12 @@
     <Compile Include="BatchProcess.Designer.cs">
       <DependentUpon>BatchProcess.cs</DependentUpon>
     </Compile>
+    <Compile Include="ComaprisonWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ComaprisonWindow.Designer.cs">
+      <DependentUpon>ComaprisonWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="FillOption.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +121,9 @@
     </Compile>
     <EmbeddedResource Include="BatchProcess.resx">
       <DependentUpon>BatchProcess.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ComaprisonWindow.resx">
+      <DependentUpon>ComaprisonWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FillOption.resx">
       <DependentUpon>FillOption.cs</DependentUpon>

@@ -1,4 +1,4 @@
-﻿namespace From {
+﻿namespace StoneCount {
     partial class BatchProcess {
         /// <summary>
         /// Required designer variable.

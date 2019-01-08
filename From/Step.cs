@@ -7,7 +7,7 @@ using MathWorks.MATLAB.NET.Arrays;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace From {
+namespace StoneCount {
     public class Step {
 
         public const string Opening = "Openning"; 

@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using MathWorks.MATLAB.NET.Arrays;
-namespace From {
+namespace StoneCount {
     public partial class TraceBoundaryOption : Form {
         static string[] Conntype = new string[] { "4", "8" };
         static string[] OptionType = new string[] { "holes", "noholes" };

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace From {
+namespace StoneCount {
     public partial class FilterPicker : Form {
 
         static string[] filtertype = new string[] { "square" ,"disk"}; 

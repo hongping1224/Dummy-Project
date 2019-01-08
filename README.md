@@ -8,8 +8,3 @@ https://drive.google.com/file/d/1yeN647ZcTzQGVq5CKpe42j-g1kHzD4y8/view?usp=shari
 
 Executable is in  From\bin\Debug\StoneCount.exe
 
-Todo: 
-
-Add a new window for comparison
-
-fix the location of the transparency bar

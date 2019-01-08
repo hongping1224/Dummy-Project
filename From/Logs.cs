@@ -12,7 +12,7 @@ using System.Drawing.Imaging;
 
 using MathWorks.MATLAB.NET.Arrays;
 using System.IO;
-namespace From {
+namespace StoneCount {
     public partial class Logs : Form {
         public Logs() {
             InitializeComponent();

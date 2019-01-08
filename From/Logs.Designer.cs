@@ -1,4 +1,4 @@
-﻿namespace From {
+﻿namespace StoneCount {
     partial class Logs {
         /// <summary>
         /// Required designer variable.

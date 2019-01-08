@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
-namespace From {
+namespace StoneCount {
     public partial class Form1 : Form {
         public Form1() {
             InitializeComponent();
@@ -77,7 +77,16 @@ namespace From {
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e) {
             if (Application.OpenForms.OfType<ImageForm>().Count() != 0) {
-                    form2.OpenToolBar();
+                openFileDialog1.Title = "Pick an image file";
+                openFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
+                if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                    var filePath = openFileDialog1.FileName;
+                    Bitmap b = new Bitmap(filePath);
+                    if (form2 != null) {
+                        var w = new ComaprisonWindow(form2,b);
+                        w.Show();
+                    }
+                }
             }
         }
 

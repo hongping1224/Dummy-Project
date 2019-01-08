@@ -1,4 +1,4 @@
-﻿namespace From {
+﻿namespace StoneCount {
     partial class TraceBoundaryOption {
         /// <summary>
         /// Required designer variable.
