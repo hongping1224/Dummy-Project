@@ -97,5 +97,13 @@ namespace StoneCount {
             pictureBox1.BackColor = Color.Transparent;
             pictureBox1.Image = NativeIP.SetAlpha(Current, Current.Width, Current.Height, rd, trackBar1.Value);
         }
+
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e) {
+            pictureBox1.Visible = false;
+        }
+
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e) {
+            pictureBox1.Visible = true;
+        }
     }
 }
