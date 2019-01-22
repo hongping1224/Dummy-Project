@@ -75,7 +75,7 @@ namespace StoneCount {
             _mouseDownButton = e.Button;
 
             _bufferPoint = Point.Empty;
-            if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Middle)
                 Cursor = Cursors.Hand;
         }
 
@@ -249,7 +249,7 @@ namespace StoneCount {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnMouseMove(object sender, MouseEventArgs e) {
-            if (_mouseDownButton == MouseButtons.Left && (horizontalScrollBar.Visible || verticalScrollBar.Visible)) {
+            if (_mouseDownButton == MouseButtons.Middle && (horizontalScrollBar.Visible || verticalScrollBar.Visible)) {
                 int horizontalShift = (int)((e.X - _mouseDownPosition.X) / _zoomScale);
                 int verticalShift = (int)((e.Y - _mouseDownPosition.Y) / _zoomScale);
 

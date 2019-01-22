@@ -65,13 +65,13 @@ namespace StoneCount {
         }
       
         private void PictureBox1_MouseUp(object sender, MouseEventArgs e) {
-            if (e.Button == MouseButtons.Middle) {
+            if (e.Button == MouseButtons.Left) {
                 trackBar1_Scroll(null, null);
             }
         }
 
         private void PictureBox1_MouseDown(object sender, MouseEventArgs e) {
-            if (e.Button == MouseButtons.Middle) {
+            if (e.Button == MouseButtons.Left) {
                 PictureBox1.Image = OriImage;
             }
         }
