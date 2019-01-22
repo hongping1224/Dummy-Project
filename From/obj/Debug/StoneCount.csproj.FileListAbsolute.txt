@@ -12,7 +12,6 @@ F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.csproj.GenerateResourc
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.csproj.CoreCompileInputs.cache
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.exe
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.pdb
-F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.csprojResolveAssemblyReference.cache
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.BatchProcess.resources
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.ComaprisonWindow.resources
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.FillOption.resources
@@ -22,3 +21,6 @@ F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.ImageForm.resources
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.ToolBar.resources
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.Logs.resources
 F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.TraceBoundaryOption.resources
+F:\PersonalProject\Stone\UIForm\From\bin\Debug\Emgu.CV.UI.dll
+F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.csprojAssemblyReference.cache
+F:\PersonalProject\Stone\UIForm\From\obj\Debug\StoneCount.csproj.CopyComplete

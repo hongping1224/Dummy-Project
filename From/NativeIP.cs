@@ -2,8 +2,21 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
+
 namespace StoneCount {
     class NativeIP {
+
+        public static Bitmap Combine(Bitmap source1, Bitmap source2,int alpha,string name) {
+            var s2a = SetAlpha(source2, source2.Width, source2.Height, name, alpha);
+            var target = new Bitmap(source1.Width, source1.Height, PixelFormat.Format32bppArgb);
+            using (var graphics = Graphics.FromImage(target)) {
+                graphics.CompositingMode = CompositingMode.SourceOver; // this is the default, but just to be clear
+                graphics.DrawImage(source1, 0, 0,source1.Width, source1.Height);
+                graphics.DrawImage(s2a, 0, 0, s2a.Width, s2a.Height);
+            }
+            return target;
+        }
 
         public static unsafe void FastInvertBinary(Bitmap src, Bitmap conv) {
             // Lock source and destination in memory for unsafe access

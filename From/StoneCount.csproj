@@ -34,6 +34,27 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ImageProcess, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -66,81 +87,84 @@
     <Compile Include="BatchProcess.Designer.cs">
       <DependentUpon>BatchProcess.cs</DependentUpon>
     </Compile>
-    <Compile Include="ComaprisonWindow.cs">
+    <Compile Include="PanAndZoom.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\ComaprisonWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ComaprisonWindow.Designer.cs">
+    <Compile Include="UI\ComaprisonWindow.Designer.cs">
       <DependentUpon>ComaprisonWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="FillOption.cs">
+    <Compile Include="UI\FillOption.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FillOption.Designer.cs">
+    <Compile Include="UI\FillOption.Designer.cs">
       <DependentUpon>FillOption.cs</DependentUpon>
     </Compile>
-    <Compile Include="Logs.cs">
+    <Compile Include="UI\Logs.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Logs.Designer.cs">
+    <Compile Include="UI\Logs.Designer.cs">
       <DependentUpon>Logs.cs</DependentUpon>
     </Compile>
     <Compile Include="NativeIP.cs" />
-    <Compile Include="FilterPicker.cs">
+    <Compile Include="UI\FilterPicker.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FilterPicker.Designer.cs">
+    <Compile Include="UI\FilterPicker.Designer.cs">
       <DependentUpon>FilterPicker.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="UI\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
+    <Compile Include="UI\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="ImageFrom.cs">
+    <Compile Include="UI\ImageFrom.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ImageFrom.Designer.cs">
+    <Compile Include="UI\ImageFrom.Designer.cs">
       <DependentUpon>ImageFrom.cs</DependentUpon>
     </Compile>
-    <Compile Include="ToolBar.cs">
+    <Compile Include="UI\ToolBar.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ToolBar.Designer.cs">
+    <Compile Include="UI\ToolBar.Designer.cs">
       <DependentUpon>ToolBar.cs</DependentUpon>
     </Compile>
     <Compile Include="PImage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Step.cs" />
-    <Compile Include="TraceBoundaryOption.cs">
+    <Compile Include="UI\TraceBoundaryOption.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TraceBoundaryOption.Designer.cs">
+    <Compile Include="UI\TraceBoundaryOption.Designer.cs">
       <DependentUpon>TraceBoundaryOption.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="BatchProcess.resx">
       <DependentUpon>BatchProcess.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ComaprisonWindow.resx">
+    <EmbeddedResource Include="UI\ComaprisonWindow.resx">
       <DependentUpon>ComaprisonWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FillOption.resx">
+    <EmbeddedResource Include="UI\FillOption.resx">
       <DependentUpon>FillOption.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FilterPicker.resx">
+    <EmbeddedResource Include="UI\FilterPicker.resx">
       <DependentUpon>FilterPicker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
+    <EmbeddedResource Include="UI\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ImageFrom.resx">
+    <EmbeddedResource Include="UI\ImageFrom.resx">
       <DependentUpon>ImageFrom.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ToolBar.resx">
+    <EmbeddedResource Include="UI\ToolBar.resx">
       <DependentUpon>ToolBar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Logs.resx">
+    <EmbeddedResource Include="UI\Logs.resx">
       <DependentUpon>Logs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -153,7 +177,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="TraceBoundaryOption.resx">
+    <EmbeddedResource Include="UI\TraceBoundaryOption.resx">
       <DependentUpon>TraceBoundaryOption.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">

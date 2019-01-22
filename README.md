@@ -8,3 +8,5 @@ https://drive.google.com/file/d/1yeN647ZcTzQGVq5CKpe42j-g1kHzD4y8/view?usp=shari
 
 Executable is in  From\bin\Debug\StoneCount.exe
 
+TODO:
+1 add progress bar on long press event
