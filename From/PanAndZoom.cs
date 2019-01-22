@@ -82,6 +82,19 @@ namespace StoneCount {
         private void OnMouseUp(object sender, MouseEventArgs e) {
             Cursor = _defaultCursor;
             _mouseDownButton = MouseButtons.None;
+            if (e.Button == MouseButtons.Right) {
+                ContextMenu cm = new ContextMenu();
+                cm.MenuItems.Add("Save", new EventHandler(SaveImage));
+                this.ContextMenu = cm;
+            }
+        }
+        private void SaveImage(object sender, EventArgs e) {
+            var saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
+            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                var filePath = saveFileDialog1.FileName;
+                Image.Save(filePath);
+            }
         }
 
         private void OnMouseEnter(object sender, EventArgs e) {  //set this as the active control 

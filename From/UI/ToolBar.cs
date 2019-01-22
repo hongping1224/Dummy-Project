@@ -24,7 +24,6 @@ namespace StoneCount {
             return p;
         }
         private void Form3_Load(object sender, EventArgs e) {
-            TopMost = true;
         }
 
         private void Inverse_Click(object sender, EventArgs e) {

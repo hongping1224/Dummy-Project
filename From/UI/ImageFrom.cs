@@ -205,8 +205,11 @@ namespace StoneCount {
         private void Form2_Resize(object sender, EventArgs e) {
             if (!maximise && WindowState == FormWindowState.Maximized) {
                 maximise = true;
+                tool.TopMost = true;
             } else if (maximise && WindowState == FormWindowState.Normal) {
                 maximise = false;
+                tool.TopMost = false;
+
             }
             RefreshPictureBoxSize();
             Reposition();
