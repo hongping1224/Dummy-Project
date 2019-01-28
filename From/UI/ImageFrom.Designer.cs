@@ -44,7 +44,7 @@
             this.ClientSize = new System.Drawing.Size(477, 218);
             this.Controls.Add(this.trackBar1);
             this.Name = "ImageForm";
-            this.Text = "Form2";
+            this.Text = "ProcessingImage";
             this.Load += new System.EventHandler(this.Form2_Load);
             this.Move += new System.EventHandler(this.ImageForm_Move);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();

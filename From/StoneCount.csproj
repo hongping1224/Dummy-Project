@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D7422E50-B391-4F64-9E91-9C9AAAF574A6}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>StoneCount</RootNamespace>
     <AssemblyName>StoneCount</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>

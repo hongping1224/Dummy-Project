@@ -46,11 +46,13 @@ namespace StoneCount {
             NativeIP.FastBinaryConvert(image, bi);
             OriImage = bi;
             PictureBox1.Image = OriImage;
-            
-            if (OriImage.Width < 600 && OriImage.Height < 600) {
+           
+            if (OriImage.Width < 700 && OriImage.Height < 700) {
+                PictureBox1.SetZoomScale(1, new Point(0, 0));
                 Size = new Size(OriImage.Width, OriImage.Height);
             } else {
-                Size = new Size(600, 600);
+                PictureBox1.SetZoomScale(0.25, new Point(0, 0));
+                Size = new Size(750, 750);
             }
             this.Resize += Form2_Resize;
             this.FormClosing += Form2_Closing;

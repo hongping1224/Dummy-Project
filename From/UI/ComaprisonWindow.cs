@@ -31,7 +31,8 @@ namespace StoneCount {
             GuidString = GuidString.Replace("=", "");
             GuidString = GuidString.Replace("+", "");
             rd = GuidString;
-            Size = new Size(600, 600);
+            Size = new Size(750, 750);
+         
             ori = img;
             this.form = form;
             UpdateImage(form.CurrentImage);
@@ -39,6 +40,7 @@ namespace StoneCount {
             this.Resize += Form2_Resize;
             this.FormClosing += Form2_Closing;
             RefreshPictureBoxSize();
+            PictureBox1.SetZoomScale(0.25, new Point(1, 1));
         }
         private void PictureBox1_MouseUp(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
@@ -74,7 +76,6 @@ namespace StoneCount {
   
 
         private void TrackBar_Scroll(object sender, EventArgs e) {
-          
             PictureBox1.Image = NativeIP.Combine((Bitmap)ori, Current, trackBar1.Value, rd);
         }
 

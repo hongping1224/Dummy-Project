@@ -28,11 +28,11 @@
             this.Fill_Btn = new System.Windows.Forms.Button();
             this.Opening_Btn = new System.Windows.Forms.Button();
             this.Closing_Btn = new System.Windows.Forms.Button();
+            this.erosion = new System.Windows.Forms.Button();
+            this.dilation = new System.Windows.Forms.Button();
             this.Trace_Btn = new System.Windows.Forms.Button();
             this.Undo_Btn = new System.Windows.Forms.Button();
             this.Redo_Btn = new System.Windows.Forms.Button();
-            this.erosion = new System.Windows.Forms.Button();
-            this.dilation = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -96,6 +96,28 @@
             this.Closing_Btn.UseVisualStyleBackColor = true;
             this.Closing_Btn.Click += new System.EventHandler(this.Closing_Click);
             // 
+            // erosion
+            // 
+            this.erosion.Font = new System.Drawing.Font("Arial Narrow", 8F);
+            this.erosion.Location = new System.Drawing.Point(227, 3);
+            this.erosion.Name = "erosion";
+            this.erosion.Size = new System.Drawing.Size(50, 50);
+            this.erosion.TabIndex = 7;
+            this.erosion.Text = "Erosion";
+            this.erosion.UseVisualStyleBackColor = true;
+            this.erosion.Click += new System.EventHandler(this.erosion_Click);
+            // 
+            // dilation
+            // 
+            this.dilation.Font = new System.Drawing.Font("Arial Narrow", 8F);
+            this.dilation.Location = new System.Drawing.Point(283, 3);
+            this.dilation.Name = "dilation";
+            this.dilation.Size = new System.Drawing.Size(50, 50);
+            this.dilation.TabIndex = 8;
+            this.dilation.Text = "Dilation";
+            this.dilation.UseVisualStyleBackColor = true;
+            this.dilation.Click += new System.EventHandler(this.dilation_Click);
+            // 
             // Trace_Btn
             // 
             this.Trace_Btn.Font = new System.Drawing.Font("Arial Narrow", 8F);
@@ -129,29 +151,7 @@
             this.Redo_Btn.UseVisualStyleBackColor = true;
             this.Redo_Btn.Click += new System.EventHandler(this.Redo_Click);
             // 
-            // erosion
-            // 
-            this.erosion.Font = new System.Drawing.Font("Arial Narrow", 8F);
-            this.erosion.Location = new System.Drawing.Point(227, 3);
-            this.erosion.Name = "erosion";
-            this.erosion.Size = new System.Drawing.Size(50, 50);
-            this.erosion.TabIndex = 7;
-            this.erosion.Text = "Erosion";
-            this.erosion.UseVisualStyleBackColor = true;
-            this.erosion.Click += new System.EventHandler(this.erosion_Click);
-            // 
-            // dilation
-            // 
-            this.dilation.Font = new System.Drawing.Font("Arial Narrow", 8F);
-            this.dilation.Location = new System.Drawing.Point(283, 3);
-            this.dilation.Name = "dilation";
-            this.dilation.Size = new System.Drawing.Size(50, 50);
-            this.dilation.TabIndex = 8;
-            this.dilation.Text = "Dilation";
-            this.dilation.UseVisualStyleBackColor = true;
-            this.dilation.Click += new System.EventHandler(this.dilation_Click);
-            // 
-            // Form3
+            // ToolBar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -159,8 +159,8 @@
             this.Controls.Add(this.flowLayoutPanel1);
             this.MaximumSize = new System.Drawing.Size(529, 100);
             this.MinimumSize = new System.Drawing.Size(529, 100);
-            this.Name = "Form3";
-            this.Text = "Form3";
+            this.Name = "ToolBar";
+            this.Text = "ToolBar";
             this.Load += new System.EventHandler(this.Form3_Load);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
