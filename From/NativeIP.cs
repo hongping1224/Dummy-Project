@@ -134,6 +134,7 @@ namespace StoneCount {
                     var convLineIdx = 0;
                     var hmax = src.Height - 1;
                     var wmax = src.Width - 1;
+                           
                     int skip = 1;
 
                     for (int y = 0; y < hmax; y++) {
@@ -148,17 +149,18 @@ namespace StoneCount {
                             // index for source pixel (32bbp, rgba format)
 
                             srcIdx += skip;
-                            //var r = pixel[2];
-                            //var g = pixel[1];
-                            //var b = pixel[0];
+
 
                             // could just check directly?
                             // if (Color.FromArgb(r,g,b).GetBrightness() > 0.01f)
                             // 98 or  0
 
                             // destination byte for pixel (1bpp, ie 8pixels per byte)
-                            var idx = convLineIdx + (x >> 1);
+                            var idx = convLineIdx + x;
                             // mask out pixel bit in destination byte
+                           
+                            byte d = destPixels[idx];
+                            byte b = sourcePixels[idx];
                             destPixels[idx] = sourcePixels[idx];
 
                         }

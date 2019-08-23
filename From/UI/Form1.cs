@@ -62,7 +62,7 @@ namespace StoneCount {
             saveFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
             if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 var filePath = saveFileDialog1.FileName;
-                form2.CurrentImage.Save(filePath);
+                form2.CurrentImage.Save(filePath,System.Drawing.Imaging.ImageFormat.Bmp);
             }
         }
 
