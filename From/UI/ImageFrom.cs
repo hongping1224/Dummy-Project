@@ -25,6 +25,7 @@ namespace StoneCount {
                 currentImageArray = value;
             }
         }
+        public Form1 mainForm;
         public Stack<Bitmap> undo;
         public Stack<Bitmap> redo;
         public ToolBar tool;

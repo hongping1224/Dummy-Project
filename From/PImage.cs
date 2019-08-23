@@ -11,7 +11,7 @@ namespace StoneCount {
     class PImage{
 
         public static Processor processor = new Processor();
-
+        public static bool init = false;
         /*     static void run(string[] args) {
                  Bitmap b = new Bitmap("F:\\PersonalProject\\Stone\\contour.bmp");
 

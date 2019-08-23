@@ -1,0 +1,9 @@
+> load("E:\\GravelFK\\S4-RP\\vgm\\ho1S4RPdtvgm.RData")
+> library(gstat)
+> lznr.fit = fit.variogram(site.vgm, model = vgm(0.01, "Sph", 2.0,  add.to = vgm(0.01, "Sph", 1, nugget = 0.000001)))
+> lznr.fit
+  model       psill     range
+1   Nug 0.000000000 0.0000000
+2   Sph 0.006456883 0.4698612
+3   Sph 0.004954035 0.9621750
+> 

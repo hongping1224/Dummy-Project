@@ -65,9 +65,7 @@ namespace StoneCount {
             conv.UnlockBits(bmdn);
         }
 
-        public static void FastBinaryConvert(Bitmap src, Bitmap conv) {
-            Console.WriteLine(src.PixelFormat);
-            Console.WriteLine(conv.PixelFormat);
+        public static unsafe void FastCombineBinary(Bitmap src, Bitmap conv) {
             // Lock source and destination in memory for unsafe access
             var bmbo = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadOnly,
                                      src.PixelFormat);
@@ -79,49 +77,153 @@ namespace StoneCount {
 
             var srcStride = bmbo.Stride;
             var convStride = bmdn.Stride;
-            unsafe {
-                byte* sourcePixels = (byte*)(void*)srcScan0;
-                byte* destPixels = (byte*)(void*)convScan0;
 
-                var srcLineIdx = 0;
-                var convLineIdx = 0;
-                var hmax = src.Height - 1;
-                var wmax = src.Width - 1;
-                int skip = 1;
-                if (src.PixelFormat == PixelFormat.Format24bppRgb)
-                    skip = 3;
+            byte* sourcePixels = (byte*)(void*)srcScan0;
+            byte* destPixels = (byte*)(void*)convScan0;
 
-                for (int y = 0; y < hmax; y++) {
-                    // find indexes for source/destination lines
+            var srcLineIdx = 0;
+            var convLineIdx = 0;
+            var hmax = src.Height - 1;
+            var wmax = src.Width - 1;
+            for (int y = 0; y < hmax; y++) {
+                // find indexes for source/destination lines
 
-                    // use addition, not multiplication?
-                    srcLineIdx += srcStride;
-                    convLineIdx += convStride;
+                // use addition, not multiplication?
+                srcLineIdx += srcStride;
+                convLineIdx += convStride;
 
-                    var srcIdx = srcLineIdx;
-                    for (int x = 0; x < wmax; x++) {
-                        // index for source pixel (32bbp, rgba format)
-                        
-                        srcIdx += skip;
-                        //var r = pixel[2];
-                        //var g = pixel[1];
-                        //var b = pixel[0];
+                var srcIdx = srcLineIdx;
+                for (int x = 0; x < wmax; x++) {
+                    // index for source pixel (32bbp, rgba format)
+                    srcIdx += 1;
+                    //var r = pixel[2];
+                    //var g = pixel[1];
+                    //var b = pixel[0];
 
-                        // could just check directly?
-                        // if (Color.FromArgb(r,g,b).GetBrightness() > 0.01f)
-                         // 98 or  0
-                       if (sourcePixels[srcIdx] == 255) 
-                       {
-                            // destination byte for pixel (1bpp, ie 8pixels per byte)
-                            var idx = convLineIdx + (x >> 3);
-                            // mask out pixel bit in destination byte
-                            destPixels[idx] |= (byte)(0x80 >> (x & 0x7));
-                        }
-                    }
+                    // could just check directly?
+                    //if (Color.FromArgb(r,g,b).GetBrightness() > 0.01f)
+                    // destination byte for pixel (1bpp, ie 8pixels per byte)
+                    var idx = convLineIdx + (x >> 3);
+                    // mask out pixel bit in destination byte
+                    destPixels[idx] = (byte)(sourcePixels[idx] & destPixels[idx]);
                 }
             }
             src.UnlockBits(bmbo);
             conv.UnlockBits(bmdn);
+        }
+
+
+        public static void FastBinaryConvert(Bitmap src, Bitmap conv) {
+            if (src.PixelFormat == PixelFormat.Format1bppIndexed) {
+                // Lock source and destination in memory for unsafe access
+                var bmbo = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadOnly,
+                                         src.PixelFormat);
+                var bmdn = conv.LockBits(new Rectangle(0, 0, conv.Width, conv.Height), ImageLockMode.ReadWrite,
+                                         conv.PixelFormat);
+
+                var srcScan0 = bmbo.Scan0;
+                var convScan0 = bmdn.Scan0;
+
+                var srcStride = bmbo.Stride;
+                var convStride = bmdn.Stride;
+                unsafe {
+                    byte* sourcePixels = (byte*)(void*)srcScan0;
+                    byte* destPixels = (byte*)(void*)convScan0;
+
+                    var srcLineIdx = 0;
+                    var convLineIdx = 0;
+                    var hmax = src.Height - 1;
+                    var wmax = src.Width - 1;
+                    int skip = 1;
+
+                    for (int y = 0; y < hmax; y++) {
+                        // find indexes for source/destination lines
+
+                        // use addition, not multiplication?
+                        srcLineIdx += srcStride;
+                        convLineIdx += convStride;
+
+                        var srcIdx = srcLineIdx;
+                        for (int x = 0; x < wmax; x++) {
+                            // index for source pixel (32bbp, rgba format)
+
+                            srcIdx += skip;
+                            //var r = pixel[2];
+                            //var g = pixel[1];
+                            //var b = pixel[0];
+
+                            // could just check directly?
+                            // if (Color.FromArgb(r,g,b).GetBrightness() > 0.01f)
+                            // 98 or  0
+
+                            // destination byte for pixel (1bpp, ie 8pixels per byte)
+                            var idx = convLineIdx + (x >> 1);
+                            // mask out pixel bit in destination byte
+                            destPixels[idx] = sourcePixels[idx];
+
+                        }
+                    }
+                }
+                src.UnlockBits(bmbo);
+                conv.UnlockBits(bmdn);
+                return;
+            } else {
+
+
+                // Lock source and destination in memory for unsafe access
+                var bmbo = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadOnly,
+                                         src.PixelFormat);
+                var bmdn = conv.LockBits(new Rectangle(0, 0, conv.Width, conv.Height), ImageLockMode.ReadWrite,
+                                         conv.PixelFormat);
+
+                var srcScan0 = bmbo.Scan0;
+                var convScan0 = bmdn.Scan0;
+
+                var srcStride = bmbo.Stride;
+                var convStride = bmdn.Stride;
+                unsafe {
+                    byte* sourcePixels = (byte*)(void*)srcScan0;
+                    byte* destPixels = (byte*)(void*)convScan0;
+
+                    var srcLineIdx = 0;
+                    var convLineIdx = 0;
+                    var hmax = src.Height - 1;
+                    var wmax = src.Width - 1;
+                    int skip = 1;
+                    if (src.PixelFormat == PixelFormat.Format24bppRgb)
+                        skip = 3;
+
+                    for (int y = 0; y < hmax; y++) {
+                        // find indexes for source/destination lines
+
+                        // use addition, not multiplication?
+                        srcLineIdx += srcStride;
+                        convLineIdx += convStride;
+
+                        var srcIdx = srcLineIdx;
+                        for (int x = 0; x < wmax; x++) {
+                            // index for source pixel (32bbp, rgba format)
+
+                            srcIdx += skip;
+                            //var r = pixel[2];
+                            //var g = pixel[1];
+                            //var b = pixel[0];
+
+                            // could just check directly?
+                            // if (Color.FromArgb(r,g,b).GetBrightness() > 0.01f)
+                            // 98 or  0
+                            if (sourcePixels[srcIdx] == 255) {
+                                // destination byte for pixel (1bpp, ie 8pixels per byte)
+                                var idx = convLineIdx + (x >> 3);
+                                // mask out pixel bit in destination byte
+                                destPixels[idx] |= (byte)(0x80 >> (x & 0x7));
+                            }
+                        }
+                    }
+                }
+                src.UnlockBits(bmbo);
+                conv.UnlockBits(bmdn);
+            }
         }
         static Dictionary<string,Bitmap> alphaout = new Dictionary<string,Bitmap>();
         public static Bitmap SetAlpha(Bitmap bmpIn,int w,int h,string name, int alpha) {

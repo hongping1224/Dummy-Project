@@ -17,8 +17,10 @@ namespace StoneCount {
         public const string TraceBoundary = "TraceBoundary";
         public const string Erosion = "Erosion";
         public const string Dilation = "Dilation";
-        
-        
+        public const string Pick = "Pick";
+        public const string PickByBoundary = "PickByBoundary";
+
+
 
         public string function;
         public string[] parameters;
@@ -99,6 +101,18 @@ namespace StoneCount {
                     Bitmap ab = new Bitmap(width, height, PixelFormat.Format1bppIndexed);
                     NativeIP.FastInvertBinary(aa, ab);
                     im = PImage.Bitmap2array(ab);
+                }
+                break;
+                case Pick: {
+                    int threshold = int.Parse(step.parameters[0].Split(':')[1]);
+                    string ope = step.parameters[1].Split(':')[1];
+                    string option = step.parameters[2].Split(':')[1];
+                    im = MaskOption.Pick(image, threshold,ope, option);
+                }
+                break;
+                case PickByBoundary: {
+                    string openfile = step.parameters[0].Split(':')[1]+":"+ step.parameters[0].Split(':')[2];
+                    im = MaskOption.PickByBoundary(image, openfile);
                 }
                 break;
             }

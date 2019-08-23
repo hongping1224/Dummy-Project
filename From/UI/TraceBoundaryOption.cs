@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
@@ -33,18 +34,30 @@ namespace StoneCount {
         }
 
         private void button1_Click(object sender, EventArgs e) {
+            SaveFileDialog saveFileDialog1 = image.mainForm.GetSaveFileDialog();
+            string savefile = "";
+            saveFileDialog1.Title = "Save Boundary File";
+            saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                savefile = saveFileDialog1.FileName;
+                if (File.Exists(savefile)) {
+                    File.Delete(savefile);
+                }
+            }
             int conn = 4;
             if (comboBox1.SelectedIndex == 1) {
                 conn = 8;
             }
             string option = OptionType[comboBox2.SelectedIndex];
-           var a = PImage.processor.TraceBoundary(image.CurrentImageArray, (MWNumericArray)conn, (MWArray)(option));
+            var a = PImage.processor.TraceBoundary(image.CurrentImageArray, (MWNumericArray)conn, (MWArray)(option));
             double[,] bound = (double[,])a.ToArray();
             Bitmap bi = new Bitmap(image.CurrentImage.Width, image.CurrentImage.Height, PixelFormat.Format24bppRgb);
-
+            string[] boundstring = new string[bound.GetLength(0)];
             for (int i = 0; i< bound.GetLength(0); i++) {
                 bi.SetPixel((int)bound[i, 1]-1, (int)bound[i, 0]-1, Color.White);
+                boundstring[i] = (bound[i, 1] - 1).ToString() + "," + (bound[i, 0] - 1).ToString();
             }
+            File.WriteAllLines(savefile,boundstring);
             Bitmap aa = new Bitmap(image.CurrentImage.Width, image.CurrentImage.Height, PixelFormat.Format1bppIndexed);
             NativeIP.FastBinaryConvert(bi, aa);
             Bitmap ab = new Bitmap(image.CurrentImage.Width, image.CurrentImage.Height, PixelFormat.Format1bppIndexed);

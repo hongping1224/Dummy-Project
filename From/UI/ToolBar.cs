@@ -13,7 +13,7 @@ namespace StoneCount {
         }
         public ImageForm imageform;
         public Form optionform = null;
-     
+        
         public ToolBar(ImageForm image) : this() {
             imageform = image;
      
@@ -131,6 +131,36 @@ namespace StoneCount {
 
         private void Redo_Click(object sender, EventArgs e) {
             imageform.Redo();
+        }
+
+        private void Pick_Click(object sender, EventArgs e)
+        {
+            if (optionform != null)
+            {
+                return;
+            }
+            MaskOption f = new MaskOption(imageform);
+            optionform = f;
+            f.FormClosed += OptionFormClosed;
+            f.StartPosition = FormStartPosition.Manual;
+            f.Location = OptionWindowPosition();
+            f.Show();
+        }
+
+        private void Combine_Click(object sender, EventArgs e) {
+            OpenFileDialog openFileDialog1 =  imageform.mainForm.GetOpenFileDialog();
+            openFileDialog1.Title = "Select image";
+            openFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
+            string openfile;
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                openfile = openFileDialog1.FileName;
+            } else {
+                return;
+            }
+            Bitmap img2 = new Bitmap(openfile);
+            NativeIP.FastCombineBinary(imageform.CurrentImage, img2);
+            imageform.SetImage(img2);
+            //imageform.logs.AddLog(new Step(Step.Inverse, new string[0]));
         }
     }
 }

@@ -4,8 +4,6 @@ F:\PersonalProject\Stone\UIForm\From\bin\x64\Debug\StoneCount.pdb
 F:\PersonalProject\Stone\UIForm\From\bin\x64\Debug\ImageProcess.dll
 F:\PersonalProject\Stone\UIForm\From\bin\x64\Debug\ImageProcessNative.dll
 F:\PersonalProject\Stone\UIForm\From\bin\x64\Debug\MWArray.dll
-F:\PersonalProject\Stone\UIForm\From\bin\x64\Debug\ImageProcess.xml
-F:\PersonalProject\Stone\UIForm\From\bin\x64\Debug\ImageProcessNative.xml
 F:\PersonalProject\Stone\UIForm\From\bin\x64\Debug\MWArray.xml
 F:\PersonalProject\Stone\UIForm\From\obj\x64\Debug\StoneCount.BatchProcess.resources
 F:\PersonalProject\Stone\UIForm\From\obj\x64\Debug\StoneCount.ComaprisonWindow.resources
@@ -23,3 +21,4 @@ F:\PersonalProject\Stone\UIForm\From\obj\x64\Debug\StoneCount.csproj.CopyComplet
 F:\PersonalProject\Stone\UIForm\From\obj\x64\Debug\StoneCount.exe
 F:\PersonalProject\Stone\UIForm\From\obj\x64\Debug\StoneCount.pdb
 F:\PersonalProject\Stone\UIForm\From\obj\x64\Debug\StoneCount.csprojAssemblyReference.cache
+F:\PersonalProject\Stone\UIForm\From\obj\x64\Debug\StoneCount.MaskOption.resources

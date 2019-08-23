@@ -30,9 +30,11 @@
             this.Closing_Btn = new System.Windows.Forms.Button();
             this.erosion = new System.Windows.Forms.Button();
             this.dilation = new System.Windows.Forms.Button();
+            this.Pick = new System.Windows.Forms.Button();
             this.Trace_Btn = new System.Windows.Forms.Button();
-            this.Undo_Btn = new System.Windows.Forms.Button();
             this.Redo_Btn = new System.Windows.Forms.Button();
+            this.Undo_Btn = new System.Windows.Forms.Button();
+            this.Combine = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,12 +57,14 @@
             this.flowLayoutPanel1.Controls.Add(this.Closing_Btn);
             this.flowLayoutPanel1.Controls.Add(this.erosion);
             this.flowLayoutPanel1.Controls.Add(this.dilation);
+            this.flowLayoutPanel1.Controls.Add(this.Pick);
             this.flowLayoutPanel1.Controls.Add(this.Trace_Btn);
-            this.flowLayoutPanel1.Controls.Add(this.Undo_Btn);
             this.flowLayoutPanel1.Controls.Add(this.Redo_Btn);
+            this.flowLayoutPanel1.Controls.Add(this.Undo_Btn);
+            this.flowLayoutPanel1.Controls.Add(this.Combine);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(514, 60);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(620, 60);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
             // Fill_Btn
@@ -118,27 +122,27 @@
             this.dilation.UseVisualStyleBackColor = true;
             this.dilation.Click += new System.EventHandler(this.dilation_Click);
             // 
+            // Pick
+            // 
+            this.Pick.Font = new System.Drawing.Font("Arial Narrow", 8F);
+            this.Pick.Location = new System.Drawing.Point(339, 3);
+            this.Pick.Name = "Pick";
+            this.Pick.Size = new System.Drawing.Size(50, 50);
+            this.Pick.TabIndex = 9;
+            this.Pick.Text = "Pick";
+            this.Pick.UseVisualStyleBackColor = true;
+            this.Pick.Click += new System.EventHandler(this.Pick_Click);
+            // 
             // Trace_Btn
             // 
             this.Trace_Btn.Font = new System.Drawing.Font("Arial Narrow", 8F);
-            this.Trace_Btn.Location = new System.Drawing.Point(339, 3);
+            this.Trace_Btn.Location = new System.Drawing.Point(395, 3);
             this.Trace_Btn.Name = "Trace_Btn";
             this.Trace_Btn.Size = new System.Drawing.Size(50, 50);
             this.Trace_Btn.TabIndex = 6;
             this.Trace_Btn.Text = "Trace Boundary";
             this.Trace_Btn.UseVisualStyleBackColor = true;
             this.Trace_Btn.Click += new System.EventHandler(this.Trace_Btn_Click);
-            // 
-            // Undo_Btn
-            // 
-            this.Undo_Btn.Font = new System.Drawing.Font("Arial Narrow", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Undo_Btn.Location = new System.Drawing.Point(395, 3);
-            this.Undo_Btn.Name = "Undo_Btn";
-            this.Undo_Btn.Size = new System.Drawing.Size(50, 50);
-            this.Undo_Btn.TabIndex = 3;
-            this.Undo_Btn.Text = "Undo";
-            this.Undo_Btn.UseVisualStyleBackColor = true;
-            this.Undo_Btn.Click += new System.EventHandler(this.Undo_Click);
             // 
             // Redo_Btn
             // 
@@ -151,14 +155,36 @@
             this.Redo_Btn.UseVisualStyleBackColor = true;
             this.Redo_Btn.Click += new System.EventHandler(this.Redo_Click);
             // 
+            // Undo_Btn
+            // 
+            this.Undo_Btn.Font = new System.Drawing.Font("Arial Narrow", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Undo_Btn.Location = new System.Drawing.Point(507, 3);
+            this.Undo_Btn.Name = "Undo_Btn";
+            this.Undo_Btn.Size = new System.Drawing.Size(50, 50);
+            this.Undo_Btn.TabIndex = 3;
+            this.Undo_Btn.Text = "Undo";
+            this.Undo_Btn.UseVisualStyleBackColor = true;
+            this.Undo_Btn.Click += new System.EventHandler(this.Undo_Click);
+            // 
+            // Combine
+            // 
+            this.Combine.Font = new System.Drawing.Font("Arial Narrow", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Combine.Location = new System.Drawing.Point(563, 3);
+            this.Combine.Name = "Combine";
+            this.Combine.Size = new System.Drawing.Size(50, 50);
+            this.Combine.TabIndex = 10;
+            this.Combine.Text = "Combine";
+            this.Combine.UseVisualStyleBackColor = true;
+            this.Combine.Click += new System.EventHandler(this.Combine_Click);
+            // 
             // ToolBar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(513, 61);
+            this.ClientSize = new System.Drawing.Size(618, 61);
             this.Controls.Add(this.flowLayoutPanel1);
-            this.MaximumSize = new System.Drawing.Size(529, 100);
-            this.MinimumSize = new System.Drawing.Size(529, 100);
+            this.MaximumSize = new System.Drawing.Size(634, 100);
+            this.MinimumSize = new System.Drawing.Size(634, 100);
             this.Name = "ToolBar";
             this.Text = "ToolBar";
             this.Load += new System.EventHandler(this.Form3_Load);
@@ -179,5 +205,7 @@
         private System.Windows.Forms.Button Trace_Btn;
         private System.Windows.Forms.Button erosion;
         private System.Windows.Forms.Button dilation;
+        private System.Windows.Forms.Button Pick;
+        private System.Windows.Forms.Button Combine;
     }
 }

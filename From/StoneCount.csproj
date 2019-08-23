@@ -58,11 +58,11 @@
   <ItemGroup>
     <Reference Include="ImageProcess, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\matlab\ImageProcess\for_testing\ImageProcess.dll</HintPath>
+      <HintPath>..\..\matlab\ImageProcess\for_redistribution_files_only\ImageProcess.dll</HintPath>
     </Reference>
     <Reference Include="ImageProcessNative, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\matlab\ImageProcess\for_testing\ImageProcessNative.dll</HintPath>
+      <HintPath>..\..\matlab\ImageProcess\for_redistribution_files_only\ImageProcessNative.dll</HintPath>
     </Reference>
     <Reference Include="MWArray, Version=2.17.1.0, Culture=neutral, PublicKeyToken=e1d84a0da19db86f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -127,6 +127,12 @@
     <Compile Include="UI\ImageFrom.Designer.cs">
       <DependentUpon>ImageFrom.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\MaskOption.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\MaskOption.Designer.cs">
+      <DependentUpon>MaskOption.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ToolBar.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,6 +167,9 @@
     <EmbeddedResource Include="UI\ImageFrom.resx">
       <DependentUpon>ImageFrom.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\MaskOption.resx">
+      <DependentUpon>MaskOption.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ToolBar.resx">
       <DependentUpon>ToolBar.cs</DependentUpon>
     </EmbeddedResource>
@@ -189,6 +198,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Readme.md" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
