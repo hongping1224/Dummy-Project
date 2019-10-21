@@ -14,6 +14,7 @@ namespace StoneCount {
         public Bitmap OriImage;
         public Bitmap CurrentImage;
         private MWArray currentImageArray;
+        private bool preview;
         public MWArray CurrentImageArray {
             get {
                 if (currentImageArray == null) {
@@ -36,34 +37,63 @@ namespace StoneCount {
         private ImageForm() {
             InitializeComponent();
         }
+        
+        public ImageForm(Bitmap image, Point p, bool Preview) : this(image, p, Preview, ToolBar.Mode.All)
+        {
+        }
 
-        public ImageForm(Bitmap image, Point p) : this() {
+        public ImageForm(Bitmap image, Point p, Action<Bitmap, ImageForm> OnDone,ToolBar.Mode mode) : this(image, p, false,mode)
+        {
+            tool.OnDoneClick += OnDone;
+
+        }
+        public ImageForm(Bitmap image, Point p, bool Preview,ToolBar.Mode mode) : this()
+        {
+            preview = Preview;
             PictureBox1 = new PanAndZoom();
             PictureBox1.Bounds = new Rectangle(10, 10, 50, 50);
             PictureBox1.MouseDown += PictureBox1_MouseDown;
             PictureBox1.MouseUp += PictureBox1_MouseUp;
             this.Controls.Add(PictureBox1);
-            Bitmap bi = new Bitmap(image.Width, image.Height,PixelFormat.Format1bppIndexed);
-            NativeIP.FastBinaryConvert(image, bi);
+            Bitmap bi;
+            if (image.PixelFormat != PixelFormat.Format1bppIndexed)
+            {
+                bi = new Bitmap(image.Width, image.Height, PixelFormat.Format1bppIndexed);
+                NativeIP.FastBinaryConvert(image, bi);
+            }
+            else
+            {
+                bi = image;
+            }
             OriImage = bi;
             PictureBox1.Image = OriImage;
-           
-            if (OriImage.Width < 700 && OriImage.Height < 700) {
+
+            if (OriImage.Width < 700 && OriImage.Height < 700)
+            {
                 PictureBox1.SetZoomScale(1, new Point(0, 0));
                 Size = new Size(OriImage.Width, OriImage.Height);
-            } else {
+            }
+            else
+            {
                 PictureBox1.SetZoomScale(0.25, new Point(0, 0));
                 Size = new Size(750, 750);
             }
             this.Resize += Form2_Resize;
-            this.FormClosing += Form2_Closing;
+            this.FormClosed += Form2_Closing;
             StartPosition = FormStartPosition.Manual;
             p.Y += 150;
             Location = p;
             undo = new Stack<Bitmap>();
             redo = new Stack<Bitmap>();
-            OpenToolBar();
-            OpenLogs();
+            if (!Preview)
+            {
+                OpenToolBar(mode);
+                OpenLogs();
+            }
+            else
+            {
+                trackBar1.Hide();
+            }
             Reposition();
         }
       
@@ -79,8 +109,8 @@ namespace StoneCount {
             }
         }
 
-        public void OpenToolBar() {
-            tool = new ToolBar(this);
+        public void OpenToolBar(ToolBar.Mode mode) {
+            tool = new ToolBar(this,mode);
             tool.StartPosition = FormStartPosition.Manual;
             tool.Show();
             Point tp = Location;
@@ -98,40 +128,56 @@ namespace StoneCount {
             logs.Location = pp;
         }
 
-        private void Reposition() {
-            if (!maximise) {
-                if (Application.OpenForms.OfType<ToolBar>().Count() != 0) {
+        private void Reposition()
+        {
+            if (!maximise)
+            {
+                if (tool != null)
+                {
                     Point tp = Location;
                     tp.Y -= tool.Height;
                     tool.Location = tp;
                 }
-                if (Application.OpenForms.OfType<Logs>().Count() != 0) {
+                if (logs != null)
+                {
                     Point pp = Location;
                     pp.X += Width;
                     logs.Location = pp;
                 }
-            } else {
-                if (Application.OpenForms.OfType<ToolBar>().Count() != 0) {
+            }
+            else
+            {
+                if (tool != null)
+                {
                     Point tp = Location;
                     tp.Y += 100;
                     tool.Location = tp;
                 }
-                if (Application.OpenForms.OfType<Logs>().Count() != 0) {
-                        Point pp = Location;
-                    if (Application.OpenForms.OfType<ToolBar>().Count() != 0) {
+                if (logs != null)
+                {
+                    Point pp = Location;
+                    if (tool != null)
+                    {
                         pp.Y += 100 + tool.Height;
-                    } else {
+                    }
+                    else
+                    {
                         pp.Y += 100;
                     }
                     logs.Location = pp;
 
                 }
+
             }
         }
-        private void Form2_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-            tool.Close();
-            logs.Close();
+        private void Form2_Closing(object sender, FormClosedEventArgs e)
+        {
+            if (tool != null)
+                tool.Close();
+            if (logs != null)
+                logs.Close();
         }
+
         private void Form2_Load(object sender, EventArgs e) {
             SetImage(OriImage);
             RefreshPictureBoxSize();
@@ -206,12 +252,17 @@ namespace StoneCount {
         bool maximise = false;
         //Maximize and minimize handle
         private void Form2_Resize(object sender, EventArgs e) {
-            if (!maximise && WindowState == FormWindowState.Maximized) {
+            if (!maximise && WindowState == FormWindowState.Maximized)
+            {
                 maximise = true;
-                tool.TopMost = true;
-            } else if (maximise && WindowState == FormWindowState.Normal) {
+                if (tool != null)
+                    tool.TopMost = true;
+            }
+            else if (maximise && WindowState == FormWindowState.Normal)
+            {
                 maximise = false;
-                tool.TopMost = false;
+                if (tool != null)
+                    tool.TopMost = false;
 
             }
             RefreshPictureBoxSize();

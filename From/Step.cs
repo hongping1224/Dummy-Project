@@ -107,7 +107,7 @@ namespace StoneCount {
                     int threshold = int.Parse(step.parameters[0].Split(':')[1]);
                     string ope = step.parameters[1].Split(':')[1];
                     string option = step.parameters[2].Split(':')[1];
-                    im = MaskOption.Pick(image, threshold,ope, option);
+                    im = MaskOption.Pick(image, threshold,true);
                 }
                 break;
                 case PickByBoundary: {

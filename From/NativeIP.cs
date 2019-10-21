@@ -111,9 +111,9 @@ namespace StoneCount {
             src.UnlockBits(bmbo);
             conv.UnlockBits(bmdn);
         }
-
-
+  
         public static void FastBinaryConvert(Bitmap src, Bitmap conv) {
+       
             if (src.PixelFormat == PixelFormat.Format1bppIndexed) {
                 // Lock source and destination in memory for unsafe access
                 var bmbo = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadOnly,
@@ -132,10 +132,10 @@ namespace StoneCount {
 
                     var srcLineIdx = 0;
                     var convLineIdx = 0;
-                    var hmax = src.Height - 1;
-                    var wmax = src.Width - 1;
+                    var hmax = src.Height-1;
+                    var wmax = src.Width -1;
                            
-                    int skip = 1;
+                    int skip =1;
 
                     for (int y = 0; y < hmax; y++) {
                         // find indexes for source/destination lines
@@ -169,7 +169,8 @@ namespace StoneCount {
                 src.UnlockBits(bmbo);
                 conv.UnlockBits(bmdn);
                 return;
-            } else {
+            } else if(src.PixelFormat == PixelFormat.Format24bppRgb)
+            {
 
 
                 // Lock source and destination in memory for unsafe access
@@ -226,6 +227,7 @@ namespace StoneCount {
                 src.UnlockBits(bmbo);
                 conv.UnlockBits(bmdn);
             }
+         
         }
         static Dictionary<string,Bitmap> alphaout = new Dictionary<string,Bitmap>();
         public static Bitmap SetAlpha(Bitmap bmpIn,int w,int h,string name, int alpha) {

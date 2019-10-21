@@ -28,13 +28,13 @@
             this.Fill_Btn = new System.Windows.Forms.Button();
             this.Opening_Btn = new System.Windows.Forms.Button();
             this.Closing_Btn = new System.Windows.Forms.Button();
-            this.erosion = new System.Windows.Forms.Button();
-            this.dilation = new System.Windows.Forms.Button();
+            this.Erosion_Btn = new System.Windows.Forms.Button();
+            this.Dilation_Btn = new System.Windows.Forms.Button();
             this.Pick = new System.Windows.Forms.Button();
             this.Trace_Btn = new System.Windows.Forms.Button();
             this.Redo_Btn = new System.Windows.Forms.Button();
             this.Undo_Btn = new System.Windows.Forms.Button();
-            this.Combine = new System.Windows.Forms.Button();
+            this.Done_Btn = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,13 +55,13 @@
             this.flowLayoutPanel1.Controls.Add(this.Fill_Btn);
             this.flowLayoutPanel1.Controls.Add(this.Opening_Btn);
             this.flowLayoutPanel1.Controls.Add(this.Closing_Btn);
-            this.flowLayoutPanel1.Controls.Add(this.erosion);
-            this.flowLayoutPanel1.Controls.Add(this.dilation);
+            this.flowLayoutPanel1.Controls.Add(this.Erosion_Btn);
+            this.flowLayoutPanel1.Controls.Add(this.Dilation_Btn);
             this.flowLayoutPanel1.Controls.Add(this.Pick);
             this.flowLayoutPanel1.Controls.Add(this.Trace_Btn);
             this.flowLayoutPanel1.Controls.Add(this.Redo_Btn);
             this.flowLayoutPanel1.Controls.Add(this.Undo_Btn);
-            this.flowLayoutPanel1.Controls.Add(this.Combine);
+            this.flowLayoutPanel1.Controls.Add(this.Done_Btn);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(620, 60);
@@ -100,27 +100,27 @@
             this.Closing_Btn.UseVisualStyleBackColor = true;
             this.Closing_Btn.Click += new System.EventHandler(this.Closing_Click);
             // 
-            // erosion
+            // Erosion_Btn
             // 
-            this.erosion.Font = new System.Drawing.Font("Arial Narrow", 8F);
-            this.erosion.Location = new System.Drawing.Point(227, 3);
-            this.erosion.Name = "erosion";
-            this.erosion.Size = new System.Drawing.Size(50, 50);
-            this.erosion.TabIndex = 7;
-            this.erosion.Text = "Erosion";
-            this.erosion.UseVisualStyleBackColor = true;
-            this.erosion.Click += new System.EventHandler(this.erosion_Click);
+            this.Erosion_Btn.Font = new System.Drawing.Font("Arial Narrow", 8F);
+            this.Erosion_Btn.Location = new System.Drawing.Point(227, 3);
+            this.Erosion_Btn.Name = "Erosion_Btn";
+            this.Erosion_Btn.Size = new System.Drawing.Size(50, 50);
+            this.Erosion_Btn.TabIndex = 7;
+            this.Erosion_Btn.Text = "Erosion";
+            this.Erosion_Btn.UseVisualStyleBackColor = true;
+            this.Erosion_Btn.Click += new System.EventHandler(this.erosion_Click);
             // 
-            // dilation
+            // Dilation_Btn
             // 
-            this.dilation.Font = new System.Drawing.Font("Arial Narrow", 8F);
-            this.dilation.Location = new System.Drawing.Point(283, 3);
-            this.dilation.Name = "dilation";
-            this.dilation.Size = new System.Drawing.Size(50, 50);
-            this.dilation.TabIndex = 8;
-            this.dilation.Text = "Dilation";
-            this.dilation.UseVisualStyleBackColor = true;
-            this.dilation.Click += new System.EventHandler(this.dilation_Click);
+            this.Dilation_Btn.Font = new System.Drawing.Font("Arial Narrow", 8F);
+            this.Dilation_Btn.Location = new System.Drawing.Point(283, 3);
+            this.Dilation_Btn.Name = "Dilation_Btn";
+            this.Dilation_Btn.Size = new System.Drawing.Size(50, 50);
+            this.Dilation_Btn.TabIndex = 8;
+            this.Dilation_Btn.Text = "Dilation";
+            this.Dilation_Btn.UseVisualStyleBackColor = true;
+            this.Dilation_Btn.Click += new System.EventHandler(this.dilation_Click);
             // 
             // Pick
             // 
@@ -166,16 +166,16 @@
             this.Undo_Btn.UseVisualStyleBackColor = true;
             this.Undo_Btn.Click += new System.EventHandler(this.Undo_Click);
             // 
-            // Combine
+            // Done_Btn
             // 
-            this.Combine.Font = new System.Drawing.Font("Arial Narrow", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Combine.Location = new System.Drawing.Point(563, 3);
-            this.Combine.Name = "Combine";
-            this.Combine.Size = new System.Drawing.Size(50, 50);
-            this.Combine.TabIndex = 10;
-            this.Combine.Text = "Combine";
-            this.Combine.UseVisualStyleBackColor = true;
-            this.Combine.Click += new System.EventHandler(this.Combine_Click);
+            this.Done_Btn.Font = new System.Drawing.Font("Arial Narrow", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Done_Btn.Location = new System.Drawing.Point(563, 3);
+            this.Done_Btn.Name = "Done_Btn";
+            this.Done_Btn.Size = new System.Drawing.Size(50, 50);
+            this.Done_Btn.TabIndex = 10;
+            this.Done_Btn.Text = "Done";
+            this.Done_Btn.UseVisualStyleBackColor = true;
+            this.Done_Btn.Click += new System.EventHandler(this.Done_Click);
             // 
             // ToolBar
             // 
@@ -203,9 +203,9 @@
         private System.Windows.Forms.Button Redo_Btn;
         private System.Windows.Forms.Button Closing_Btn;
         private System.Windows.Forms.Button Trace_Btn;
-        private System.Windows.Forms.Button erosion;
-        private System.Windows.Forms.Button dilation;
+        private System.Windows.Forms.Button Erosion_Btn;
+        private System.Windows.Forms.Button Dilation_Btn;
         private System.Windows.Forms.Button Pick;
-        private System.Windows.Forms.Button Combine;
+        private System.Windows.Forms.Button Done_Btn;
     }
 }

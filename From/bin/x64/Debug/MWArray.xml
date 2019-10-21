@@ -408,7 +408,7 @@
             Internal function
             </summary>
         </member>
-        <member name="M:MathWorks.MATLAB.NET.Utility.MWMCR.mclMxDestroyArray(System.IntPtr,System.Boolean)">
+        <member name="M:MathWorks.MATLAB.NET.Utility.MWMCR.mclMxDestroyArray(System.IntPtr,System.IntPtr)">
             <summary internal= "true">
             Internal function
             </summary>
@@ -1174,7 +1174,7 @@
             </summary>
             <exclude/>
         </member>
-        <member name="M:MathWorks.MATLAB.NET.Arrays.MWArray.mxIsA(MathWorks.MATLAB.NET.Utility.MWSafeHandle,System.String)">
+        <member name="M:MathWorks.MATLAB.NET.Arrays.MWArray.mxIsA(System.IntPtr,MathWorks.MATLAB.NET.Utility.MWSafeHandle,System.String)">
             <summary internal= "true">
             Internal function
             </summary>
@@ -1320,7 +1320,7 @@
             </summary>
             <remarks>
             This constructor must be called before any other static initializers, 
-            therefore, no static field should be used in this class.	  
+            therefore, no static field should be used in this class.      
             </remarks>
         </member>
         <member name="M:MathWorks.MATLAB.NET.Arrays.MWArray.#ctor">
@@ -1521,7 +1521,7 @@
             Internal, read only property returning the array type of the encapsulated MATLAB array
             </summary>
         </member>
-        <member name="M:MathWorks.MATLAB.NET.Arrays.MWArray.GetTypedArray(MathWorks.MATLAB.NET.Utility.MWSafeHandle)">
+        <member name="M:MathWorks.MATLAB.NET.Arrays.MWArray.GetTypedArray(MathWorks.MATLAB.NET.Utility.MWSafeHandle,System.IntPtr)">
             <summary internal= "true">
             Internal function - Returns a derived type of <c>MWArray</c> with the same type as the contained MATLAB array
             </summary>
@@ -1609,7 +1609,7 @@
         </member>
         <member name="M:MathWorks.MATLAB.NET.Arrays.MWArray.Equals(System.Object)">
             <summary>
-            Compares two <c>MWArray</c> instances for equality (as defined by mxIsIdentical).
+            Compares two <c>MWArray</c> instances for equality.
             </summary>
             <param name="obj">An <c>MWArray</c> referenced as an <c>Object</c> type.</param>
             <returns>true if the arrays are equal.</returns>
@@ -4712,7 +4712,7 @@
         </member>
         <member name="M:MathWorks.MATLAB.NET.Arrays.native.MWArray.Equals(System.Object)">
             <summary>
-            Compares two <c>MWArray</c> instances for equality (as defined by mxIsIdentical).
+            Compares two <c>MWArray</c> instances for equality.
             </summary>
             <param name="obj">An <c>MWArray</c> referenced as an <c>Object</c> type.</param>
             <returns>true if the arrays are equal.</returns>

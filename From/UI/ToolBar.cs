@@ -2,9 +2,10 @@
 
 using System.Drawing;
 using System.Drawing.Imaging;
-
+using System.IO;
 using MathWorks.MATLAB.NET.Arrays;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 
 namespace StoneCount {
     public partial class ToolBar : Form {
@@ -14,10 +15,81 @@ namespace StoneCount {
         public ImageForm imageform;
         public Form optionform = null;
         
-        public ToolBar(ImageForm image) : this() {
-            imageform = image;
-     
+        public enum Mode
+        {
+            All = 0,
+            Preprocessing = 1,
+            Trace = 2,
+            Sieve=3,
         }
+
+        public ToolBar(ImageForm image) : this(image,Mode.All) {
+        }
+        public ToolBar(ImageForm image,Mode m) : this()
+        {
+            imageform = image;
+            switch (m)
+            {
+                case Mode.Preprocessing:
+                    {
+                        PreprocessMode();
+                    }
+                    break;
+                case Mode.Sieve:
+                    {
+                        SieveMode();
+                    }
+                    break;
+                case Mode.Trace:
+                    {
+                        TraceMode();
+                    }
+                    break;
+            }
+           
+        }
+
+        private void PreprocessMode()
+        {
+            Trace_Btn.Hide();
+            Pick.Hide();
+            
+            var newSize = new Size(this.Size.Width - 110, this.Size.Height);
+            this.MaximumSize = newSize;
+            this.MinimumSize = newSize;
+            this.Size = newSize;
+
+        }
+
+
+        private void SieveMode()
+        {
+            Inverse_Btn.Hide();
+            Opening_Btn.Hide();
+            Closing_Btn.Hide();
+            Fill_Btn.Hide();
+            Erosion_Btn.Hide();
+            Dilation_Btn.Hide();
+            Trace_Btn.Hide();
+            Done_Btn.Hide();
+            var newSize = new Size(this.Size.Width - 450, this.Size.Height);
+            this.MaximumSize = newSize;
+            this.MinimumSize = newSize;
+            this.Size = newSize;
+
+        }
+        private void TraceMode()
+        {
+            Trace_Btn.Hide();
+            Fill_Btn.Hide();
+            Pick.Hide();
+            var newSize = new Size(this.Size.Width - 165, this.Size.Height);
+            this.MaximumSize = newSize;
+            this.MinimumSize = newSize;
+            this.Size = newSize;
+
+        }
+
         private Point OptionWindowPosition() {
             Point p = this.Location;
             p.Y += (this.Height);
@@ -135,20 +207,48 @@ namespace StoneCount {
 
         private void Pick_Click(object sender, EventArgs e)
         {
-            if (optionform != null)
+            //draw eclipse
+            Bitmap bm = imageform.CurrentImage;
+            /*const string tmppath = "tmp/PickMid.bmp";
+            if (!Directory.Exists("tmp"))
+                Directory.CreateDirectory("tmp");
+            */
+            Bitmap clone = new Bitmap(bm.Width, bm.Height, PixelFormat.Format24bppRgb);
+            using (Graphics gr = Graphics.FromImage(clone))
             {
-                return;
+                gr.DrawImage(bm, new Rectangle(0, 0, clone.Width, clone.Height));
             }
-            MaskOption f = new MaskOption(imageform);
-            optionform = f;
-            f.FormClosed += OptionFormClosed;
-            f.StartPosition = FormStartPosition.Manual;
-            f.Location = OptionWindowPosition();
-            f.Show();
+
+            using (Graphics gr = Graphics.FromImage(clone))
+            {
+                gr.SmoothingMode = SmoothingMode.AntiAlias;
+
+                Rectangle rect = new Rectangle(-75, -150, 150, 300);
+                gr.TranslateTransform(1000, 1000);
+                using (Pen thick_pen = new Pen(Color.Black, 5))
+                {
+                    gr.DrawEllipse(thick_pen, rect);
+                }
+                gr.RotateTransform(-45.0F);
+                using (Pen thick_pen = new Pen(Color.Black, 5))
+                {
+                    gr.DrawEllipse(thick_pen, rect);
+                }
+            }
+            imageform.SetImage(clone);
         }
 
-        private void Combine_Click(object sender, EventArgs e) {
-            OpenFileDialog openFileDialog1 =  imageform.mainForm.GetOpenFileDialog();
+        public event Action<Bitmap,ImageForm> OnDoneClick;
+
+        private void Done_Click(object sender, EventArgs e) {
+            if(OnDoneClick != null)
+            {
+                OnDoneClick(imageform.CurrentImage,imageform);
+            }
+            imageform.Close();
+
+            ///OLD COMBINE Method
+            /*OpenFileDialog openFileDialog1 =  imageform.mainForm.GetOpenFileDialog();
             openFileDialog1.Title = "Select image";
             openFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
             string openfile;
@@ -159,7 +259,7 @@ namespace StoneCount {
             }
             Bitmap img2 = new Bitmap(openfile);
             NativeIP.FastCombineBinary(imageform.CurrentImage, img2);
-            imageform.SetImage(img2);
+            imageform.SetImage(img2);*/
             //imageform.logs.AddLog(new Step(Step.Inverse, new string[0]));
         }
     }

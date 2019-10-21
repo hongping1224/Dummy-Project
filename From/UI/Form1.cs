@@ -11,9 +11,11 @@ using System.IO;
 
 namespace StoneCount {
     public partial class Form1 : Form {
+        public static Form1 instance;
         BackgroundWorker backgroundWorker1;
         public Form1() {
             InitializeComponent();
+            instance = this;
             label1.Text = "Starting MR";
             planarDetrendingToolStripMenuItem.Enabled = false;
             backgroundWorker1 = new BackgroundWorker();
@@ -40,38 +42,14 @@ namespace StoneCount {
             label1.Refresh();
         }
 
-        ImageForm form2;
-
-        private void openToolStripMenuItem_Click(object sender, EventArgs e) {
-            openFileDialog1.Title = "Pick an image file";
-            openFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
-            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                var filePath = openFileDialog1.FileName;
-                Bitmap b = new Bitmap(filePath);
-                Console.WriteLine("Start Form2");
-                if (form2 != null) {
-                    form2.Close();
-                }
-                form2 = new ImageForm(b, this.Location);
-                form2.mainForm = this;
-                form2.Show();
-            }
-        }
-
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e) {
-            saveFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
-            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                var filePath = saveFileDialog1.FileName;
-                form2.CurrentImage.Save(filePath,System.Drawing.Imaging.ImageFormat.Bmp);
-            }
-        }
-
-
 
         private void toolBarToolStripMenuItem_Click(object sender, EventArgs e) {
             if (Application.OpenForms.OfType<ImageForm>().Count() != 0) {
                 if (Application.OpenForms.OfType<ToolBar>().Count() == 0) {
-                    form2.OpenToolBar();
+                    if (UI.ProjectForm.instance.ProcessingImageForm != null)
+                    {
+                        UI.ProjectForm.instance.ProcessingImageForm.OpenToolBar(UI.ProjectForm.instance.currentMode);
+                    }
                 }
             }
         }
@@ -79,28 +57,15 @@ namespace StoneCount {
         private void logsToolStripMenuItem_Click(object sender, EventArgs e) {
             if (Application.OpenForms.OfType<ImageForm>().Count() != 0) {
                 if (Application.OpenForms.OfType<Logs>().Count() == 0) {
-                    form2.OpenLogs();
+                    if (UI.ProjectForm.instance.ProcessingImageForm != null)
+                    {
+                        UI.ProjectForm.instance.ProcessingImageForm.OpenLogs();
+                    }
                 }
             }
         }
 
-        private void batchProcessToolStripMenuItem_Click(object sender, EventArgs e) {
-            if (Application.OpenForms.OfType<BatchProcess>().Count() == 0) {
-                BatchProcess batchProcess = new BatchProcess();
-                StartPosition = FormStartPosition.Manual;
-                Point p = Location;
-                p.Y += 90;
-                batchProcess.Show();
-                batchProcess.Location = p;
-                batchProcess.Show();
-            } else {
-                BatchProcess batchProcess = Application.OpenForms.OfType<BatchProcess>().First();
-                batchProcess.Focus();
-            }
-
-        }
-
-        private void ComparisonToolStripMenuItem_Click(object sender, EventArgs e) {
+    /*    private void ComparisonToolStripMenuItem_Click(object sender, EventArgs e) {
             if (Application.OpenForms.OfType<ImageForm>().Count() != 0) {
                 openFileDialog1.Title = "Pick an image file";
                 openFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
@@ -114,7 +79,7 @@ namespace StoneCount {
                 }
             }
         }
-
+        */
         private void planarDetrendingToolStripMenuItem_Click(object sender, EventArgs e) {
 
             openFileDialog1.Title = "Pick an DSM file";
@@ -243,6 +208,42 @@ namespace StoneCount {
             }
             return;
         }
+
+        private void startProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var project = new UI.ProjectForm();
+            project.Show();
+        }
+
+        BackgroundWorker backgroundWorker2 = new BackgroundWorker();
+        public void CreateShpFile(string output, string ellipse, string boundaries , string refference)
+        {
+            while (backgroundWorker2.IsBusy)
+            {
+
+            }
+            backgroundWorker2.DoWork += new DoWorkEventHandler((s, ee) => {
+                string strCmdText;
+                string path = Directory.GetCurrentDirectory();
+                
+                string exe_path = Path.Combine(path, "DrawShp","main.exe");
+                strCmdText = String.Format("/c {4} --o={0} --eclipse={1} --boundaries={2} --ref={3}", output, ellipse, boundaries, refference, exe_path);
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                startInfo.FileName = "cmd.exe";
+                startInfo.UseShellExecute = true;
+                startInfo.Arguments = strCmdText;
+                process.StartInfo = startInfo;
+                process.Start();
+                process.WaitForExit();
+            });
+            backgroundWorker2.RunWorkerCompleted += new RunWorkerCompletedEventHandler((a, ee) => {
+
+            });
+            backgroundWorker2.RunWorkerAsync();
+        }
+
 
     }
 }

@@ -25,13 +25,10 @@
         private void InitializeComponent() {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.batchProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.planarDetrendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vgmToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,40 +54,23 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem,
-            this.saveToolStripMenuItem,
-            this.batchProcessToolStripMenuItem});
+            this.startProjectToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // openToolStripMenuItem
+            // startProjectToolStripMenuItem
             // 
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.openToolStripMenuItem.Text = "Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
-            // 
-            // batchProcessToolStripMenuItem
-            // 
-            this.batchProcessToolStripMenuItem.Name = "batchProcessToolStripMenuItem";
-            this.batchProcessToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.batchProcessToolStripMenuItem.Text = "BatchProcess";
-            this.batchProcessToolStripMenuItem.Click += new System.EventHandler(this.batchProcessToolStripMenuItem_Click);
+            this.startProjectToolStripMenuItem.Name = "startProjectToolStripMenuItem";
+            this.startProjectToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.startProjectToolStripMenuItem.Text = "StartProject";
+            this.startProjectToolStripMenuItem.Click += new System.EventHandler(this.startProjectToolStripMenuItem_Click);
             // 
             // windowToolStripMenuItem
             // 
             this.windowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolBarToolStripMenuItem,
-            this.logsToolStripMenuItem,
-            this.testToolStripMenuItem});
+            this.logsToolStripMenuItem});
             this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
             this.windowToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
             this.windowToolStripMenuItem.Text = "Window";
@@ -98,23 +78,16 @@
             // toolBarToolStripMenuItem
             // 
             this.toolBarToolStripMenuItem.Name = "toolBarToolStripMenuItem";
-            this.toolBarToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.toolBarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.toolBarToolStripMenuItem.Text = "ToolBar";
             this.toolBarToolStripMenuItem.Click += new System.EventHandler(this.toolBarToolStripMenuItem_Click);
             // 
             // logsToolStripMenuItem
             // 
             this.logsToolStripMenuItem.Name = "logsToolStripMenuItem";
-            this.logsToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.logsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.logsToolStripMenuItem.Text = "Logs";
             this.logsToolStripMenuItem.Click += new System.EventHandler(this.logsToolStripMenuItem_Click);
-            // 
-            // testToolStripMenuItem
-            // 
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.testToolStripMenuItem.Text = "Comparison Window";
-            this.testToolStripMenuItem.Click += new System.EventHandler(this.ComparisonToolStripMenuItem_Click);
             // 
             // extraToolStripMenuItem
             // 
@@ -177,8 +150,6 @@
         #endregion
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem windowToolStripMenuItem;
@@ -186,12 +157,11 @@
         private System.Windows.Forms.ToolStripMenuItem toolBarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logsToolStripMenuItem;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private System.Windows.Forms.ToolStripMenuItem batchProcessToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem extraToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem planarDetrendingToolStripMenuItem;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem vgmToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem startProjectToolStripMenuItem;
     }
 }
 

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.ComponentModel;
+using System.Drawing.Imaging;
 
 namespace StoneCount {
     public class PanAndZoom : PictureBox {
@@ -93,7 +94,15 @@ namespace StoneCount {
             saveFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
             if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 var filePath = saveFileDialog1.FileName;
-                Image.Save(filePath);
+             
+                Bitmap clone = new Bitmap(Image.Width, Image.Height, PixelFormat.Format24bppRgb);
+
+                using (Graphics gr = Graphics.FromImage(clone))
+                {
+                    gr.DrawImage(Image, new Rectangle(0, 0, clone.Width, clone.Height));
+                }
+
+                clone.Save(filePath, ImageFormat.Bmp);
             }
         }
 
