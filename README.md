@@ -4,13 +4,13 @@ Dependency
 
 matlab runtime 
 
-https://drive.google.com/file/d/1yeN647ZcTzQGVq5CKpe42j-g1kHzD4y8/view?usp=sharing
+https://drive.google.com/file/d/1AM-gQMwe66ClW6BzuNx_CHVNxmIi1Gte/view?usp=sharing
 
 Executable is in  From\bin\x64\Debug\StoneCount.exe
+Or Download from
+https://drive.google.com/file/d/1SPKAu8fEURTV_pWCHBOAwqhcS9J3oKsw/view?usp=sharing
 
 Tutorial :
-https://www.youtube.com/watch?v=C74EdRt2x7g
+Renewing
 
-TODO:
-1 add progress bar on long press event
 

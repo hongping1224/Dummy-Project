@@ -244,6 +244,34 @@ namespace StoneCount {
             backgroundWorker2.RunWorkerAsync();
         }
 
+        private void generateLocalWorldFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Title = "Select Image File";
+            openFileDialog1.Filter = "bitmap files (*.bmp)|*.bmp|All files (*.*)|*.*";
+            string openfile;
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                openfile = openFileDialog1.FileName;
+                if (!openfile.EndsWith(".tif"))
+                {
+                    Bitmap b = new Bitmap(openfile);
+                    string extension = Path.GetExtension(openfile);
+                    b.Save(openfile.Replace(extension, ".tif"), System.Drawing.Imaging.ImageFormat.Tiff);
+                    string[] tfw = new string[6];
+                    tfw[0] = "1";
+                    tfw[1] = "0";
+                    tfw[2] = "0";
+                    tfw[3] = "-1";
+                    tfw[4] = "0.5";
+                    tfw[5] = (b.Height - 0.5f).ToString();
+                    File.WriteAllLines(openfile.Replace(extension, ".tfw"), tfw);
+                }
 
+            }
+            else
+            {
+                return;
+            }
+        }
     }
 }
