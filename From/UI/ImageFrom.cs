@@ -12,6 +12,7 @@ using MathWorks.MATLAB.NET.Arrays;
 namespace StoneCount {
     public partial class ImageForm : Form {
         public Bitmap OriImage;
+        public Bitmap Overlay;
         public Bitmap CurrentImage;
         private MWArray currentImageArray;
         private bool preview;
@@ -38,34 +39,32 @@ namespace StoneCount {
             InitializeComponent();
         }
         
-        public ImageForm(Bitmap image, Point p, bool Preview) : this(image, p, Preview, ToolBar.Mode.All)
+        public ImageForm(Bitmap image, Point p, bool Preview, Bitmap overlay = null) : this(image, p, Preview, ToolBar.Mode.All,overlay)
         {
         }
 
-        public ImageForm(Bitmap image, Point p, Action<Bitmap, ImageForm> OnDone,ToolBar.Mode mode) : this(image, p, false,mode)
+        public ImageForm(Bitmap image, Point p, Action<Bitmap, ImageForm> OnDone,ToolBar.Mode mode, Bitmap overlay = null) : this(image, p, false,mode,overlay)
         {
             tool.OnDoneClick += OnDone;
 
         }
-        public ImageForm(Bitmap image, Point p, bool Preview,ToolBar.Mode mode) : this()
+        public ImageForm(Bitmap image, Point p, bool Preview,ToolBar.Mode mode,Bitmap overlay = null) : this()
         {
+          
             preview = Preview;
             PictureBox1 = new PanAndZoom();
             PictureBox1.Bounds = new Rectangle(10, 10, 50, 50);
             PictureBox1.MouseDown += PictureBox1_MouseDown;
             PictureBox1.MouseUp += PictureBox1_MouseUp;
             this.Controls.Add(PictureBox1);
-            Bitmap bi;
-            if (image.PixelFormat != PixelFormat.Format1bppIndexed)
-            {
-                bi = new Bitmap(image.Width, image.Height, PixelFormat.Format1bppIndexed);
-                NativeIP.FastBinaryConvert(image, bi);
-            }
-            else
-            {
-                bi = image;
-            }
+            Bitmap bi = NativeIP.FastBinaryConvert(image); ;
+         
             OriImage = bi;
+            if (overlay == null)
+            {
+                overlay = bi;
+            }
+            Overlay = overlay;
             PictureBox1.Image = OriImage;
 
             if (OriImage.Width < 700 && OriImage.Height < 700)
@@ -90,10 +89,6 @@ namespace StoneCount {
                 OpenToolBar(mode);
                 OpenLogs();
             }
-            else
-            {
-                trackBar1.Hide();
-            }
             Reposition();
         }
       
@@ -105,7 +100,7 @@ namespace StoneCount {
 
         private void PictureBox1_MouseDown(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
-                PictureBox1.Image = OriImage;
+                PictureBox1.Image = Overlay;
             }
         }
 
@@ -273,12 +268,11 @@ namespace StoneCount {
             Reposition();
         }
 
-  
         string rd = "Image";
         private void trackBar1_Scroll(object sender, EventArgs e) {
             if (CurrentImage == null)
                 return;
-            PictureBox1.Image = NativeIP.Combine(OriImage,CurrentImage, trackBar1.Value,rd);
+            PictureBox1.Image = NativeIP.Combine(Overlay,CurrentImage, trackBar1.Value,rd);
         }
     }
 }

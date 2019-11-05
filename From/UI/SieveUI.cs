@@ -15,6 +15,7 @@ namespace StoneCount.UI
     public partial class SieveUI : Form
     {
         public Bitmap OriImage;
+        public Bitmap Overlay;
         public bool[,] OriginalImageArray;
         Queue<position>[] segments;
         int[] segmentsCount;
@@ -22,7 +23,7 @@ namespace StoneCount.UI
         int maxSize = -1;
         int minSize = int.MaxValue;
         public Sieve sieve;
-        public SieveUI()
+        public SieveUI(Bitmap overlay = null)
         {
             InitializeComponent();
             this.Resize += Form2_Resize;
@@ -31,6 +32,11 @@ namespace StoneCount.UI
             PictureBox1.MouseDown += PictureBox1_MouseDown;
             PictureBox1.MouseUp += PictureBox1_MouseUp;
             this.Controls.Add(PictureBox1);
+            if(overlay == null)
+            {
+                overlay = OriImage;
+            }
+            Overlay = overlay;
         }
         private void PictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
@@ -43,17 +49,17 @@ namespace StoneCount.UI
         {
             if (e.Button == MouseButtons.Left)
             {
-                PictureBox1.Image = OriImage;
+                PictureBox1.Image = Overlay;
             }
         }
         private const System.Drawing.Imaging.PixelFormat pixelFormat = System.Drawing.Imaging.PixelFormat.Format1bppIndexed;
-        public SieveUI(Bitmap Ori) : this()
+        public SieveUI(Bitmap Ori,Bitmap overlay=null) : this(overlay)
         {
             
             if (Ori.PixelFormat != pixelFormat)
             {
-                Bitmap tmp = new Bitmap(Ori.Width, Ori.Height, pixelFormat);
-                NativeIP.FastBinaryConvert(Ori, tmp);
+                Bitmap tmp = NativeIP.FastBinaryConvert(Ori);
+
                 Ori = tmp;
             }
             OriImage = Ori;
@@ -93,7 +99,7 @@ namespace StoneCount.UI
                 segmentsCount[i] = segments[i].Count;
             }
         }
-        public SieveUI(Bitmap image, Sieve sieve): this(image)
+        public SieveUI(Bitmap image, Sieve sieve,Bitmap overlay = null): this(image,overlay)
         {
             this.sieve = sieve;
         }

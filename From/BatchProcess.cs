@@ -37,8 +37,8 @@ namespace StoneCount {
                     continue;
                 }
                 // convert to binary
-                Bitmap bi = new Bitmap(b.Width, b.Height, PixelFormat.Format1bppIndexed);
-                NativeIP.FastBinaryConvert(b, bi);
+                Bitmap bi = NativeIP.FastBinaryConvert(b);
+
                 // Run Logs
                 Bitmap result = Logs.ApplyLog(bi, logs);
                 //Save Image

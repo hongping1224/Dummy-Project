@@ -99,8 +99,7 @@ namespace StoneCount {
         }
 
         private void Inverse_Click(object sender, EventArgs e) {
-            Bitmap bi = new Bitmap(imageform.CurrentImage.Width, imageform.CurrentImage.Height, PixelFormat.Format1bppIndexed);
-            NativeIP.FastInvertBinary(imageform.CurrentImage, bi);
+            Bitmap bi = NativeIP.FastInvertBinary(imageform.CurrentImage);
             imageform.SetImage(bi);
             imageform.logs.AddLog(new Step(Step.Inverse, new string[0]));
         }

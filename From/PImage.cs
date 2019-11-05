@@ -31,18 +31,22 @@ namespace StoneCount
 
         public static bool[,] Bitmap2NetArray(Bitmap orig)
         {
-                        
-            Bitmap myBitmap = new Bitmap(orig.Width, orig.Height,
-                System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-
-            using (Graphics gr = Graphics.FromImage(myBitmap))
+            Bitmap myBitmap;
+            if (orig.PixelFormat != PixelFormat.Format24bppRgb)
             {
-                gr.DrawImage(orig, new Rectangle(0, 0, myBitmap.Width, myBitmap.Height));
+                myBitmap = new Bitmap(orig.Width, orig.Height,PixelFormat.Format24bppRgb);
+                using (Graphics gr = Graphics.FromImage(myBitmap))
+                {
+                    gr.DrawImage(orig, new Rectangle(0, 0, myBitmap.Width, myBitmap.Height));
+                }
             }
-
-            PixelFormat Format = myBitmap.PixelFormat;
+            else
+            {
+                myBitmap = orig;
+            }
+          
             bool[,] ImgData = new bool[myBitmap.Width, myBitmap.Height];
-            BitmapData byteArray = myBitmap.LockBits(new Rectangle(0, 0, myBitmap.Width, myBitmap.Height), ImageLockMode.ReadWrite, Format);
+            BitmapData byteArray = myBitmap.LockBits(new Rectangle(0, 0, myBitmap.Width, myBitmap.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
             IntPtr source_scan = byteArray.Scan0;
             unsafe  //專案－＞屬性－＞建置－＞容許Unsafe程式碼須選取。           
             {
@@ -56,14 +60,6 @@ namespace StoneCount
                         ImgData[w, h] = new_pw[0] >= 100 ? true : false; 
                     });
                 });
-               /* for (int i = 0; i < byteArray.Width; i++)
-                {
-                    for (int j = 0; j < byteArray.Height; j++)
-                    {
-                        ImgData[i, j] = source_p[0] >=100 ? true:false;  
-                        source_p+=3;
-                    }
-                }*/
             }
             myBitmap.UnlockBits(byteArray);
             return ImgData;
@@ -76,7 +72,6 @@ namespace StoneCount
             IntPtr source_scan = sourceData.Scan0;
             unsafe
             {
-
                 byte* source_p = (byte*)source_scan.ToPointer();
                 Parallel.For(0, sourceData.Height, h =>
                 {
@@ -131,100 +126,98 @@ namespace StoneCount
 
         //--------------------
 
-        public static MWLogicalArray Bitmap2array(Bitmap bitmap)
+        public static MWLogicalArray Bitmap2array(Bitmap src)
         {
-            //Get image dimensions
-            int width = bitmap.Width;
-            int height = bitmap.Height;
-            //Declare the double array of grayscale values to be read from "bitmap"
-            bool[,] bnew = new bool[height, width];
 
-            //Loop to read the data from the Bitmap image into the double array
-            int i, j;
-            for (i = 0; i < width; i++)
+            BitmapData sourceData = src.LockBits(new Rectangle(0, 0, src.Width , src.Height), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+            IntPtr source_scan = sourceData.Scan0;
+            bool[,] bnew = new bool[src.Height,src.Width];
+            unsafe
             {
-                for (j = 0; j < height; j++)
+                byte* source_p = (byte*)source_scan.ToPointer();
+             
+                for (int h = 0; h < src.Height; h++)
                 {
-                    Color pixelColor = bitmap.GetPixel(i, j);
-                    double b = pixelColor.GetBrightness(); //the Brightness component
-                    if (b > 0)
+                    byte* source_p2 = source_p;
+                    for (int w = 0; w < sourceData.Width; w++)
                     {
-                        bnew[j, i] = true;
+                        if ((source_p2[0]) == 0)
+                        {
+                            bnew[h, w] = false;
+                        }
+                        else
+                        {
+                            bnew[h, w] = true;
+                        }
+                        source_p2 += 3;
                     }
-                    else
-                    {
-                        bnew[j, i] = false;
-                    }
-                    //Note that rows in C# correspond to columns in MWarray
+                    source_p += sourceData.Stride;
                 }
             }
+            src.UnlockBits(sourceData);
+            ////Get image dimensions
+            //int width = bitmap.Width;
+            //int height = bitmap.Height;
+            ////Declare the double array of grayscale values to be read from "bitmap"
+            //bool[,] bnew = new bool[height, width];
+
+            ////Loop to read the data from the Bitmap image into the double array
+            //int i, j;
+            //for (i = 0; i < width; i++)
+            //{
+            //    for (j = 0; j < height; j++)
+            //    {
+            //        Color pixelColor = bitmap.GetPixel(i, j);
+            //        double b = pixelColor.GetBrightness(); //the Brightness component
+            //        if (b > 0)
+            //        {
+            //            bnew[j, i] = true;
+            //        }
+            //        else
+            //        {
+            //            bnew[j, i] = false;
+            //        }
+            //        //Note that rows in C# correspond to columns in MWarray
+            //    }
+            //}
             MWLogicalArray arr = new MWLogicalArray(bnew);
             return arr;
         }
 
         public unsafe static Bitmap Array2bitmap(MWArray arr, int width, int height)
         {
-            Bitmap bitmap = new Bitmap(width, height, PixelFormat.Format1bppIndexed);
-            var bmdn = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite,
-                                 bitmap.PixelFormat);
-            var convScan0 = bmdn.Scan0;
-            var convStride = bmdn.Stride;
-            byte* destPixels = (byte*)(void*)convScan0;
-
-            var srcLineIdx = 0;
-
-            var hmax = bitmap.Height - 1;
-            var wmax = bitmap.Width - 1;
-            bool[,] image = (bool[,])((MWLogicalArray)arr).ToArray();
-
-            for (int y = 0; y < hmax; y++)
+            bool[,] bnew = (bool[,])((MWLogicalArray)arr).ToArray();
+            Bitmap src = new Bitmap(bnew.GetLength(0), bnew.GetLength(1),PixelFormat.Format24bppRgb);
+            BitmapData sourceData = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+            IntPtr source_scan = sourceData.Scan0;
+            unsafe
             {
-                // find indexes for source/destination lines
+                byte* source_p = (byte*)source_scan.ToPointer();
 
-                // use addition, not multiplication?
-                srcLineIdx += convStride;
-
-                var srcIdx = srcLineIdx;
-                for (int x = 0; x < wmax; x++)
+                for (int h = 0; h < src.Height; h++)
                 {
-                    // index for source pixel (32bbp, rgba format)
-                    srcIdx += 1;
-                    //var r = pixel[2];
-                    //var g = pixel[1];
-                    //var b = pixel[0];
-
-                    // could just check directly?
-                    //if (Color.FromArgb(r,g,b).GetBrightness() > 0.01f)
-                    if (!(image[y, x] == false))
+                    byte* source_p2 = source_p;
+                    for (int w = 0; w < sourceData.Width; w++)
                     {
-                        // destination byte for pixel (1bpp, ie 8pixels per byte)
-                        var idx = srcLineIdx + (x >> 3);
-                        // mask out pixel bit in destination byte
-                        destPixels[idx] |= (byte)(0x80 >> (x & 0x7));
+                        if (bnew[h, w] == false)
+                        {
+                            source_p2[0] = (byte)0;
+                            source_p2[1] = (byte)0;
+                            source_p2[2] = (byte)0;
+                        }
+                        else
+                        {
+                            source_p2[0] = (byte)255;
+                            source_p2[1] = (byte)255;
+                            source_p2[2] = (byte)255;
+                        }
+                        source_p2 += 3;
                     }
+                    source_p += sourceData.Stride;
                 }
             }
-            bitmap.UnlockBits(bmdn);
-
-            /*
-                        if (arr.IsLogicalArray) {
-
-                            bool[,] image = (bool[,])((MWLogicalArray)arr).ToArray();
-                            //Loop to read the data from the Bitmap image into the double array
-                            int i, j;
-                            for (i = 0; i < width; i++) {
-                                for (j = 0; j < height; j++) {
-                                    int bright = 0;
-                                    if (image[j, i]) {
-                                        bright = 1;
-                                    }
-                                    Color c = Color.FromArgb(bright, bright, bright);
-                                    bitmap.SetPixel(i, j, c);
-                                }
-                            }
-                        }*/
-            Console.WriteLine(bitmap.PixelFormat);
-            return bitmap;
+            src.UnlockBits(sourceData);
+            return src;
         }
     }
 }

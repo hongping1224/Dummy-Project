@@ -53,15 +53,16 @@ namespace StoneCount {
             double[,] bound = (double[,])a.ToArray();
             Bitmap bi = new Bitmap(image.CurrentImage.Width, image.CurrentImage.Height, PixelFormat.Format24bppRgb);
             string[] boundstring = new string[bound.GetLength(0)];
-            for (int i = 0; i< bound.GetLength(0); i++) {
-                bi.SetPixel((int)bound[i, 1]-1, (int)bound[i, 0]-1, Color.White);
+            for (int i = 0; i < bound.GetLength(0); i++)
+            {
+                bi.SetPixel((int)bound[i, 1] - 1, (int)bound[i, 0] - 1, Color.White);
                 boundstring[i] = (bound[i, 1] - 1).ToString() + "," + (bound[i, 0] - 1).ToString();
             }
             File.WriteAllLines(savefile,boundstring);
-            Bitmap aa = new Bitmap(image.CurrentImage.Width, image.CurrentImage.Height, PixelFormat.Format1bppIndexed);
-            NativeIP.FastBinaryConvert(bi, aa);
-            Bitmap ab = new Bitmap(image.CurrentImage.Width, image.CurrentImage.Height, PixelFormat.Format1bppIndexed);
-            NativeIP.FastInvertBinary(aa, ab);
+            Bitmap aa = NativeIP.FastBinaryConvert(bi);
+
+            Bitmap ab = NativeIP.FastInvertBinary(aa);
+
             image.SetImage(ab);
             image.logs.AddLog(new Step(Step.TraceBoundary, parameters: new string[] { "connection:"+ conn.ToString(), "option:" + option }));
             //image.SetImage(PImage.processor.ToBinary(a,0));

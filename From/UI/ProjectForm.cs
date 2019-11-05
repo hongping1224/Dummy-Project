@@ -48,7 +48,7 @@ namespace StoneCount.UI
 
         #region Parameters
         private string OriginalImageFilePath;
-        private Bitmap OriginalImage;
+        public Bitmap OriginalImage;
         private const string PreprocessedImageFilePath = "tmp/preprocess.bmp";
         private Bitmap PreprocessedImage;
         public ImageForm ProcessingImageForm;
@@ -204,7 +204,7 @@ namespace StoneCount.UI
                 {
                     OnDone(s, ev);
                 }
-            }, mode);
+            }, mode,OriginalImage);
             ProcessingImageForm = form;
             currentMode = mode;
             ProcessingImageForm.FormClosing += FormCloseAlert;
@@ -224,7 +224,7 @@ namespace StoneCount.UI
 
         public void OpenPreviewForm(Bitmap image, string title = "Preview Image")
         {
-            ImageForm form = new ImageForm(image, this.Location, true);
+            ImageForm form = new ImageForm(image, this.Location, true,OriginalImage);
             form.Text = title;
             form.Show();
         }
@@ -233,8 +233,8 @@ namespace StoneCount.UI
         {
             int width = sieves[0].image.Width;
             int height = sieves[0].image.Height;
-            Bitmap baseImage = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format1bppIndexed);
-            NativeIP.FastBinaryConvert(sieves[0].image, baseImage);
+            Bitmap baseImage = NativeIP.FastBinaryConvert(sieves[0].image);
+
 
             for (int i = 1; i < sieves.Length; i++)
             {
@@ -242,9 +242,9 @@ namespace StoneCount.UI
                 {
                     break;
                 }
-                Bitmap NextImage = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format1bppIndexed);
-                NativeIP.FastBinaryConvert(sieves[i].image, NextImage);
-                NativeIP.FastCombineBinary(NextImage, baseImage);
+                Bitmap NextImage = NativeIP.FastBinaryConvert(sieves[i].image);
+
+                baseImage = NativeIP.FastCombineBinary(NextImage, baseImage);
             }
             OpenPreviewForm(baseImage);
         }

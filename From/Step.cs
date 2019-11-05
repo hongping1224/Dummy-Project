@@ -66,8 +66,7 @@ namespace StoneCount {
                 im = PImage.processor.Closing(image, step.parameters[0].Split(':')[1], int.Parse(step.parameters[1].Split(':')[1]));
                 break;
                 case Inverse:
-                Bitmap binary = new Bitmap(width, height, PixelFormat.Format1bppIndexed);
-                NativeIP.FastInvertBinary(bit, binary);
+                Bitmap binary = NativeIP.FastInvertBinary(bit);
                 im = PImage.Bitmap2array(binary);
                 break;
                 case Erosion:
@@ -86,22 +85,23 @@ namespace StoneCount {
                     im = PImage.processor.Fill(image,x,y);
                 }
                 break;
-                case TraceBoundary: {
-                    int conn = int.Parse(step.parameters[0].Split(':')[1]);
-                    string option = step.parameters[1].Split(':')[1];  
-                    var a = PImage.processor.TraceBoundary(image, (MWNumericArray)conn, (MWArray)(option));
-                    double[,] bound = (double[,])a.ToArray();
-                    Bitmap bi = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+                case TraceBoundary:
+                    {
+                        int conn = int.Parse(step.parameters[0].Split(':')[1]);
+                        string option = step.parameters[1].Split(':')[1];
+                        var a = PImage.processor.TraceBoundary(image, (MWNumericArray)conn, (MWArray)(option));
+                        double[,] bound = (double[,])a.ToArray();
+                        Bitmap bi = new Bitmap(width, height, PixelFormat.Format24bppRgb);
 
-                    for (int i = 0; i < bound.GetLength(0); i++) {
-                        bi.SetPixel((int)bound[i, 1] - 1, (int)bound[i, 0] - 1, Color.White);
+                        for (int i = 0; i < bound.GetLength(0); i++)
+                        {
+                            bi.SetPixel((int)bound[i, 1] - 1, (int)bound[i, 0] - 1, Color.White);
+                        }
+                        Bitmap aa = NativeIP.FastBinaryConvert(bi);
+
+                        Bitmap ab = NativeIP.FastInvertBinary(aa);
+                        im = PImage.Bitmap2array(ab);
                     }
-                    Bitmap aa = new Bitmap(width, height, PixelFormat.Format1bppIndexed);
-                    NativeIP.FastBinaryConvert(bi, aa);
-                    Bitmap ab = new Bitmap(width, height, PixelFormat.Format1bppIndexed);
-                    NativeIP.FastInvertBinary(aa, ab);
-                    im = PImage.Bitmap2array(ab);
-                }
                 break;
                 case Pick: {
                     int threshold = int.Parse(step.parameters[0].Split(':')[1]);

@@ -206,7 +206,7 @@ namespace StoneCount
             }
             Log_Lbl.Text = "Calculating Segments...";
             Log_Lbl.Refresh();
-            UI.SieveUI ui = new UI.SieveUI(OriImage,this);
+            UI.SieveUI ui = new UI.SieveUI(OriImage,this,UI.ProjectForm.instance.OriginalImage);
             Log_Lbl.Text = "Done";
             Log_Lbl.Refresh();
             ui.Show();
@@ -293,10 +293,10 @@ namespace StoneCount
                 bi.SetPixel(coordinates[i, 0], coordinates[i, 1], Color.White);
             }
            
-            Bitmap aa = new Bitmap(image.Width, image.Height, PixelFormat.Format1bppIndexed);
-            NativeIP.FastBinaryConvert(bi, aa);
-            Bitmap ab = new Bitmap(image.Width, image.Height, PixelFormat.Format1bppIndexed);
-            NativeIP.FastInvertBinary(aa, ab);
+            Bitmap aa = NativeIP.FastBinaryConvert(bi);
+
+            Bitmap ab = NativeIP.FastInvertBinary(aa);
+
             //image = ab;
             Log_Lbl.Text = "Fitting Ellipse";
             Log_Lbl.Refresh();

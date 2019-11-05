@@ -220,8 +220,8 @@ namespace StoneCount {
         {
             while (backgroundWorker2.IsBusy)
             {
-
             }
+            backgroundWorker2 = new BackgroundWorker();
             backgroundWorker2.DoWork += new DoWorkEventHandler((s, ee) => {
                 string strCmdText;
                 string path = Directory.GetCurrentDirectory();
