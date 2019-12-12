@@ -1,16 +1,37 @@
 # Dummy Project
 
-Dependency
+## Dependency
 
-matlab runtime 
+### matlab runtime 
 
-https://drive.google.com/file/d/1AM-gQMwe66ClW6BzuNx_CHVNxmIi1Gte/view?usp=sharing
+> https://drive.google.com/file/d/1AM-gQMwe66ClW6BzuNx_CHVNxmIi1Gte/view?usp=sharing
 
-Executable is in  From\bin\x64\Debug\StoneCount.exe
+### R 
+
+> Download at : https://cran.r-project.org/bin/
+
+After Install Add Following folder to Path
+>C:\Program Files\R\R-3.X.X\bin 
+
+#### R library
+
+use R studio to install package for R
+Download at 
+> https://rstudio.com/products/rstudio/download/#download
+
+>library required:
+>>gstat  
+>>sp 
+
+
+Executable is in  
+> From\bin\x64\Release\StoneCount.exe
+
 Or Download from
-https://drive.google.com/file/d/1SPKAu8fEURTV_pWCHBOAwqhcS9J3oKsw/view?usp=sharing
+
+>https://drive.google.com/file/d/1SPKAu8fEURTV_pWCHBOAwqhcS9J3oKsw/view?usp=sharing
 
 Tutorial :
-Renewing
 
+> https://youtu.be/j4dLMib21cY
 

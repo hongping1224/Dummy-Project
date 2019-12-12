@@ -26,17 +26,16 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateLocalWorldFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.planarDetrendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vgmToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zerocontourToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.label1 = new System.Windows.Forms.Label();
-            this.generateLocalWorldFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,6 +67,13 @@
             this.startProjectToolStripMenuItem.Text = "StartProject";
             this.startProjectToolStripMenuItem.Click += new System.EventHandler(this.startProjectToolStripMenuItem_Click);
             // 
+            // generateLocalWorldFileToolStripMenuItem
+            // 
+            this.generateLocalWorldFileToolStripMenuItem.Name = "generateLocalWorldFileToolStripMenuItem";
+            this.generateLocalWorldFileToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.generateLocalWorldFileToolStripMenuItem.Text = "Generate Local World File";
+            this.generateLocalWorldFileToolStripMenuItem.Click += new System.EventHandler(this.generateLocalWorldFileToolStripMenuItem_Click);
+            // 
             // windowToolStripMenuItem
             // 
             this.windowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -94,25 +100,17 @@
             // extraToolStripMenuItem
             // 
             this.extraToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.planarDetrendingToolStripMenuItem,
-            this.vgmToolStripMenuItem});
+            this.zerocontourToolStripMenuItem});
             this.extraToolStripMenuItem.Name = "extraToolStripMenuItem";
             this.extraToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.extraToolStripMenuItem.Text = "Extra";
             // 
-            // planarDetrendingToolStripMenuItem
+            // zerocontourToolStripMenuItem
             // 
-            this.planarDetrendingToolStripMenuItem.Name = "planarDetrendingToolStripMenuItem";
-            this.planarDetrendingToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.planarDetrendingToolStripMenuItem.Text = "planar detrending";
-            this.planarDetrendingToolStripMenuItem.Click += new System.EventHandler(this.planarDetrendingToolStripMenuItem_Click);
-            // 
-            // vgmToolStripMenuItem
-            // 
-            this.vgmToolStripMenuItem.Name = "vgmToolStripMenuItem";
-            this.vgmToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.vgmToolStripMenuItem.Text = "vgm";
-            this.vgmToolStripMenuItem.Click += new System.EventHandler(this.vgmToolStripMenuItem_Click);
+            this.zerocontourToolStripMenuItem.Name = "zerocontourToolStripMenuItem";
+            this.zerocontourToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.zerocontourToolStripMenuItem.Text = "zero-contour";
+            this.zerocontourToolStripMenuItem.Click += new System.EventHandler(this.zerocontourToolStripMenuItem_Click);
             // 
             // openFileDialog1
             // 
@@ -126,14 +124,6 @@
             this.label1.Size = new System.Drawing.Size(33, 12);
             this.label1.TabIndex = 3;
             this.label1.Text = "label1";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // generateLocalWorldFileToolStripMenuItem
-            // 
-            this.generateLocalWorldFileToolStripMenuItem.Name = "generateLocalWorldFileToolStripMenuItem";
-            this.generateLocalWorldFileToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
-            this.generateLocalWorldFileToolStripMenuItem.Text = "Generate Local World File";
-            this.generateLocalWorldFileToolStripMenuItem.Click += new System.EventHandler(this.generateLocalWorldFileToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -167,11 +157,10 @@
         private System.Windows.Forms.ToolStripMenuItem logsToolStripMenuItem;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.ToolStripMenuItem extraToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem planarDetrendingToolStripMenuItem;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ToolStripMenuItem vgmToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startProjectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateLocalWorldFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zerocontourToolStripMenuItem;
     }
 }
 
