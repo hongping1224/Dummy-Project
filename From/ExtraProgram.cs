@@ -78,7 +78,7 @@ namespace StoneCount
                 diff = Math.Abs(ex - float.Parse(colume[1]));
                 xsize = (int)((ex - sx) / diff) + 1;
                 ysize = (int)((ey - sy) / diff) + 1;
-                Z = new float[xsize, ysize];
+                Z = new float[ysize,xsize];
             }
             for (int i = 2 + columenum; i < krigResult.Length; i++)
             {
@@ -90,7 +90,7 @@ namespace StoneCount
                 float z = float.Parse(colume[5]);
                 int xindex = (int)((x - sx) / diff);
                 int yindex = (int)((y - sy) / diff);
-                Z[xindex, yindex] = z;
+                Z[ yindex, xindex] = z;
             }
             MWNumericArray arr = new MWNumericArray(Z);
             MWArray BoundResult = PImage.processor.Contour(arr);
