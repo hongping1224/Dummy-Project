@@ -53,7 +53,7 @@ namespace StoneCount.UI
             }
         }
         private const System.Drawing.Imaging.PixelFormat pixelFormat = System.Drawing.Imaging.PixelFormat.Format1bppIndexed;
-        public SieveUI(Bitmap Ori,Bitmap overlay=null) : this(overlay)
+        public SieveUI(Bitmap Ori, int threshold, Bitmap overlay=null) : this(overlay)
         {
             
             if (Ori.PixelFormat != pixelFormat)
@@ -86,7 +86,11 @@ namespace StoneCount.UI
             }
             trackBar1.Maximum = maxSize;
             trackBar1.Minimum = minSize;
-            trackBar1.Value = minSize;
+            if (threshold < minSize)
+            {
+                threshold = minSize;
+            }
+            trackBar1.Value = threshold;
             numericUpDown1.Maximum = maxSize;
             numericUpDown1.Minimum = minSize;
             numericUpDown1.Value = trackBar1.Value;
@@ -98,9 +102,11 @@ namespace StoneCount.UI
             {
                 segmentsCount[i] = segments[i].Count;
             }
+            refreshImage(trackBar1.Value);
         }
-        public SieveUI(Bitmap image, Sieve sieve,Bitmap overlay = null): this(image,overlay)
+        public SieveUI(Bitmap image, Sieve sieve,Bitmap overlay = null,int threshold =0): this(image,threshold,overlay)
         {
+            trackBar1.Value = threshold;
             this.sieve = sieve;
         }
 

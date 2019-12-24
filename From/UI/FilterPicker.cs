@@ -21,7 +21,7 @@ namespace StoneCount {
             for (int i = 1; i < 21; i++) {
                 comboBox2.Items.Add(i);
             }
-            comboBox2.SelectedIndex = 8;
+            comboBox2.SelectedIndex = 3;
             comboBox1.SelectedIndex = 0;
             button1.Focus();
         }

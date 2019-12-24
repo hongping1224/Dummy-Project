@@ -166,7 +166,7 @@ namespace StoneCount.UI
             StartPreprocess_Btn.Enabled = false;
             flowbox.Visible = true;
             FirstSieve_box.Visible = true;
-            sieves[0].InitiateSieve(PreprocessedImage);
+            sieves[0].InitiateSieve(PreprocessedImage,0);
             flowbox.Refresh();
         }
 

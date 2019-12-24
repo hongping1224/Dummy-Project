@@ -34,6 +34,7 @@ namespace StoneCount
         public int[,] coordinates;
         private string titleText;
         BackgroundWorker backgroundWorker1;
+        private int threshold=0;
 
         public Sieve(UI.ProjectForm project)
         {
@@ -104,7 +105,7 @@ namespace StoneCount
 
         }
 
-        public void InitiateSieve(Bitmap image)
+        public void InitiateSieve(Bitmap image,int threshold)
         {
             this.image = image;
             OriImage = image;
@@ -113,8 +114,9 @@ namespace StoneCount
             Discard_Btn.Enabled = false;
             Preview_Btn.Enabled = false;
             Save_Btn.Enabled = false;
+            this.threshold = threshold;
             //Process_Btn.Enabled = true;
-            
+
             NextSieve_Btn.Enabled = false;
             if (NextSieve != null)
             {
@@ -206,7 +208,7 @@ namespace StoneCount
             }
             Log_Lbl.Text = "Calculating Segments...";
             Log_Lbl.Refresh();
-            UI.SieveUI ui = new UI.SieveUI(OriImage,this,UI.ProjectForm.instance.OriginalImage);
+            UI.SieveUI ui = new UI.SieveUI(OriImage,this,UI.ProjectForm.instance.OriginalImage,(int)Math.Floor((float)threshold/2f));
             Log_Lbl.Text = "Done";
             Log_Lbl.Refresh();
             ui.Show();
@@ -214,8 +216,9 @@ namespace StoneCount
         public void StartSieveCallBack(int threshold, Bitmap larger, Bitmap smaller)
         {
             image = larger;
-            NextSieve.InitiateSieve(smaller);
+            NextSieve.InitiateSieve(smaller,threshold);
             NextSieve.DisableSieve();
+          
             groupBox.Text = titleText + "threshold = " + threshold;
             StartProcess(this, EventArgs.Empty);
         }
