@@ -72,28 +72,28 @@ namespace StoneCount
             IntPtr source_scan = sourceData.Scan0;
             unsafe
             {
-                byte* source_p = (byte*)source_scan.ToPointer();
-                Parallel.For(0, sourceData.Height, h =>
+                byte* source_p = (byte*)(sourceData.Scan0);
+                for (int i = 0; i < sourceData.Height; i++)
                 {
-                    byte* new_p = source_p + (h * (sourceData.Width * 3));
-                    Parallel.For(0, sourceData.Width, w =>
+                    for (int j = 0; j < sourceData.Width; j++)
                     {
-                        byte* new_pw = new_p + (w * 3);
-                        if (ImgData[w, h])
+                        if (ImgData[j,i])
                         {
-                            new_pw[0] = 255;  //R
-                            new_pw[0 + 1] = 255;  //G
-                            new_pw[0 + 2] = 255;   //B
+                            source_p[0] = 255;  //R
+                            source_p[0 + 1] = 255;  //G
+                            source_p[0 + 2] = 255;   //B
                         }
                         else
                         {
-                            new_pw[0] = 0;  //R
-                            new_pw[0 + 1] = 0;  //G
-                            new_pw[0 + 2] = 0;   //B
+                            source_p[0] = 0;  //R
+                            source_p[0 + 1] = 0;  //G
+                            source_p[0 + 2] = 0;   //B
 
                         }
-                    });
-                });
+                        source_p += 3;
+                    }
+                    source_p += sourceData.Stride - sourceData.Width * 3;
+                }
                 /*
                 byte* source_p = (byte*)source_scan.ToPointer();
                 for (int h = 0; h < sourceData.Height; h++)
@@ -123,6 +123,29 @@ namespace StoneCount
             return source;
         }
 
+        public static Bitmap NetArray2Bitmap(Color[,] ImgData)
+        {
+
+            Bitmap source = new Bitmap(ImgData.GetLength(0), ImgData.GetLength(1), PixelFormat.Format24bppRgb);
+            BitmapData sourceData = source.LockBits(new Rectangle(0, 0, source.Width, source.Height), ImageLockMode.WriteOnly, PixelFormat.Format24bppRgb);
+            unsafe
+            {
+                byte* source_p = (byte*)(sourceData.Scan0);
+                for (int i = 0; i < sourceData.Height; i++)
+                {
+                    for (int j = 0; j < sourceData.Width; j++)
+                    {
+                        source_p[0] = ImgData[j,i].B;  // ImgData[w, h].B;  //B
+                        source_p[0 + 1] = ImgData[j, i].G;// ImgData[w, h].G;  //G
+                        source_p[0 + 2] = ImgData[j, i].R;// ImgData[w, h].R;   //R
+                        source_p += 3;
+                    }
+                    source_p += sourceData.Stride - sourceData.Width * 3;
+                }
+            }
+            source.UnlockBits(sourceData);
+            return source;
+        }
 
         //--------------------
 

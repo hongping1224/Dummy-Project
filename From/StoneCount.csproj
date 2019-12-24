@@ -88,6 +88,7 @@
     <Compile Include="BatchProcess.Designer.cs">
       <DependentUpon>BatchProcess.cs</DependentUpon>
     </Compile>
+    <Compile Include="RampGenerator.cs" />
     <Compile Include="ExtraProgram.cs" />
     <Compile Include="PanAndZoom.cs">
       <SubType>Component</SubType>

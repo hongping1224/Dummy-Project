@@ -48,7 +48,7 @@ namespace StoneCount {
             tool.OnDoneClick += OnDone;
 
         }
-        public ImageForm(Bitmap image, Point p, bool Preview,ToolBar.Mode mode,Bitmap overlay = null) : this()
+        public ImageForm(Bitmap image, Point p, bool Preview,ToolBar.Mode mode,Bitmap overlay = null,bool convertbinary = true,bool hideTrack = false) : this()
         {
           
             preview = Preview;
@@ -57,8 +57,11 @@ namespace StoneCount {
             PictureBox1.MouseDown += PictureBox1_MouseDown;
             PictureBox1.MouseUp += PictureBox1_MouseUp;
             this.Controls.Add(PictureBox1);
-            Bitmap bi = NativeIP.FastBinaryConvert(image); ;
-         
+            Bitmap bi = image;
+            if (convertbinary)
+            {
+                bi = NativeIP.FastBinaryConvert(image); ;
+            }
             OriImage = bi;
             if (overlay == null)
             {
@@ -88,6 +91,11 @@ namespace StoneCount {
             {
                 OpenToolBar(mode);
                 OpenLogs();
+            }
+            if (hideTrack)
+            {
+                trackBar1.Enabled = false;
+                trackBar1.Visible = false;
             }
             Reposition();
         }

@@ -9,6 +9,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
 using MathWorks.MATLAB.NET.Arrays;
+using System.Drawing;
 
 namespace StoneCount
 {
@@ -31,29 +32,36 @@ namespace StoneCount
             VGM(DetrendingDSMPath, VGMFile, VGMModelFile, label, (la) =>
              {
                  //Facotorial
-                 string s = CreateParFile(DetrendFileName, FactorialResult, VGMModelFile, TemplateFilePath, ParFilePath, la);
+                 CreateParFile(DetrendFileName, FactorialResult, VGMModelFile, TemplateFilePath, ParFilePath, la);
                  SetupHeaderForKriging(DetrendingDSMPath);
-                 FactorialKrigging(la, (l) =>
+                 FactorialKrigging(la, FactorialResultPath, (l) =>
                     {
                         SetLabel(l, "Generating Contour...");
-                        GenerateContour(FactorialResultPath, ImageOutPath);
+                        GenerateContour(FactorialResultPath).Save(ImageOutPath, ImageFormat.Bmp);
                         SetLabel(l, "Done Generate Contour");
                     });
              });
         }
 
-        public static void SetupHeaderForKriging(string filePath)
+        public static void SetupHeaderForKriging(string filePath,string outpath = "")
         {
+            if (string.IsNullOrEmpty(outpath))
+            {
+                outpath = filePath;
+            }
             //setup header
             string currentContent = String.Empty;
             if (File.Exists(filePath))
             {
                 currentContent = File.ReadAllText(filePath);
-                File.WriteAllText(filePath, "DetrendingDSM\n3\nx\ny\nz\n" + currentContent);
+                if (!currentContent.StartsWith("DetrendingDSM\n3\nx\ny\nz\n"))
+                {
+                    File.WriteAllText(outpath, "DetrendingDSM\n3\nx\ny\nz\n" + currentContent);
+                }
             }
         }
 
-        private static void GenerateContour(string path, string outpath)
+        public static Bitmap GenerateContour(string path)
         {
             //path = @"F:\PersonalProject\Stone\UIForm\From\bin\x64\Debug\factorialkriging\ho1S4RPdtNZdsm-49.out";
             string[] krigResult = File.ReadAllLines(path);
@@ -78,7 +86,7 @@ namespace StoneCount
                 diff = Math.Abs(ex - float.Parse(colume[1]));
                 xsize = (int)((ex - sx) / diff) + 1;
                 ysize = (int)((ey - sy) / diff) + 1;
-                Z = new float[ysize,xsize];
+                Z = new float[xsize,ysize];
             }
             for (int i = 2 + columenum; i < krigResult.Length; i++)
             {
@@ -90,14 +98,12 @@ namespace StoneCount
                 float z = float.Parse(colume[5]);
                 int xindex = (int)((x - sx) / diff);
                 int yindex = (int)((y - sy) / diff);
-                Z[ yindex, xindex] = z;
+                Z[xindex, yindex] = z;
             }
             MWNumericArray arr = new MWNumericArray(Z);
             MWArray BoundResult = PImage.processor.Contour(arr);
             double[,] bound = (double[,])BoundResult.ToArray();
             int[,] coordinates = new int[bound.GetLength(1), 2];
-            int ttt = bound.GetLength(0);
-            int tttt = bound.GetLength(1);
             for (int i = 0; i < bound.GetLength(1); i++)
             {
                 coordinates[i, 0] = (int)Math.Round(bound[0, i]);
@@ -115,21 +121,31 @@ namespace StoneCount
             }
             for (int i = 0; i < bound.GetLength(1); i++)
             {
-                int k = coordinates[i, 0];
-                int t = coordinates[i, 1];
-                if (k < xsize && t < ysize)
+                int x = coordinates[i, 1];
+                int y = coordinates[i, 0];
+                if (x < xsize && y < ysize)
                 {
-                    bi[k, ysize - t] = false;
+                    bi[x, ysize-y-1] = false;
                 }
             }
-            PImage.NetArray2Bitmap(bi, PixelFormat.Format24bppRgb).Save(outpath, ImageFormat.Bmp);
+            return PImage.NetArray2Bitmap(bi, PixelFormat.Format24bppRgb);
+        }
+        public static void OpenPreviewForm(Bitmap image, string title = "Preview Image")
+        {
+            ImageForm form = new ImageForm(image, new Point(100, 100), true, ToolBar.Mode.All, null, false,true);
+            form.Text = title;
+            form.Show();
+            form.Refresh();
         }
 
         public static void PlanarDetrending(string openfile, string savefile, Label label)
         {
+            OpenPreviewForm(DrawInputDSM(openfile), "Original DSM");
             SetLabel(label, "Planar Detrending...");
+            Thread.Sleep(100);
             PImage.processor.ho5dtdem(openfile, savefile);
             SetLabel(label, "Planar Detrending Done");
+            OpenPreviewForm(DrawDetrendDSM(savefile), "Detrended DSM");
         }
 
         public static string CreateParFile(string DSMFile, string ReusltFile, string VGMFile, string TemplateFile, string ParFile, Label label)
@@ -184,7 +200,7 @@ namespace StoneCount
             return "";
         }
 
-        public static void FactorialKrigging(Label label, Action<Label> onDone = null)
+        public static void FactorialKrigging(Label label,String resultPath, Action<Label> onDone = null)
         {
    
             SetLabel(label, "Factorial Kriging...");
@@ -209,6 +225,14 @@ namespace StoneCount
             backgroundWorker1.RunWorkerCompleted += new RunWorkerCompletedEventHandler((a, ee) =>
             {
                 SetLabel(label, "Kriging Done");
+                Bitmap[] bitmaps = DrawKrigingShortAndLongComponent(resultPath);
+                if(bitmaps == null)
+                {
+                    return;
+                }
+                OpenPreviewForm(bitmaps[0], "Local Component");
+                OpenPreviewForm(bitmaps[1], "Region Component");
+                OpenPreviewForm(bitmaps[2], "Combine Component");
                 if (onDone != null)
                 {
                     onDone(label);
@@ -258,6 +282,183 @@ namespace StoneCount
             {
                 label.Text = s;
                 label.Refresh();
+            }
+        }
+
+        public static Bitmap DrawInputDSM(string name)
+        {
+            string[] dsm = File.ReadAllLines(name);
+            float[,] Z;
+            float diff, sx, sy;
+            int xsize, ysize;
+            {
+                string[] colume = dsm[0].Split(' ');
+                sx = float.Parse(colume[0]);
+                sy = float.Parse(colume[1]);
+                colume = dsm[dsm.Length - 1].Split(' ');
+                float ex = float.Parse(colume[0]);
+                float ey = float.Parse(colume[1]);
+                colume = dsm[1].Split(' ');
+                diff = Math.Abs(sy - float.Parse(colume[1]));
+                xsize = (int)((ex - sx) / diff) + 1;
+                ysize = (int)((ey - sy) / diff) + 1;
+                Z = new float[xsize+2,ysize+2];
+            }
+            float maxz = float.MinValue;
+            float minz = float.MaxValue;
+            for (int i = 0; i < dsm.Length; i++)
+            {
+                string[] colume = dsm[i].Split(' ');
+                float x = float.Parse(colume[0]);
+                float y = float.Parse(colume[1]);
+                float z = float.Parse(colume[2]);
+                int xindex = (int)((x - sx) / diff);
+                int yindex = (int)((y - sy) / diff);
+                Z[xindex,yindex] = z;
+                Console.WriteLine("a");
+                maxz = Math.Max(z, maxz);
+                minz = Math.Min(z, minz);
+            }
+            Color[,] bi = new Color[Z.GetLength(0), Z.GetLength(1)];
+
+            for (int i = 0; i < xsize; i++)
+            {
+                for (int j = 0; j < ysize; j++)
+                {
+                    bi[i, ysize-j-1] = RampGenerator.HotCold(Z[i,j],maxz,minz);
+                }
+            }
+            return PImage.NetArray2Bitmap(bi);
+        }
+        public static Bitmap DrawDetrendDSM(string name)
+        {
+            string[] dsm = File.ReadAllLines(name);
+            float[,] Z;
+            float diff, sx, sy;
+            int xsize, ysize;
+            {
+                string[] colume = dsm[0].Split(' ');
+                sx = float.Parse(colume[0]);
+                sy = float.Parse(colume[1]);
+                colume = dsm[dsm.Length - 1].Split(' ');
+                float ex = float.Parse(colume[0]);
+                float ey = float.Parse(colume[1]);
+                colume = dsm[1].Split(' ');
+                diff = Math.Abs(sy - float.Parse(colume[1]));
+                xsize = (int)((ex - sx) / diff) + 1;
+                ysize = (int)((ey - sy) / diff) + 1;
+                Z = new float[xsize+2, ysize+2];
+            }
+            float maxz = float.MinValue;
+            float minz = float.MaxValue;
+            for (int i = 0; i < dsm.Length; i++)
+            {
+                string[] colume = dsm[i].Split(' ');
+                float x = float.Parse(colume[0]);
+                float y = float.Parse(colume[1]);
+                float z = float.Parse(colume[2]);
+                int xindex = (int)((x - sx) / diff);
+                int yindex = (int)((y - sy) / diff);
+                Z[xindex, yindex] = z;
+                maxz = Math.Max(z, maxz);
+                minz = Math.Min(z, minz);
+            }
+            Color[,] bi = new Color[Z.GetLength(0), Z.GetLength(1)];
+            for (int i = 0; i < xsize; i++)
+            {
+                for (int j = 0; j < ysize; j++)
+                {
+                    bi[i, ysize-j-1] = RampGenerator.HotCold(Z[i, j], maxz, minz);
+                }
+            }
+            return PImage.NetArray2Bitmap(bi);
+
+        }
+        public static Bitmap[] DrawKrigingShortAndLongComponent(string name)
+        {
+            try
+            {
+                string[] krigResult = File.ReadAllLines(name);
+                int columenum = int.Parse(krigResult[1]);
+                float[,] Region;
+                float[,] Local;
+                float diff, sx, sy;
+                int xsize, ysize;
+                {
+                    string line = krigResult[2 + columenum].Replace("      ", ",");
+                    line = line.Replace("     ", ",");
+                    string[] colume = line.Split(',');
+                    sx = float.Parse(colume[1]);
+                    sy = float.Parse(colume[2]);
+                    line = krigResult[krigResult.Length - 1].Replace("      ", ",");
+                    line = line.Replace("     ", ",");
+                    colume = line.Split(',');
+                    float ex = float.Parse(colume[1]);
+                    float ey = float.Parse(colume[2]);
+                    line = krigResult[krigResult.Length - 2].Replace("      ", ",");
+                    line = line.Replace("     ", ",");
+                    colume = line.Split(',');
+                    diff = Math.Abs(ex - float.Parse(colume[1]));
+                    xsize = (int)((ex - sx) / diff) + 1;
+                    ysize = (int)((ey - sy) / diff) + 1;
+                    Local = new float[xsize, ysize];
+                    Region = new float[xsize, ysize];
+                }
+                float maxz = float.MinValue;
+                float minz = float.MaxValue;
+                float maxz2 = float.MinValue;
+                float minz2 = float.MaxValue;
+                float maxzC = float.MinValue;
+                float minzC = float.MaxValue;
+                for (int i = 2 + columenum; i < krigResult.Length; i++)
+                {
+                    string line = krigResult[i].Replace("      ", ",");
+                    line = line.Replace("     ", ",");
+                    string[] colume = line.Split(',');
+                    float x = float.Parse(colume[1]);
+                    float y = float.Parse(colume[2]);
+                    float z = float.Parse(colume[5]);
+                    float z2 = float.Parse(colume[6]);
+                    int xindex = (int)((x - sx) / diff);
+                    int yindex = (int)((y - sy) / diff);
+                    Local[xindex, yindex] = z;
+                    Region[xindex, yindex] = z2;
+                    maxz = Math.Max(z, maxz);
+                    minz = Math.Min(z, minz);
+                    maxz2 = Math.Max(z2, maxz2);
+                    minz2 = Math.Min(z2, minz2);
+                    maxzC = Math.Max(z + z2, maxzC);
+                    minzC = Math.Min(z + z2, minzC);
+                }
+                Color[,] Localbi = new Color[Local.GetLength(0), Local.GetLength(1)];
+                for (int i = 0; i < xsize; i++)
+                {
+                    for (int j = 0; j < ysize; j++)
+                    {
+                        Localbi[i, ysize-j-1] = RampGenerator.HotCold(Local[i, j], maxz, minz);
+                    }
+                }
+                Color[,] Regionbi = new Color[Region.GetLength(0), Region.GetLength(1)];
+                for (int i = 0; i < xsize; i++)
+                {
+                    for (int j = 0; j < ysize; j++)
+                    {
+                        Regionbi[i, ysize - j-1] = RampGenerator.HotCold(Region[i, j], maxz2, minz2);
+                    }
+                }
+                Color[,] Combinebi = new Color[Region.GetLength(0), Region.GetLength(1)];
+                for (int i = 0; i < xsize; i++)
+                {
+                    for (int j = 0; j < ysize; j++)
+                    {
+                        Combinebi[i, ysize - j-1] = RampGenerator.HotCold(Region[i, j] + Local[i, j], maxzC, minzC);
+                    }
+                }
+            return new Bitmap[] { PImage.NetArray2Bitmap(Localbi), PImage.NetArray2Bitmap(Regionbi), PImage.NetArray2Bitmap(Combinebi) };
+            }
+            catch
+            {
+                return null;
             }
         }
     }

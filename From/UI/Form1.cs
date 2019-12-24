@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using MathWorks.MATLAB.NET.Arrays;
-using System.Drawing.Imaging;
 
 namespace StoneCount {
     public partial class Form1 : Form {
@@ -151,9 +147,221 @@ namespace StoneCount {
             ExtraProgram.DoAll(openfile, savefile, label1);
         }
 
+
+        private void planerDetrendingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Title = "Pick an DSM file";
+            openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            string openfile, savefile;
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                openfile = openFileDialog1.FileName;
+            }
+            else
+            {
+                return;
+            }
+            saveFileDialog1.Title = "Save Detrending DSM";
+            saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                savefile = saveFileDialog1.FileName;
+            }
+            else
+            {
+                return;
+            }
+            ExtraProgram.PlanarDetrending(openfile, savefile, label1);
+        }
+
+        private void vGMToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Title = "Pick an Detrended DSM file";
+            openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            string openfile, savefile,modelsavefile;
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                openfile = openFileDialog1.FileName;
+            }
+            else
+            {
+                return;
+            }
+            saveFileDialog1.Title = "Save VGM Result";
+            saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                savefile = saveFileDialog1.FileName;
+            }
+            else
+            {
+                return;
+            }
+            saveFileDialog1.Title = "Save VGM model Result";
+            saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            saveFileDialog1.FileName = "";
+            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                modelsavefile = saveFileDialog1.FileName;
+            }
+            else
+            {
+                return;
+            }
+            ExtraProgram.VGM(openfile, savefile, modelsavefile,label1,null);
+        }
+
+        private void factorialKrigingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Title = "Pick an Detrended DSM file";
+            openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            string openfile, savefile, VGMmodel;
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                openfile = openFileDialog1.FileName;
+            }
+            else
+            {
+                return;
+            }
+            openFileDialog1.Title = "Pick an VGM modeling file";
+            openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            openFileDialog1.FileName = "";
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                VGMmodel = openFileDialog1.FileName;
+            }
+            else
+            {
+                return;
+            }
+            saveFileDialog1.Title = "Save Krigging Result";
+            saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                savefile = saveFileDialog1.FileName;
+            }
+            else
+            {
+                return;
+            }
+            //add header , and copy to specific path
+            string DetrendFileName = "DetrendingDSM.txt";
+            string FactorialResult = "DetrendingDSM.out";
+            string TemplateFilePath = Path.Combine(Directory.GetCurrentDirectory(), "factorialkriging", "template.par");
+            string ParFilePath = Path.Combine(Directory.GetCurrentDirectory(), "factorialkriging", "fk_large.exe.par");
+            string DetrendingDSMPath = Path.Combine(Directory.GetCurrentDirectory(), "factorialkriging", DetrendFileName);
+            string FactorialResultPath = Path.Combine(Directory.GetCurrentDirectory(), "factorialkriging", FactorialResult);
+            ExtraProgram.SetupHeaderForKriging(openfile, DetrendingDSMPath);
+            // Create Par file
+            ExtraProgram.CreateParFile(DetrendFileName, FactorialResult, VGMmodel, TemplateFilePath, ParFilePath,label1);
+            //run program
+            ExtraProgram.FactorialKrigging(label1, FactorialResultPath,(l)=> {
+                Thread.Sleep(100);
+                if (File.Exists(savefile))
+                {
+                    File.Delete(savefile);
+                }
+                File.Copy(FactorialResultPath, savefile);
+            });
+        }
+
+        private void zeroContourToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Title = "Pick an Krigging file";
+            openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            string openfile, savefile;
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                openfile = openFileDialog1.FileName;
+            }
+            else
+            {
+                return;
+            }
+            saveFileDialog1.Title = "Save Zero Contour Image";
+            saveFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
+            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                savefile = saveFileDialog1.FileName;
+            }
+            else
+            {
+                return;
+            }
+            Bitmap zero = ExtraProgram.GenerateContour(openfile);
+            zero.Save(savefile, System.Drawing.Imaging.ImageFormat.Bmp);
+            ExtraProgram.OpenPreviewForm(zero,"zero contour");
+        }
+
+        private void dSMToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Title = "Pick an DSM file";
+            openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            string openfile;
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                openfile = openFileDialog1.FileName;
+            }
+            else
+            {
+                return;
+            }
+            ExtraProgram.OpenPreviewForm(ExtraProgram.DrawInputDSM(openfile),"DSM");
+        }
+
+        private void detrendDSMToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Title = "Pick an Detrend DSM file";
+            openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            string openfile;
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                openfile = openFileDialog1.FileName;
+            }
+            else
+            {
+                return;
+            }
+            ExtraProgram.OpenPreviewForm(ExtraProgram.DrawDetrendDSM(openfile),"Detrend DSM");
+        }
+
         private void kriggingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //ExtraProgram.FactorialKrigging();
+            openFileDialog1.Title = "Pick an Krigging file";
+            openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            string openfile;
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                openfile = openFileDialog1.FileName;
+            }
+            else
+            {
+                return;
+            }
+            Bitmap[] s = ExtraProgram.DrawKrigingShortAndLongComponent(openfile);
+            if(s != null)
+            {
+                ExtraProgram.OpenPreviewForm(s[0], "Local Component");
+                ExtraProgram.OpenPreviewForm(s[1], "Regional Component");
+                ExtraProgram.OpenPreviewForm(s[2], "Combine Component");
+            }
+        }
+
+        private void zeroContourToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Title = "Pick an zero contour image";
+            openFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
+            string openfile;
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                openfile = openFileDialog1.FileName;
+            }
+            else
+            {
+                return;
+            }
+            ExtraProgram.OpenPreviewForm(new Bitmap(openfile), "Zero Contour");
         }
     }
 }
