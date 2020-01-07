@@ -86,14 +86,19 @@ namespace StoneCount.UI
             }
             trackBar1.Maximum = maxSize;
             trackBar1.Minimum = minSize;
-            if (threshold < minSize)
+            if (threshold < trackBar1.Minimum)
             {
-                threshold = minSize;
+                threshold = trackBar1.Minimum;
+            }
+            else if (threshold > trackBar1.Maximum)
+            {
+                threshold = trackBar1.Maximum;
             }
             trackBar1.Value = threshold;
+            trackBar1.Refresh();
             numericUpDown1.Maximum = maxSize;
             numericUpDown1.Minimum = minSize;
-            numericUpDown1.Value = trackBar1.Value;
+            numericUpDown1.Value = threshold;
             PictureBox1.Image = OriImage;
             label1.Text = "Number of Segments:" + segments.Length;
             segmentsCount = new int[segments.Length];
@@ -102,11 +107,13 @@ namespace StoneCount.UI
             {
                 segmentsCount[i] = segments[i].Count;
             }
-            refreshImage(trackBar1.Value);
+            refreshImage(threshold);
         }
-        public SieveUI(Bitmap image, Sieve sieve,Bitmap overlay = null,int threshold =0): this(image,threshold,overlay)
+        public SieveUI(Bitmap image, Sieve sieve,Bitmap overlay = null,int threshold =-1): this(image,threshold,overlay)
         {
-            trackBar1.Value = threshold;
+
+           
+
             this.sieve = sieve;
         }
 

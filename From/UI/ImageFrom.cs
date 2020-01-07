@@ -104,12 +104,47 @@ namespace StoneCount {
             if (e.Button == MouseButtons.Left) {
                 trackBar1_Scroll(null, null);
             }
+            if (e.Button == MouseButtons.Right)
+            {
+                ContextMenu cm = new ContextMenu();
+                cm.MenuItems.Add("Save", new EventHandler(SaveImage));
+                cm.MenuItems.Add("Change Overlay", new EventHandler(ChangeOverlay));
+                this.ContextMenu = cm;
+            }
+        }
+        private void ChangeOverlay(object sender, EventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Overlay = new Bitmap(openFileDialog.FileName);
+            }
+        }
+        private void SaveImage(object sender, EventArgs e)
+        {
+            var saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
+            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var filePath = saveFileDialog1.FileName;
+
+                Bitmap clone = new Bitmap(PictureBox1.Image.Width, PictureBox1.Image.Height, PixelFormat.Format24bppRgb);
+
+                using (Graphics gr = Graphics.FromImage(clone))
+                {
+                    gr.DrawImage(PictureBox1.Image, new Rectangle(0, 0, clone.Width, clone.Height));
+                }
+
+                clone.Save(filePath, ImageFormat.Bmp);
+            }
         }
 
         private void PictureBox1_MouseDown(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
                 PictureBox1.Image = Overlay;
             }
+
         }
 
         public void OpenToolBar(ToolBar.Mode mode) {

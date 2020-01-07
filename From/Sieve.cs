@@ -124,7 +124,7 @@ namespace StoneCount
             }
             else
             {
-                Sieve_Btn.Visible = false;
+                NextSieve_Btn.Visible = false;
             }
         }
         public void DisableSieve()
@@ -203,12 +203,11 @@ namespace StoneCount
         private void StartSieve(object sender, EventArgs e)
         {
             if (NextSieve == null)
-            {
-                return;
+            {  
             }
             Log_Lbl.Text = "Calculating Segments...";
             Log_Lbl.Refresh();
-            UI.SieveUI ui = new UI.SieveUI(OriImage,this,UI.ProjectForm.instance.OriginalImage,(int)Math.Floor((float)threshold/2f));
+            UI.SieveUI ui = new UI.SieveUI(OriImage,this,UI.ProjectForm.instance.OriginalImage,(int)Math.Floor(((float)threshold)/2f));
             Log_Lbl.Text = "Done";
             Log_Lbl.Refresh();
             ui.Show();
@@ -216,9 +215,11 @@ namespace StoneCount
         public void StartSieveCallBack(int threshold, Bitmap larger, Bitmap smaller)
         {
             image = larger;
-            NextSieve.InitiateSieve(smaller,threshold);
-            NextSieve.DisableSieve();
-          
+            if (NextSieve != null)
+            {
+                NextSieve.InitiateSieve(smaller, threshold);
+                NextSieve.DisableSieve();
+            }
             groupBox.Text = titleText + "threshold = " + threshold;
             StartProcess(this, EventArgs.Empty);
         }
