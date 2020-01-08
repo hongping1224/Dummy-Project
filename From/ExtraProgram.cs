@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
 using System.ComponentModel;
 using System.IO;
@@ -130,6 +126,7 @@ namespace StoneCount
             }
             return PImage.NetArray2Bitmap(bi, PixelFormat.Format24bppRgb);
         }
+
         public static void OpenPreviewForm(Bitmap image, string title = "Preview Image")
         {
             ImageForm form = new ImageForm(image, new Point(100, 100), true, ToolBar.Mode.All, null, false,true);
