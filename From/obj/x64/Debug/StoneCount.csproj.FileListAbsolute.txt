@@ -24,3 +24,4 @@ F:\PersonalProject\Stone\UIForm\From\bin\x64\Debug\MWArray.dll
 F:\PersonalProject\Stone\UIForm\From\bin\x64\Debug\MWArray.xml
 F:\PersonalProject\Stone\UIForm\From\obj\x64\Debug\StoneCount.UI.ProjectForm.resources
 F:\PersonalProject\Stone\UIForm\From\obj\x64\Debug\StoneCount.UI.SieveUI.resources
+F:\PersonalProject\Stone\UIForm\From\obj\x64\Debug\StoneCount.UI.ImagePreview.resources

@@ -2,6 +2,7 @@
 using System.Threading;
 using System.ComponentModel;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
 using MathWorks.MATLAB.NET.Arrays;
@@ -33,7 +34,10 @@ namespace StoneCount
                  FactorialKrigging(la, FactorialResultPath, (l) =>
                     {
                         SetLabel(l, "Generating Contour...");
-                        GenerateContour(FactorialResultPath).Save(ImageOutPath, ImageFormat.Bmp);
+                        GenerateSHPContour(FactorialResultPath, ImageOutPath,l, () => {
+                            Bitmap zero = new Bitmap(ImageOutPath);
+                            ExtraProgram.OpenPreviewForm(zero, "zero contour");
+                        });
                         SetLabel(l, "Done Generate Contour");
                     });
              });
@@ -55,6 +59,47 @@ namespace StoneCount
                     File.WriteAllText(outpath, "DetrendingDSM\n3\nx\ny\nz\n" + currentContent);
                 }
             }
+        }
+
+        public static void ReformatKriggingResult(string openfile,string savepath)
+        {
+            string[] krigResult = File.ReadAllLines(openfile);
+            int columenum = int.Parse(krigResult[1]);
+            float diff, sx, sy;
+            StringBuilder sb = new StringBuilder();
+            int xsize, ysize;
+            {
+                string line = krigResult[2 + columenum].Replace("      ", ",");
+                line = line.Replace("     ", ",");
+                string[] colume = line.Split(',');
+                sx = float.Parse(colume[1]);
+                sy = float.Parse(colume[2]);
+                line = krigResult[krigResult.Length - 1].Replace("      ", ",");
+                line = line.Replace("     ", ",");
+                colume = line.Split(',');
+                float ex = float.Parse(colume[1]);
+                float ey = float.Parse(colume[2]);
+                line = krigResult[krigResult.Length - 2].Replace("      ", ",");
+                line = line.Replace("     ", ",");
+                colume = line.Split(',');
+                diff = Math.Abs(ex - float.Parse(colume[1]));
+                xsize = (int)((ex - sx) / diff) + 1;
+                ysize = (int)((ey - sy) / diff) + 1;
+               
+            }
+            for (int i = 2 + columenum; i < krigResult.Length; i++)
+            {
+                string line = krigResult[i].Replace("      ", ",");
+                line = line.Replace("     ", ",");
+                string[] colume = line.Split(',');
+                float x = float.Parse(colume[1]);
+                float y = float.Parse(colume[2]);
+                float z = float.Parse(colume[5]);
+                int xindex = (int)((x - sx) / diff);
+                int yindex = (int)((y - sy) / diff);
+                sb.AppendFormat("{0}\t{1}\t{2}\n", x, y, z);
+            }
+            File.WriteAllText(savepath,sb.ToString());
         }
 
         public static Bitmap GenerateContour(string path)
@@ -127,9 +172,91 @@ namespace StoneCount
             return PImage.NetArray2Bitmap(bi, PixelFormat.Format24bppRgb);
         }
 
+        public static void GenerateSHPContour(string openfile, string savefile, Label label,Action OnDone)
+        {
+            string intemediatekrggingResult = Path.Combine(Directory.GetCurrentDirectory(), "zerocontour", "kriged_result_img.txt");
+            ExtraProgram.ReformatKriggingResult(openfile, intemediatekrggingResult);
+            string intemediate = Path.Combine(Directory.GetCurrentDirectory(), "zerocontour", "OUTPUT.shp");
+
+            SetLabel(label, "Generating Contour...");
+            string[] krigResult = File.ReadAllLines(intemediatekrggingResult);
+            float diff, sx, sy;
+            int xsize, ysize;
+            {
+                string[] colume = krigResult[0].Split('\t');
+                sx = float.Parse(colume[0]);
+                sy = float.Parse(colume[1]);
+                colume = krigResult[krigResult.Length - 1].Split('\t');
+                float ex = float.Parse(colume[0]);
+                float ey = float.Parse(colume[1]);
+                colume = krigResult[krigResult.Length - 2].Split('\t');
+                diff = Math.Abs(ex - float.Parse(colume[0]));
+                xsize = (int)((ex - sx) / diff) + 1;
+                ysize = (int)((ey - sy) / diff) + 1;
+            }
+
+            BackgroundWorker backgroundWorker1 = new BackgroundWorker();
+            backgroundWorker1.DoWork += new DoWorkEventHandler((s, ee) =>
+            {
+                string strCmdText;
+                string path = Directory.GetCurrentDirectory();
+                string exe_path = Path.Combine(path, "zerocontour/gdal_contour");
+                string command = string.Format("-b 1 -a ELEV -i 10.0 {0} {1}", intemediatekrggingResult, intemediate);
+                strCmdText = "/c " + exe_path+ " "+command;
+
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
+                startInfo.FileName = "cmd.exe";
+                startInfo.WorkingDirectory = Path.Combine(path);
+                startInfo.Arguments = strCmdText;
+                process.StartInfo = startInfo;
+                process.Start();
+                process.WaitForExit();
+
+            });
+            backgroundWorker1.RunWorkerCompleted += new RunWorkerCompletedEventHandler((a, ee) =>
+            {
+                BackgroundWorker backgroundWorker2 = new BackgroundWorker();
+                backgroundWorker2.DoWork += new DoWorkEventHandler((s, eee) =>
+                {
+                    string strCmdText;
+                    string path = Directory.GetCurrentDirectory();
+                    string exe_path = Path.Combine(path, "zerocontour/gdal_rasterize");
+                    string command = string.Format("-burn 255 -burn 255 -burn 255 -ot Byte -ts {0} {1} -l OUTPUT {2} {3}", xsize*4,ysize*4, intemediate, savefile);
+                    strCmdText = "/c " + exe_path + " " + command;
+                    System.Diagnostics.Process process = new System.Diagnostics.Process();
+                    System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
+                    startInfo.FileName = "cmd.exe";
+                    startInfo.WorkingDirectory = Path.Combine(path);
+                    startInfo.Arguments = strCmdText;
+                    process.StartInfo = startInfo;
+                    process.Start();
+                    process.WaitForExit();
+
+                });
+                backgroundWorker2.RunWorkerCompleted += new RunWorkerCompletedEventHandler((aa, eee) =>
+                {
+                    File.Delete(intemediatekrggingResult);
+                    File.Delete(intemediate.Replace(".shp",".dbf"));
+                    File.Delete(intemediate.Replace(".shp", ".shx"));
+                    File.Delete(intemediate);
+
+                    if(OnDone != null)
+                    {
+                        OnDone();
+                    }
+                });
+                backgroundWorker2.RunWorkerAsync();
+            });
+            backgroundWorker1.RunWorkerAsync();
+        }
+                
         public static void OpenPreviewForm(Bitmap image, string title = "Preview Image")
         {
-            ImageForm form = new ImageForm(image, new Point(100, 100), true, ToolBar.Mode.All, null, false,true);
+            UI.ImagePreview form = new UI.ImagePreview();
+            form.PictureBox1.Image = image;
             form.Text = title;
             form.Show();
             form.Refresh();
