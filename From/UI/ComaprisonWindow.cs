@@ -77,6 +77,7 @@ namespace StoneCount {
 
         private void TrackBar_Scroll(object sender, EventArgs e) {
             PictureBox1.Image = NativeIP.Combine((Bitmap)ori, Current, trackBar1.Value, rd);
+             
         }
 
     }

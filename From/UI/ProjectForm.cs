@@ -27,8 +27,6 @@ namespace StoneCount.UI
             sieves[1] = new Sieve(SecondSieve_box, sieves[2], this);
             sieves[0] = new Sieve(FirstSieve_box, sieves[1], this);
         }
-
-
         public ProjectForm(string FilePath)
         {
             OriginalImageFilePath = FilePath;
@@ -36,12 +34,7 @@ namespace StoneCount.UI
         }
         private void initialAll_Button()
         {
-            Preview_Ori_Btn.Enabled = false;
-            Done_Ori_Btn.Enabled = false;
-            StartPreprocess_Btn.Enabled = false;
-            PreProcessedPreview_Btn.Enabled = false;
-            DonePreprocess_Btn.Enabled = false;
-            RevertToOriginal_Btn.Enabled = false;
+       
         }
 
         #endregion
@@ -53,22 +46,38 @@ namespace StoneCount.UI
         private Bitmap PreprocessedImage;
         public ImageForm ProcessingImageForm;
         private Sieve[] sieves;
-        public ToolBar.Mode currentMode;
         #endregion
 
         #region Original Function
 
         private void SelectImage_Btn_Click(object sender, EventArgs e)
         {
+
+            if (ProcessingImageForm != null)
+            {
+               // ShowImageFormOpenAlertPopUpWindow();
+                ProcessingImageForm.Focus();
+                return;
+            }
+
             openFileDialog1.Title = "Pick an image file";
             openFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                SetOriginalImage(openFileDialog1.FileName);
+                OriginalImageFilePath = openFileDialog1.FileName;
+                OriginalImage = new Bitmap(openFileDialog1.FileName);
+                OpenImageForm(OriginalImage,(image,form)=> {
+                    PreprocessedImage = image;
+                    SieveMaster_box.Visible = true;
+                    flowbox.Visible = true;
+                    FirstSieve_box.Visible = true;
+                    sieves[0].InitiateSieve(PreprocessedImage, 0);
+                    flowbox.Refresh();
+                });
                 OriginalImage_Lbl.Text = "Processing :" + Path.GetFileName(openFileDialog1.FileName);
             }
         }
-
+   
         public SaveFileDialog SaveFilePrompt(string Title, string Filter)
         {
             saveFileDialog1.Title = Title;
@@ -76,59 +85,10 @@ namespace StoneCount.UI
             return saveFileDialog1;
         }
 
-        private void SetOriginalImage(string Path)
-        {
-            OriginalImageFilePath = Path;
-            OriginalImage = new Bitmap(Path);
-            Preview_Ori_Btn.Enabled = true;
-            Done_Ori_Btn.Enabled = true;
-        }
-
-        private void Preview_Ori_Btn_Click(object sender, EventArgs e)
-        {
-            if (OriginalImage == null)
-            {
-                return;
-            }
-            OpenPreviewForm(OriginalImage);
-        }
-
-        private void Done_Ori_Btn_Click(object sender, EventArgs e)
-        {
-            Preprocessing_Box.Visible = true;
-            PreprocessedImage = OriginalImage;
-            Select_Ori_Btn.Enabled = false;
-            Done_Ori_Btn.Enabled = false;
-            PreProcessedPreview_Btn.Enabled = true;
-            StartPreprocess_Btn.Enabled = true;
-            DonePreprocess_Btn.Enabled = true;
-            RevertToOriginal_Btn.Enabled = true;
-            Preprocess_lbl.Text = "Start Preprocess Image";
-        }
-
-
         #endregion
 
         #region Preprocessing
-        private void StartPreprocessing_Button(object sender, EventArgs e)
-        {
-            if (ProcessingImageForm != null)
-            {
-                ShowImageFormOpenAlertPopUpWindow();
-                return;
-            }
-            Preprocess_lbl.Text = "Preprocessing Image";
-            Preprocess_lbl.Refresh();
-            OpenImageForm(OriginalImage, ReturnPreProcessedImage, ToolBar.Mode.Preprocessing, () =>
-            {
-                StartPreprocess_Btn.Enabled = true;
-                PreProcessedPreview_Btn.Enabled = true;
-                ProcessingImageForm = null;
-            });
-            StartPreprocess_Btn.Enabled = false;
-            PreProcessedPreview_Btn.Enabled = false;
-
-        }
+     
         private void FormCloseAlert(object sender, FormClosingEventArgs e)
         {
             if (MessageBox.Show("Discard Change?",
@@ -147,8 +107,6 @@ namespace StoneCount.UI
                 Directory.CreateDirectory("tmp");
             }
             PreprocessedImage.Save(PreprocessedImageFilePath, System.Drawing.Imaging.ImageFormat.Bmp);
-            Preprocess_lbl.Text = "Click Done to start Counting";
-            Preprocess_lbl.Refresh();
         }
 
         private void PreProcessedPreview_Btn_Click(object sender, EventArgs e)
@@ -158,25 +116,13 @@ namespace StoneCount.UI
 
         private void DonePreprocess_Btn_Click(object sender, EventArgs e)
         {
-            Preprocess_lbl.Text = "Done";
-            Preprocess_lbl.Refresh();
             SieveMaster_box.Visible = true;
-            DonePreprocess_Btn.Enabled = false;
-            RevertToOriginal_Btn.Enabled = false;
-            StartPreprocess_Btn.Enabled = false;
             flowbox.Visible = true;
             FirstSieve_box.Visible = true;
             sieves[0].InitiateSieve(PreprocessedImage,0);
             flowbox.Refresh();
         }
 
-        private void RevertToOriginal_Btn_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Discard all changes?", "Are you sure to discard all change?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                PreprocessedImage = OriginalImage;
-            }
-        }
         #endregion
 
         private void ShowImageFormOpenAlertPopUpWindow()
@@ -185,12 +131,7 @@ namespace StoneCount.UI
             MessageBox.Show("Process window has Opened", "Process window had already been opened.", MessageBoxButtons.OK);
         }
 
-        private void SieveMaster_box_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        public void OpenImageForm(Bitmap image, Action<Bitmap, ImageForm> OnDone, ToolBar.Mode mode, Action OnCloseCallBack = null)
+        public void OpenImageForm(Bitmap image, Action<Bitmap, ImageForm> OnDone, Action OnCloseCallBack = null)
         {
             if (ProcessingImageForm != null)
             {
@@ -204,9 +145,9 @@ namespace StoneCount.UI
                 {
                     OnDone(s, ev);
                 }
-            }, mode,OriginalImage);
+            }, OriginalImage);
             ProcessingImageForm = form;
-            currentMode = mode;
+     
             ProcessingImageForm.FormClosing += FormCloseAlert;
             ProcessingImageForm.FormClosed += (s, ev) =>
             {

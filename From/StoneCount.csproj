@@ -106,6 +106,13 @@
     <Compile Include="UI\FillOption.Designer.cs">
       <DependentUpon>FillOption.cs</DependentUpon>
     </Compile>
+    <Compile Include="Log.cs" />
+    <Compile Include="UI\ImagePreview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ImagePreview.Designer.cs">
+      <DependentUpon>ImagePreview.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Logs.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,6 +189,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ImageFrom.resx">
       <DependentUpon>ImageFrom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ImagePreview.resx">
+      <DependentUpon>ImagePreview.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MaskOption.resx">
       <DependentUpon>MaskOption.cs</DependentUpon>

@@ -35,7 +35,7 @@ namespace StoneCount {
         private void button1_Click(object sender, EventArgs e) {
             if (hole) {
                 image.SetImage(PImage.processor.FillHoles(image.CurrentImageArray));
-                image.logs.AddLog(new Step(Step.Fill, new string[] { "options:holes" }));
+                image.log.AddLog(new Step(Step.Fill, new string[] { "options:holes" }));
                 this.Close();
             } else {
                 int x = 1;
@@ -54,7 +54,7 @@ namespace StoneCount {
                 }
                 
                 image.SetImage(PImage.processor.Fill(image.CurrentImageArray, x,y));
-                image.logs.AddLog(new Step(Step.Fill, new string[] { "options:Coordinate", "x:"+x.ToString(), "y:"+y.ToString() }));
+                image.log.AddLog(new Step(Step.Fill, new string[] { "options:Coordinate", "x:"+x.ToString(), "y:"+y.ToString() }));
 
                 this.Close();
             }

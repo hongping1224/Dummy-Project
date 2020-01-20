@@ -31,7 +31,7 @@ namespace StoneCount.UI
             PictureBox1.Bounds = new Rectangle(10, 10, 50, 50);
             PictureBox1.MouseDown += PictureBox1_MouseDown;
             PictureBox1.MouseUp += PictureBox1_MouseUp;
-            this.Controls.Add(PictureBox1);
+            groupBox1.Controls.Add(PictureBox1);
             if(overlay == null)
             {
                 overlay = OriImage;
@@ -67,16 +67,8 @@ namespace StoneCount.UI
             OriginalImageArray = PImage.Bitmap2NetArray(OriImage);
             TimeSpan timeItTook = DateTime.Now - start;
 
-            if (OriImage.Width < 700 && OriImage.Height < 700)
-            {
-                PictureBox1.SetZoomScale(1, new Point(0, 0));
-                Size = new Size(OriImage.Width, OriImage.Height);
-            }
-            else
-            {
-                PictureBox1.SetZoomScale(0.25, new Point(0, 0));
-                Size = new Size(750, 750);
-            }
+            PictureBox1.SetZoomScale(0.75, new Point(0, 0));
+            Size = new Size(750, 750);
             segments = Pick(OriginalImageArray);
             for(int i =0; i < segments.Length; i++)
             {
@@ -107,13 +99,11 @@ namespace StoneCount.UI
             {
                 segmentsCount[i] = segments[i].Count;
             }
+            this.WindowState = FormWindowState.Maximized;
             refreshImage(threshold);
         }
         public SieveUI(Bitmap image, Sieve sieve,Bitmap overlay = null,int threshold =-1): this(image,threshold,overlay)
         {
-
-           
-
             this.sieve = sieve;
         }
 
@@ -278,9 +268,9 @@ namespace StoneCount.UI
         }
         private void RefreshPictureBoxSize()
         {
-            PictureBox1.Size = new Size(Size.Width - 20, Size.Height - 50);
+            groupBox1.Size = new Size(Size.Width, Size.Height - 30);
+            PictureBox1.SetBounds(groupBox1.Location.X, groupBox1.Location.Y, groupBox1.Size.Width - 20, groupBox1.Size.Height - 20);
         }
-        bool maximise = false;
         //Maximize and minimize handle
         private void Form2_Resize(object sender, EventArgs e)
         {

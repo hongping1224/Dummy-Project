@@ -1,62 +1,74 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
+using System.IO;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MathWorks.MATLAB.NET.Arrays;
-namespace StoneCount {
-    public partial class ImageForm : Form {
+namespace StoneCount
+{   
+    public partial class ImageForm : Form
+    {
         public Bitmap OriImage;
         public Bitmap Overlay;
         public Bitmap CurrentImage;
         private MWArray currentImageArray;
+        public Log log;
         private bool preview;
-        public MWArray CurrentImageArray {
-            get {
-                if (currentImageArray == null) {
+     
+        public Stack<Bitmap> undo;
+        public Stack<Bitmap> redo;
+        public bool b_DrawEllipse;
+        double[,] elarr;
+        public PanAndZoom PictureBox1;
+        public Form optionform = null;
+        public event Action<Bitmap, ImageForm> OnDoneClick;
+        public MWArray CurrentImageArray
+        {
+            get
+            {
+                if (currentImageArray == null)
+                {
                     currentImageArray = PImage.Bitmap2array(CurrentImage);
                 }
                 return currentImageArray;
             }
-            set {
+            set
+            {
                 currentImageArray = value;
             }
         }
-        public Form1 mainForm;
-        public Stack<Bitmap> undo;
-        public Stack<Bitmap> redo;
-        public ToolBar tool;
-        public Logs logs;
-        #region open
-        PanAndZoom PictureBox1;
 
-        private ImageForm() {
+        #region Constructor
+        private ImageForm()
+        {
             InitializeComponent();
-        }
-        
-        public ImageForm(Bitmap image, Point p, bool Preview, Bitmap overlay = null) : this(image, p, Preview, ToolBar.Mode.All,overlay)
-        {
+            log = new Log();
+            log.OnChanged += (s) =>
+            {
+                richTextBox1.Text = s;
+            };
         }
 
-        public ImageForm(Bitmap image, Point p, Action<Bitmap, ImageForm> OnDone,ToolBar.Mode mode, Bitmap overlay = null) : this(image, p, false,mode,overlay)
+        public ImageForm(Bitmap image, Point p, Action<Bitmap, ImageForm> OnDone, Bitmap overlay = null) : this(image, p, false,  overlay)
         {
-            tool.OnDoneClick += OnDone;
-
+            OnDoneClick += OnDone;
         }
-        public ImageForm(Bitmap image, Point p, bool Preview,ToolBar.Mode mode,Bitmap overlay = null,bool convertbinary = true,bool hideTrack = false) : this()
+        public ImageForm(Bitmap image, Point p, bool Preview, Bitmap overlay = null, bool convertbinary = true, bool hideTrack = false) : this()
         {
-          
+
             preview = Preview;
             PictureBox1 = new PanAndZoom();
             PictureBox1.Bounds = new Rectangle(10, 10, 50, 50);
             PictureBox1.MouseDown += PictureBox1_MouseDown;
             PictureBox1.MouseUp += PictureBox1_MouseUp;
-            this.Controls.Add(PictureBox1);
+            groupBox2.Controls.Add(PictureBox1);
+            PictureBox1.Bounds = groupBox2.Bounds;
             Bitmap bi = image;
             if (convertbinary)
             {
@@ -69,40 +81,29 @@ namespace StoneCount {
             }
             Overlay = overlay;
             PictureBox1.Image = OriImage;
-
-            if (OriImage.Width < 700 && OriImage.Height < 700)
-            {
-                PictureBox1.SetZoomScale(1, new Point(0, 0));
-                Size = new Size(OriImage.Width, OriImage.Height);
-            }
-            else
-            {
-                PictureBox1.SetZoomScale(0.25, new Point(0, 0));
-                Size = new Size(750, 750);
-            }
-            this.Resize += Form2_Resize;
-            this.FormClosed += Form2_Closing;
+            PictureBox1.SetZoomScale(1, new Point(0, 0));
+            Size = new Size(700, 700);
             StartPosition = FormStartPosition.Manual;
             p.Y += 150;
             Location = p;
             undo = new Stack<Bitmap>();
             redo = new Stack<Bitmap>();
-            if (!Preview)
-            {
-                OpenToolBar(mode);
-                OpenLogs();
-            }
             if (hideTrack)
             {
                 trackBar1.Enabled = false;
                 trackBar1.Visible = false;
             }
-            Reposition();
+            this.WindowState = FormWindowState.Maximized;
+            Resize += (e,s)=> { RefreshPictureBoxSize(); };
+            
         }
-      
-        private void PictureBox1_MouseUp(object sender, MouseEventArgs e) {
-            if (e.Button == MouseButtons.Left) {
-                trackBar1_Scroll(null, null);
+        #endregion 
+
+        private void PictureBox1_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                RedrawImage(null, null);
             }
             if (e.Button == MouseButtons.Right)
             {
@@ -140,98 +141,32 @@ namespace StoneCount {
             }
         }
 
-        private void PictureBox1_MouseDown(object sender, MouseEventArgs e) {
-            if (e.Button == MouseButtons.Left) {
+        private void PictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
                 PictureBox1.Image = Overlay;
             }
-
         }
 
-        public void OpenToolBar(ToolBar.Mode mode) {
-            tool = new ToolBar(this,mode);
-            tool.StartPosition = FormStartPosition.Manual;
-            tool.Show();
-            Point tp = Location;
-            tp.Y -= tool.Height;
-            tool.Location = tp;
-        }
-
-        public void OpenLogs() {
-            logs = new Logs();
-            logs.StartPosition = FormStartPosition.Manual;
-            logs.image = this;
-            logs.Show();
-            Point pp = Location;
-            pp.X += Width;
-            logs.Location = pp;
-        }
-
-        private void Reposition()
+        private void Form2_Load(object sender, EventArgs e)
         {
-            if (!maximise)
-            {
-                if (tool != null)
-                {
-                    Point tp = Location;
-                    tp.Y -= tool.Height;
-                    tool.Location = tp;
-                }
-                if (logs != null)
-                {
-                    Point pp = Location;
-                    pp.X += Width;
-                    logs.Location = pp;
-                }
-            }
-            else
-            {
-                if (tool != null)
-                {
-                    Point tp = Location;
-                    tp.Y += 100;
-                    tool.Location = tp;
-                }
-                if (logs != null)
-                {
-                    Point pp = Location;
-                    if (tool != null)
-                    {
-                        pp.Y += 100 + tool.Height;
-                    }
-                    else
-                    {
-                        pp.Y += 100;
-                    }
-                    logs.Location = pp;
-
-                }
-
-            }
-        }
-        private void Form2_Closing(object sender, FormClosedEventArgs e)
-        {
-            if (tool != null)
-                tool.Close();
-            if (logs != null)
-                logs.Close();
-        }
-
-        private void Form2_Load(object sender, EventArgs e) {
             SetImage(OriImage);
             RefreshPictureBoxSize();
-           // Form2_ResizeEnd(sender, e);
-            
         }
-        #endregion
+
         #region setimage
-        public void SetImage(MWArray image) {
+        public void SetImage(MWArray image)
+        {
             undo.Push(CurrentImage);
             //clear forward when anything new done
             redo = new Stack<Bitmap>();
             setImage(image);
         }
-        public void SetImage(Bitmap image) {
-            if (CurrentImage != null) {
+        public void SetImage(Bitmap image)
+        {
+            if (CurrentImage != null)
+            {
                 undo.Push(CurrentImage);
             }
             //clear forward when anything new done
@@ -240,82 +175,335 @@ namespace StoneCount {
         }
         public event Action<Bitmap> OnSetImage;
 
-        private void setImage(Bitmap image) {
-            setImage(image,null);
+        private void setImage(Bitmap image)
+        {
+            setImage(image, null);
         }
-        private void setImage(MWArray imagearr) {
+        private void setImage(MWArray imagearr)
+        {
             setImage(PImage.Array2bitmap(imagearr, OriImage.Width, OriImage.Height), imagearr);
         }
 
-        private void setImage(Bitmap image, MWArray imagearr) {
+        private void setImage(Bitmap image, MWArray imagearr)
+        {
             CurrentImageArray = imagearr;
             CurrentImage = image;
-            trackBar1_Scroll(null, null);
+            RedrawImage(null, null);
             PictureBox1.Refresh();
-            if (OnSetImage != null) {
+            if (OnSetImage != null)
+            {
                 OnSetImage(CurrentImage);
             }
         }
 
-      
+
         #endregion
 
-        public void Undo() {
-            
-            if (undo.Count == 0) {
+        public void Undo()
+        {
+
+            if (undo.Count == 0)
+            {
                 return;
             }
             Console.WriteLine(undo.Count);
             redo.Push(CurrentImage);
             setImage(undo.Pop());
-            logs.Undo();
+            log.Undo();
         }
-        public void Redo() {
-            if(redo.Count ==0) {
+        public void Redo()
+        {
+            if (redo.Count == 0)
+            {
                 return;
             }
             Console.WriteLine(redo.Count);
             undo.Push(CurrentImage);
             setImage(redo.Pop());
-            logs.Redo();
+            log.Redo();
         }
 
-   
-        private void RefreshPictureBoxSize() {
-            PictureBox1.Size = new Size(Size.Width -20 , Size.Height -50);
-        }
 
-      
-
-        bool maximise = false;
-        //Maximize and minimize handle
-        private void Form2_Resize(object sender, EventArgs e) {
-            if (!maximise && WindowState == FormWindowState.Maximized)
-            {
-                maximise = true;
-                if (tool != null)
-                    tool.TopMost = true;
-            }
-            else if (maximise && WindowState == FormWindowState.Normal)
-            {
-                maximise = false;
-                if (tool != null)
-                    tool.TopMost = false;
-
-            }
-            RefreshPictureBoxSize();
-            Reposition();
-        }
-
-        private void ImageForm_Move(object sender, EventArgs e) {
-            Reposition();
+        private void RefreshPictureBoxSize()
+        {
+            //PictureBox1.Size = new Size(Size.Width -20 , Size.Height -50);
+            groupBox2.Size = new Size(Size.Width - 20 - 240, Size.Height - 80);
+            PictureBox1.SetBounds(groupBox2.Location.X, groupBox2.Location.Y, groupBox2.Size.Width - 20, groupBox2.Size.Height - 20);
         }
 
         string rd = "Image";
-        private void trackBar1_Scroll(object sender, EventArgs e) {
+        private void RedrawImage(object sender, EventArgs e)
+        {
             if (CurrentImage == null)
                 return;
-            PictureBox1.Image = NativeIP.Combine(Overlay,CurrentImage, trackBar1.Value,rd);
+
+            Bitmap c = NativeIP.Combine(Overlay, CurrentImage, trackBar1.Value, rd);
+            if (b_DrawEllipse)
+            {
+                c = DrawEllipse(c);
+            }
+            PictureBox1.Image = c;
+        }
+        #region function Button
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Bitmap bi = NativeIP.FastInvertBinary(CurrentImage);
+            SetImage(bi);
+            log.AddLog(new Step(Step.Inverse, new string[0]));
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (optionform != null)
+            {
+                return;
+            }
+            FillOption f = new FillOption(this);
+            optionform = f;
+            f.FormClosed += OptionFormClosed;
+            f.StartPosition = FormStartPosition.Manual;
+            f.Location = OptionWindowPosition();
+            f.Show();
+            f.Focus();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (optionform != null)
+            {
+                return;
+            }
+            FilterPicker f = new FilterPicker(Step.Opening, (filter, size) =>
+            {
+                this.SetImage(PImage.processor.Opening(this.CurrentImageArray, filter, size));
+                this.log.AddLog(new Step(Step.Opening, new string[] { "filter:" + filter, "size:" + size.ToString() }));
+            });
+            optionform = f;
+            f.FormClosed += OptionFormClosed;
+            f.StartPosition = FormStartPosition.Manual;
+            f.Location = OptionWindowPosition();
+            f.Show();
+        }
+
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (optionform != null)
+            {
+                return;
+            }
+            FilterPicker f = new FilterPicker(Step.Closing, (filter, size) =>
+            {
+                this.SetImage(PImage.processor.Closing(this.CurrentImageArray, filter, size));
+                this.log.AddLog(new Step(Step.Closing, new string[] { "filter:" + filter, "size:" + size.ToString() }));
+            });
+            optionform = f;
+            f.FormClosed += OptionFormClosed;
+            f.StartPosition = FormStartPosition.Manual;
+            f.Location = OptionWindowPosition();
+            f.Show();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (optionform != null)
+            {
+                return;
+            }
+            FilterPicker f = new FilterPicker(Step.Erosion, (filter, size) =>
+            {
+                this.SetImage(PImage.processor.Erosion(this.CurrentImageArray, filter, size));
+                this.log.AddLog(new Step(Step.Erosion, new string[] { "filter:" + filter, "size:" + size.ToString() }));
+            });
+            optionform = f;
+            f.FormClosed += OptionFormClosed;
+            f.StartPosition = FormStartPosition.Manual;
+            f.Location = OptionWindowPosition();
+            f.Show();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (optionform != null)
+            {
+                return;
+            }
+            FilterPicker f = new FilterPicker(Step.Dilation, (filter, size) =>
+            {
+                this.SetImage(PImage.processor.Dialation(this.CurrentImageArray, filter, size));
+                this.log.AddLog(new Step(Step.Dilation, new string[] { "filter:" + filter, "size:" + size.ToString() }));
+            });
+            optionform = f;
+            f.FormClosed += OptionFormClosed;
+            f.StartPosition = FormStartPosition.Manual;
+            f.Location = OptionWindowPosition();
+            f.Show();
+        }
+        private void button9_Click(object sender, EventArgs e)
+        {
+            Redo();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            Undo();
+        }
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if (OnDoneClick != null)
+            {
+                OnDoneClick(this.CurrentImage, this);
+            }
+            this.Close();
+        }
+        private void button12_Click(object sender, EventArgs e)
+        {
+            var image = this.CurrentImage;
+            MWLogicalArray imagearr = PImage.Bitmap2array(image);
+            MWNumericArray el = (MWNumericArray)PImage.processor.FitEllipse(imagearr, 8, (MWArray)("noholes"));
+            elarr = (double[,])el.ToArray();
+            RedrawImage(null, null);
+        }
+
+        private Bitmap DrawEllipse(Bitmap image)
+        {
+            if(elarr == null)
+            {
+                return image;
+            }
+            Bitmap clone = new Bitmap(image.Width, image.Height, PixelFormat.Format24bppRgb);
+            using (Graphics gr = Graphics.FromImage(clone))
+            {
+                gr.DrawImage(image, new Rectangle(0, 0, clone.Width, clone.Height));
+            }
+            using (Graphics gr = Graphics.FromImage(clone))
+            {
+                using (Pen thick_pen = new Pen(Color.Red, 5))
+                {
+                    for (int i = 0; i < elarr.GetLength(0); i++)
+                    {
+                        int a = (int)Math.Floor(elarr[i, 1]);
+                        int b = (int)Math.Floor(elarr[i, 0]);
+                        int dx = (int)Math.Floor(elarr[i, 6]);
+                        int dy = (int)Math.Floor(elarr[i, 5]);
+                        double theta = elarr[i, 2] * 180 / Math.PI;
+                        gr.SmoothingMode = SmoothingMode.AntiAlias;
+                        Rectangle rect = new Rectangle(-a, -b, a * 2, b * 2);
+                        gr.TranslateTransform(dx, dy);
+                        gr.RotateTransform((float)theta);
+                        gr.DrawEllipse(thick_pen, rect);
+                        gr.RotateTransform((float)-theta);
+                        gr.TranslateTransform(-dx, -dy);
+                    }
+                }
+            }
+            return clone;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            b_DrawEllipse = checkBox1.Checked;
+            if (b_DrawEllipse)
+            {
+                PictureBox1.Image = DrawEllipse(CurrentImage);
+            }
+            RedrawImage(null,null);
+        }
+
+
+        #region Button SubFunction
+        private Point OptionWindowPosition()
+        {
+            Point p = this.Location;
+            return p;
+        }
+        private void OptionFormClosed(object sender, FormClosedEventArgs e)
+        {
+            optionform = null;
+        }
+
+
+
+
+
+
+
+        #endregion
+
+        #endregion
+
+   
+
+        private double[,] FitEllipse(Bitmap image)
+        {
+            MWLogicalArray imagearr = PImage.Bitmap2array(image);
+            MWNumericArray el = (MWNumericArray)PImage.processor.FitEllipse(imagearr, 8, (MWArray)("noholes"));
+            double[,] elarr = (double[,])el.ToArray();
+            return elarr;
+        }
+        private Bitmap DrawEllipse(Bitmap image, double[,] ellipse)
+        {
+            Bitmap clone = new Bitmap(image.Width, image.Height, PixelFormat.Format24bppRgb);
+            using (Graphics gr = Graphics.FromImage(clone))
+            {
+                gr.DrawImage(image, new Rectangle(0, 0, clone.Width, clone.Height));
+            }
+            List<string> output = new List<string>();
+            using (Graphics gr = Graphics.FromImage(clone))
+            {
+                using (Pen thick_pen = new Pen(Color.Red, 5))
+                {
+                    for (int i = 0; i < ellipse.GetLength(0); i++)
+                    {
+                        int a = (int)Math.Floor(ellipse[i, 1]);
+                        int b = (int)Math.Floor(ellipse[i, 0]);
+                        int dx = (int)Math.Floor(ellipse[i, 6]);
+                        int dy = (int)Math.Floor(ellipse[i, 5]);
+                        double theta = ellipse[i, 2] * 180 / Math.PI;
+                        gr.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                        Rectangle rect = new Rectangle(-a, -b, a * 2, b * 2);
+                        gr.TranslateTransform(dx, dy);
+                        gr.RotateTransform((float)theta);
+                        gr.DrawEllipse(thick_pen, rect);
+                        gr.RotateTransform((float)-theta);
+                        gr.TranslateTransform(-dx, -dy);
+                    }
+                }
+            }
+            return clone;
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            Form1.instance.saveFileDialog1.Filter = "log files (*.log)|*.log|All files (*.*)|*.*";
+            if (Form1.instance.saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var filePath = Form1.instance.saveFileDialog1.FileName;
+                File.WriteAllText(filePath, log.Logs2String());
+            }
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            Form1.instance.openFileDialog1.Filter = "log files (*.log)|*.log|All files (*.*)|*.*";
+            if (Form1.instance.openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var filePath = Form1.instance.openFileDialog1.FileName;
+                string[] logs = File.ReadAllLines(filePath);
+                MWArray a = (MWArray)CurrentImageArray.Clone();
+                int h = CurrentImage.Height;
+                int w = CurrentImage.Width;
+
+                foreach (string s in logs)
+                {
+                    Step st = new Step(s);
+                    a = Step.Execute(st, CurrentImage, a, w, h);
+                    SetImage(a);
+                    Refresh();
+                    log.AddLog(st);
+                    //Console.WriteLine(s);
+                }
+            }
         }
     }
 }

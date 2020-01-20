@@ -242,7 +242,6 @@ namespace StoneCount
                     File.Delete(intemediate.Replace(".shp",".dbf"));
                     File.Delete(intemediate.Replace(".shp", ".shx"));
                     File.Delete(intemediate);
-
                     if(OnDone != null)
                     {
                         OnDone();

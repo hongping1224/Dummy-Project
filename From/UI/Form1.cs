@@ -36,27 +36,6 @@ namespace StoneCount {
             return openFileDialog1;
         }
 
-        private void toolBarToolStripMenuItem_Click(object sender, EventArgs e) {
-            if (Application.OpenForms.OfType<ImageForm>().Count() != 0) {
-                if (Application.OpenForms.OfType<ToolBar>().Count() == 0) {
-                    if (UI.ProjectForm.instance.ProcessingImageForm != null)
-                    {
-                        UI.ProjectForm.instance.ProcessingImageForm.OpenToolBar(UI.ProjectForm.instance.currentMode);
-                    }
-                }
-            }
-        }
-        private void logsToolStripMenuItem_Click(object sender, EventArgs e) {
-            if (Application.OpenForms.OfType<ImageForm>().Count() != 0) {
-                if (Application.OpenForms.OfType<Logs>().Count() == 0) {
-                    if (UI.ProjectForm.instance.ProcessingImageForm != null)
-                    {
-                        UI.ProjectForm.instance.ProcessingImageForm.OpenLogs();
-                    }
-                }
-            }
-        }
-
         private void startProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var project = new UI.ProjectForm();
@@ -289,9 +268,12 @@ namespace StoneCount {
             {
                 return;
             }
-            Bitmap zero = ExtraProgram.GenerateContour(openfile);
-            zero.Save(savefile, System.Drawing.Imaging.ImageFormat.Bmp);
-            ExtraProgram.OpenPreviewForm(zero,"zero contour");
+            
+            ExtraProgram.GenerateSHPContour(openfile, savefile,label1,() => {
+                Bitmap zero = new Bitmap(savefile);
+                ExtraProgram.OpenPreviewForm(zero, "zero contour");
+            });
+      
         }
 
         private void dSMToolStripMenuItem_Click(object sender, EventArgs e)

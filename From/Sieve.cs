@@ -19,12 +19,12 @@ namespace StoneCount
         private GroupBox groupBox;
         private FlowLayoutPanel flowPanel;
         private Button Sieve_Btn;
-        private Button Discard_Btn;
+        //private Button Discard_Btn;
         //private Button Process_Btn;
         //private Button Count_Btn;
-        private Button Preview_Btn;
-        private Button Save_Btn;
-        private Button NextSieve_Btn;
+        //private Button Preview_Btn;
+        //private Button Save_Btn;
+        //private Button NextSieve_Btn;
         private Label Log_Lbl;
         private Sieve NextSieve;
         public Bitmap image;
@@ -66,7 +66,7 @@ namespace StoneCount
             Sieve_Btn.UseVisualStyleBackColor = true;
             Sieve_Btn.Click += new EventHandler(this.StartSieve);
             flowPanel.Controls.Add(Sieve_Btn);
-
+            /*
             Discard_Btn = new Button();
             Discard_Btn.Size = new Size(60, 23);
             Discard_Btn.Text = "Discard All";
@@ -94,12 +94,12 @@ namespace StoneCount
             Save_Btn.UseVisualStyleBackColor = true;
             Save_Btn.Click += new EventHandler(this.SaveResult);
             flowPanel.Controls.Add(Save_Btn);
-
+            */
 
             Log_Lbl = new Label();
             Log_Lbl.Size = new Size(300, 30);
             Log_Lbl.TextAlign = ContentAlignment.MiddleLeft;
-            Log_Lbl.Text = "Start Sieve Process";
+            Log_Lbl.Text = "Start Sieve Process"; 
             flowPanel.Controls.Add(Log_Lbl);
             flowPanel.ResumeLayout();
 
@@ -111,30 +111,30 @@ namespace StoneCount
             OriImage = image;
             groupBox.Visible = true;
             flowPanel.Visible = true;
-            Discard_Btn.Enabled = false;
+           /* Discard_Btn.Enabled = false;
             Preview_Btn.Enabled = false;
-            Save_Btn.Enabled = false;
+            Save_Btn.Enabled = false;*/
             this.threshold = threshold;
             //Process_Btn.Enabled = true;
 
-            NextSieve_Btn.Enabled = false;
+            //NextSieve_Btn.Enabled = false;
             if (NextSieve != null)
             {
                 Sieve_Btn.Enabled = true;
             }
             else
             {
-                NextSieve_Btn.Visible = false;
+                //NextSieve_Btn.Visible = false;
             }
         }
         public void DisableSieve()
         {
             Sieve_Btn.Enabled = false;
-            Discard_Btn.Enabled = false;
-            Preview_Btn.Enabled = false;
+            /*Discard_Btn.Enabled = false;
+            Preview_Btn.Enabled = false;*/
            // Process_Btn.Enabled = false;
           
-            NextSieve_Btn.Enabled = false;
+            //NextSieve_Btn.Enabled = false;
             groupBox.Visible = false;
         }
         public void EnableSieve()
@@ -143,7 +143,7 @@ namespace StoneCount
             //Discard_Btn.Enabled = true;
             //Preview_Btn.Enabled = true;
             //Process_Btn.Enabled = true;
-            NextSieve_Btn.Enabled = false;
+            //NextSieve_Btn.Enabled = false;
             groupBox.Visible = true;
         }
 
@@ -152,8 +152,8 @@ namespace StoneCount
             if (HaveNextSieve())
             {
                 Sieve_Btn.Enabled = false;
-                Discard_Btn.Enabled = false;
-                NextSieve_Btn.Enabled = false;
+                //Discard_Btn.Enabled = false;
+                //NextSieve_Btn.Enabled = false;
                 NextSieve.EnableSieve();
                 return;
             }
@@ -239,10 +239,10 @@ namespace StoneCount
         {
             image = OriImage;
             Sieve_Btn.Enabled = true;
-            NextSieve_Btn.Enabled = false;
-            Save_Btn.Enabled = false;
+            //NextSieve_Btn.Enabled = false;
+          /*  Save_Btn.Enabled = false;
             Preview_Btn.Enabled = false;
-            Discard_Btn.Enabled = false;
+            Discard_Btn.Enabled = false;*/
             groupBox.Text = titleText;
             size = null;
             coordinates = null;
@@ -258,15 +258,16 @@ namespace StoneCount
         }
         private void StartProcess(object sender, EventArgs e)
         {
-            Project.OpenImageForm(image, ProcessImageCallback, ToolBar.Mode.Trace);
+            Project.OpenImageForm(image, ProcessImageCallback);
         }
         private void ProcessImageCallback(Bitmap m, ImageForm imform)
         {
             image = StartCount(m);
-            Project.OpenPreviewForm(image);
+            //Project.OpenPreviewForm(image);
             Sieve_Btn.Enabled = false;
-            Discard_Btn.Enabled = true;
-            Preview_Btn.Enabled = true;
+            /*  Discard_Btn.Enabled = true;
+              Preview_Btn.Enabled = true;*/
+            NextSieve.EnableSieve();
         }
         private Bitmap StartCount(Bitmap image)
         {
@@ -339,10 +340,13 @@ namespace StoneCount
             Ellipse = output.ToArray();
             Log_Lbl.Text = "Done";
             Log_Lbl.Refresh();
-            NextSieve_Btn.Enabled = true;
-            Save_Btn.Enabled = true;
+           // NextSieve_Btn.Enabled = true;
+           // Save_Btn.Enabled = true;
             return clone;
         }
+
+   
+
         private void Preview(object sender, EventArgs e)
         {
             Project.OpenPreviewForm(image);

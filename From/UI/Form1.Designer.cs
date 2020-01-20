@@ -27,15 +27,8 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateLocalWorldFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.logsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zerocontourToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.label1 = new System.Windows.Forms.Label();
             this.zerocontourComponentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.planerDetrendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vGMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,6 +39,10 @@
             this.detrendDSMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kriggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zeroContourToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,7 +50,6 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.windowToolStripMenuItem,
             this.extraToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -84,29 +80,6 @@
             this.generateLocalWorldFileToolStripMenuItem.Text = "Generate Local World File";
             this.generateLocalWorldFileToolStripMenuItem.Click += new System.EventHandler(this.generateLocalWorldFileToolStripMenuItem_Click);
             // 
-            // windowToolStripMenuItem
-            // 
-            this.windowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolBarToolStripMenuItem,
-            this.logsToolStripMenuItem});
-            this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
-            this.windowToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
-            this.windowToolStripMenuItem.Text = "Window";
-            // 
-            // toolBarToolStripMenuItem
-            // 
-            this.toolBarToolStripMenuItem.Name = "toolBarToolStripMenuItem";
-            this.toolBarToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
-            this.toolBarToolStripMenuItem.Text = "ToolBar";
-            this.toolBarToolStripMenuItem.Click += new System.EventHandler(this.toolBarToolStripMenuItem_Click);
-            // 
-            // logsToolStripMenuItem
-            // 
-            this.logsToolStripMenuItem.Name = "logsToolStripMenuItem";
-            this.logsToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
-            this.logsToolStripMenuItem.Text = "Logs";
-            this.logsToolStripMenuItem.Click += new System.EventHandler(this.logsToolStripMenuItem_Click);
-            // 
             // extraToolStripMenuItem
             // 
             this.extraToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -124,19 +97,6 @@
             this.zerocontourToolStripMenuItem.Text = "zero-contour";
             this.zerocontourToolStripMenuItem.Click += new System.EventHandler(this.zerocontourToolStripMenuItem_Click);
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(337, 6);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(33, 12);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "label1";
-            // 
             // zerocontourComponentToolStripMenuItem
             // 
             this.zerocontourComponentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -151,28 +111,28 @@
             // planerDetrendingToolStripMenuItem
             // 
             this.planerDetrendingToolStripMenuItem.Name = "planerDetrendingToolStripMenuItem";
-            this.planerDetrendingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.planerDetrendingToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.planerDetrendingToolStripMenuItem.Text = "planer detrending";
             this.planerDetrendingToolStripMenuItem.Click += new System.EventHandler(this.planerDetrendingToolStripMenuItem_Click);
             // 
             // vGMToolStripMenuItem
             // 
             this.vGMToolStripMenuItem.Name = "vGMToolStripMenuItem";
-            this.vGMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.vGMToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.vGMToolStripMenuItem.Text = "VGM";
             this.vGMToolStripMenuItem.Click += new System.EventHandler(this.vGMToolStripMenuItem_Click);
             // 
             // factorialKrigingToolStripMenuItem
             // 
             this.factorialKrigingToolStripMenuItem.Name = "factorialKrigingToolStripMenuItem";
-            this.factorialKrigingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.factorialKrigingToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.factorialKrigingToolStripMenuItem.Text = "factorial kriging";
             this.factorialKrigingToolStripMenuItem.Click += new System.EventHandler(this.factorialKrigingToolStripMenuItem_Click);
             // 
             // zeroContourToolStripMenuItem1
             // 
             this.zeroContourToolStripMenuItem1.Name = "zeroContourToolStripMenuItem1";
-            this.zeroContourToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.zeroContourToolStripMenuItem1.Size = new System.Drawing.Size(176, 22);
             this.zeroContourToolStripMenuItem1.Text = "Zero Contour";
             this.zeroContourToolStripMenuItem1.Click += new System.EventHandler(this.zeroContourToolStripMenuItem1_Click);
             // 
@@ -190,30 +150,43 @@
             // dSMToolStripMenuItem
             // 
             this.dSMToolStripMenuItem.Name = "dSMToolStripMenuItem";
-            this.dSMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.dSMToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.dSMToolStripMenuItem.Text = "DSM";
             this.dSMToolStripMenuItem.Click += new System.EventHandler(this.dSMToolStripMenuItem_Click);
             // 
             // detrendDSMToolStripMenuItem
             // 
             this.detrendDSMToolStripMenuItem.Name = "detrendDSMToolStripMenuItem";
-            this.detrendDSMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.detrendDSMToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.detrendDSMToolStripMenuItem.Text = "Detrend DSM";
             this.detrendDSMToolStripMenuItem.Click += new System.EventHandler(this.detrendDSMToolStripMenuItem_Click);
             // 
             // kriggingToolStripMenuItem
             // 
             this.kriggingToolStripMenuItem.Name = "kriggingToolStripMenuItem";
-            this.kriggingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.kriggingToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.kriggingToolStripMenuItem.Text = "Krigging";
             this.kriggingToolStripMenuItem.Click += new System.EventHandler(this.kriggingToolStripMenuItem_Click);
             // 
             // zeroContourToolStripMenuItem2
             // 
             this.zeroContourToolStripMenuItem2.Name = "zeroContourToolStripMenuItem2";
-            this.zeroContourToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.zeroContourToolStripMenuItem2.Size = new System.Drawing.Size(151, 22);
             this.zeroContourToolStripMenuItem2.Text = "Zero Contour";
             this.zeroContourToolStripMenuItem2.Click += new System.EventHandler(this.zeroContourToolStripMenuItem2_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(337, 6);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(33, 12);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "label1";
             // 
             // Form1
             // 
@@ -239,12 +212,9 @@
         #endregion
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
-        private System.Windows.Forms.ToolStripMenuItem windowToolStripMenuItem;
+        public System.Windows.Forms.OpenFileDialog openFileDialog1;
+        public System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem toolBarToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem logsToolStripMenuItem;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.ToolStripMenuItem extraToolStripMenuItem;
         private System.Windows.Forms.Label label1;

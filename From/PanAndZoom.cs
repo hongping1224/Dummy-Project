@@ -69,7 +69,7 @@ namespace StoneCount {
                 }
             }
         }
-
+        Point _mouseDownLocation = Point.Empty;
         private void OnMouseDown(object sender, MouseEventArgs e) {
            
             _mouseDownPosition = e.Location;
@@ -78,6 +78,25 @@ namespace StoneCount {
             _bufferPoint = Point.Empty;
             if (e.Button == MouseButtons.Middle)
                 Cursor = Cursors.Hand;
+            if (e.Button == MouseButtons.Left)
+            {
+                _mouseDownLocation = e.Location;
+                int horizontalTranslation = horizontalScrollBar.Visible ? -horizontalScrollBar.Value : 0;
+                int verticleTranslation = verticalScrollBar.Visible ? -verticalScrollBar.Value : 0;
+                 /*   
+                using (Graphics g = Graphics.FromImage(Image))
+                {
+                    Point p = new Point((int)(_mouseDownLocation.X / _zoomScale) - horizontalTranslation, (int)(_mouseDownLocation.Y / _zoomScale) - verticleTranslation);
+                    MessageBox.Show(p.ToString());
+                    using (Brush brsh = new SolidBrush(ColorTranslator.FromHtml("#ffff00ff")))
+                    {
+                        g.FillEllipse(brsh,p.X,p.Y, 1, 1);
+                    }
+                }*/
+                //MessageBox.Show(e.Location.ToString());
+                //MessageBox.Show(shift.ToString() + "Zoom" + _zoomScale.ToString());
+                Refresh();
+            }
         }
 
         private void OnMouseUp(object sender, MouseEventArgs e) {
@@ -104,9 +123,9 @@ namespace StoneCount {
         private void OnMouseWheel(object sender, MouseEventArgs e) {  //handle the mouse whell scroll (for zooming)
             double scale = 1.0;
             if (e.Delta > 0) {
-                scale = 2.0;
+                scale = 1.5;
             } else if (e.Delta < 0) {
-                scale = 0.5;
+                scale = 0.666667;
             } else
                 return;
 
@@ -147,6 +166,7 @@ namespace StoneCount {
         protected override void OnPaint(PaintEventArgs pe) {
             if (IsDisposed)
                 return;
+
             if (this.Image != null          //image is set
                &&          //either pan or zoom
                (_zoomScale != 1.0 ||
@@ -163,7 +183,6 @@ namespace StoneCount {
                     int verticleTranslation = verticalScrollBar.Visible ? -verticalScrollBar.Value : 0;
                     if (horizontalTranslation != 0 || verticleTranslation != 0)
                         transform.Translate(horizontalTranslation, verticleTranslation);
-
                     pe.Graphics.Transform = transform;
                     base.OnPaint(pe);
                 }
@@ -384,6 +403,8 @@ namespace StoneCount {
 
                 int h = (int)(horizontalScrollBar.Value + shiftX);
                 int v = (int)(verticalScrollBar.Value + shiftY);
+                //check
+
                 SetScrollBarVisibilityAndMaxMin();
                 horizontalScrollBar.Value = Math.Min(Math.Max(horizontalScrollBar.Minimum, h), horizontalScrollBar.Maximum);
                 ;

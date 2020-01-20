@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 
 namespace StoneCount {
+    [Obsolete]
     public partial class ToolBar : Form {
         public ToolBar() {
             InitializeComponent();
@@ -101,7 +102,7 @@ namespace StoneCount {
         private void Inverse_Click(object sender, EventArgs e) {
             Bitmap bi = NativeIP.FastInvertBinary(imageform.CurrentImage);
             imageform.SetImage(bi);
-            imageform.logs.AddLog(new Step(Step.Inverse, new string[0]));
+            //imageform.logs.AddLog(new Step(Step.Inverse, new string[0]));
         }
 
         private void Fill_Click(object sender, EventArgs e) {
@@ -123,7 +124,7 @@ namespace StoneCount {
             }
             FilterPicker f = new FilterPicker(Step.Opening,(filter, size) => {
                 imageform.SetImage(PImage.processor.Opening(imageform.CurrentImageArray,filter,size));
-                imageform.logs.AddLog(new Step(Step.Opening, new string[] {"filter:"+filter, "size:"+size.ToString() }));
+                imageform.log.AddLog(new Step(Step.Opening, new string[] {"filter:"+filter, "size:"+size.ToString() }));
             });
             optionform = f;
             f.FormClosed += OptionFormClosed;
@@ -137,7 +138,7 @@ namespace StoneCount {
             }
             FilterPicker f = new FilterPicker(Step.Closing, (filter, size) => {
                 imageform.SetImage(PImage.processor.Closing(imageform.CurrentImageArray, filter, size));
-                imageform.logs.AddLog(new Step(Step.Closing, new string[] { "filter:" + filter, "size:" + size.ToString() }));
+              //  imageform.logs.AddLog(new Step(Step.Closing, new string[] { "filter:" + filter, "size:" + size.ToString() }));
             });
             optionform = f;
             f.FormClosed += OptionFormClosed;
@@ -167,7 +168,7 @@ namespace StoneCount {
             }
             FilterPicker f = new FilterPicker(Step.Erosion,(filter, size) => {
                 imageform.SetImage(PImage.processor.Erosion(imageform.CurrentImageArray, filter, size));
-                imageform.logs.AddLog(new Step(Step.Erosion, new string[] { "filter:" + filter, "size:" + size.ToString() }));
+              //  imageform.logs.AddLog(new Step(Step.Erosion, new string[] { "filter:" + filter, "size:" + size.ToString() }));
             });
             optionform = f;
             f.FormClosed += OptionFormClosed;
@@ -183,7 +184,7 @@ namespace StoneCount {
 
             FilterPicker f = new FilterPicker(Step.Dilation,(filter, size) => {
                 imageform.SetImage(PImage.processor.Dialation(imageform.CurrentImageArray, filter, size));
-                imageform.logs.AddLog(new Step(Step.Dilation, new string[] { "filter:" + filter, "size:" + size.ToString() }));
+             //   imageform.logs.AddLog(new Step(Step.Dilation, new string[] { "filter:" + filter, "size:" + size.ToString() }));
             });
             optionform = f;
             f.FormClosed += OptionFormClosed;

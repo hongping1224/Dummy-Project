@@ -34,7 +34,7 @@ namespace StoneCount {
         }
 
         private void button1_Click(object sender, EventArgs e) {
-            SaveFileDialog saveFileDialog1 = image.mainForm.GetSaveFileDialog();
+            SaveFileDialog saveFileDialog1 = Form1.instance.GetSaveFileDialog();
             string savefile = "";
             saveFileDialog1.Title = "Save Boundary File";
             saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
@@ -64,7 +64,7 @@ namespace StoneCount {
             Bitmap ab = NativeIP.FastInvertBinary(aa);
 
             image.SetImage(ab);
-            image.logs.AddLog(new Step(Step.TraceBoundary, parameters: new string[] { "connection:"+ conn.ToString(), "option:" + option }));
+            image.log.AddLog(new Step(Step.TraceBoundary, parameters: new string[] { "connection:"+ conn.ToString(), "option:" + option }));
             //image.SetImage(PImage.processor.ToBinary(a,0));
             this.Close();
         }
