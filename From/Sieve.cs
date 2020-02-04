@@ -169,7 +169,7 @@ namespace StoneCount
             }
             return false;
         }
-        public void SaveResult(object sender, EventArgs e)
+        public string SaveResult(object sender, EventArgs e)
         {
             var svd  = Project.SaveFilePrompt("SaveAs", "All files (*.*)|*.*");
             if(svd.ShowDialog()== DialogResult.OK)
@@ -184,7 +184,9 @@ namespace StoneCount
                 var edge = new string[] { OriImage.Width.ToString(), OriImage.Height.ToString() };
                 File.WriteAllLines(filename + refTXTExtend, edge);
                 Form1.instance.CreateShpFile(filename, filename + eCSVExtend, filename + bTXTExtend, filename + refTXTExtend);
+                return filename;
             }
+            return "";
         }
         private string[] BoundaryTxt()
         {
@@ -267,7 +269,10 @@ namespace StoneCount
             Sieve_Btn.Enabled = false;
             /*  Discard_Btn.Enabled = true;
               Preview_Btn.Enabled = true;*/
-            NextSieve.EnableSieve();
+            if (NextSieve != null)
+            {
+                NextSieve.EnableSieve();
+            }
         }
         private Bitmap StartCount(Bitmap image)
         {

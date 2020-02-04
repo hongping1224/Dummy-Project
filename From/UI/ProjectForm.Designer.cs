@@ -42,6 +42,7 @@
             this.SieveMaster_box = new System.Windows.Forms.GroupBox();
             this.finishProject_btn = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox5.SuspendLayout();
             this.flowbox.SuspendLayout();
             this.ThirdSieve_box.SuspendLayout();
@@ -157,6 +158,7 @@
             // 
             // SieveMaster_box
             // 
+            this.SieveMaster_box.Controls.Add(this.label1);
             this.SieveMaster_box.Controls.Add(this.flowbox);
             this.SieveMaster_box.Location = new System.Drawing.Point(12, 78);
             this.SieveMaster_box.Name = "SieveMaster_box";
@@ -177,6 +179,14 @@
             this.finishProject_btn.UseVisualStyleBackColor = true;
             this.finishProject_btn.Click += new System.EventHandler(this.finishProject_btn_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 379);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 12);
+            this.label1.TabIndex = 6;
+            // 
             // ProjectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -192,6 +202,7 @@
             this.flowbox.ResumeLayout(false);
             this.ThirdSieve_box.ResumeLayout(false);
             this.SieveMaster_box.ResumeLayout(false);
+            this.SieveMaster_box.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -211,5 +222,6 @@
         private System.Windows.Forms.GroupBox FifthSieve_box;
         private System.Windows.Forms.Button finishProject_btn;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Label label1;
     }
 }

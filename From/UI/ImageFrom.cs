@@ -68,6 +68,11 @@ namespace StoneCount
             PictureBox1.MouseDown += PictureBox1_MouseDown;
             PictureBox1.MouseUp += PictureBox1_MouseUp;
             groupBox2.Controls.Add(PictureBox1);
+            PictureBox1.OnMousePositionChanged += (np) =>
+            {
+                label3.Text = np.ToString();
+                label3.Refresh();
+            };
             PictureBox1.Bounds = groupBox2.Bounds;
             Bitmap bi = image;
             if (convertbinary)
@@ -94,8 +99,8 @@ namespace StoneCount
                 trackBar1.Visible = false;
             }
             this.WindowState = FormWindowState.Maximized;
-            Resize += (e,s)=> { RefreshPictureBoxSize(); };
-            
+            Resize += (e, s) => { RefreshPictureBoxSize(); };
+
         }
         #endregion 
 
@@ -256,6 +261,7 @@ namespace StoneCount
         {
             if (optionform != null)
             {
+                optionform.Focus();
                 return;
             }
             FillOption f = new FillOption(this);
@@ -271,6 +277,7 @@ namespace StoneCount
         {
             if (optionform != null)
             {
+                optionform.Focus();
                 return;
             }
             FilterPicker f = new FilterPicker(Step.Opening, (filter, size) =>
@@ -290,6 +297,7 @@ namespace StoneCount
         {
             if (optionform != null)
             {
+                optionform.Focus();
                 return;
             }
             FilterPicker f = new FilterPicker(Step.Closing, (filter, size) =>
@@ -308,6 +316,7 @@ namespace StoneCount
         {
             if (optionform != null)
             {
+                optionform.Focus();
                 return;
             }
             FilterPicker f = new FilterPicker(Step.Erosion, (filter, size) =>
@@ -326,6 +335,7 @@ namespace StoneCount
         {
             if (optionform != null)
             {
+                optionform.Focus();
                 return;
             }
             FilterPicker f = new FilterPicker(Step.Dilation, (filter, size) =>
@@ -354,6 +364,7 @@ namespace StoneCount
             {
                 OnDoneClick(this.CurrentImage, this);
             }
+
             this.Close();
         }
         private void button12_Click(object sender, EventArgs e)
@@ -505,5 +516,6 @@ namespace StoneCount
                 }
             }
         }
+      
     }
 }

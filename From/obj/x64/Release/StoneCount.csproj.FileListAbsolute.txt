@@ -24,3 +24,4 @@ F:\PersonalProject\Stone\UIForm\From\obj\x64\Release\StoneCount.csproj.CopyCompl
 F:\PersonalProject\Stone\UIForm\From\obj\x64\Release\StoneCount.exe
 F:\PersonalProject\Stone\UIForm\From\obj\x64\Release\StoneCount.pdb
 F:\PersonalProject\Stone\UIForm\From\obj\x64\Release\StoneCount.UI.SieveUI.resources
+F:\PersonalProject\Stone\UIForm\From\obj\x64\Release\StoneCount.UI.ImagePreview.resources

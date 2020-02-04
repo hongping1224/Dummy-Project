@@ -20,7 +20,23 @@ namespace StoneCount {
         private VScrollBar verticalScrollBar;
         private InterpolationMode _interpolationMode = InterpolationMode.NearestNeighbor;
         private static readonly Cursor _defaultCursor = Cursors.Cross;
-
+        private Point _MousePosition;
+        public Point MousePosition
+        {
+            get
+            {
+                return _MousePosition;
+            }
+            set
+            {
+                _MousePosition = value;
+                if (OnMousePositionChanged != null)
+                {
+                    OnMousePositionChanged(_MousePosition);
+                }
+            }
+        }
+        public event Action<Point> OnMousePositionChanged;
         /// <summary>
         /// The available zoom levels for the displayed image 
         /// </summary>
@@ -58,6 +74,7 @@ namespace StoneCount {
                         Resize += OnResize;
                         MouseDown += OnMouseDown;
                         MouseUp += OnMouseUp;
+                        MouseHover += OnMouseHover;
                     } else {
                         MouseEnter -= OnMouseEnter;
                         MouseWheel -= OnMouseWheel;
@@ -65,6 +82,7 @@ namespace StoneCount {
                         Resize -= OnResize;
                         MouseDown -= OnMouseDown;
                         MouseUp -= OnMouseUp;
+                        MouseHover -= OnMouseHover;
                     }
                 }
             }
@@ -80,10 +98,11 @@ namespace StoneCount {
                 Cursor = Cursors.Hand;
             if (e.Button == MouseButtons.Left)
             {
-                _mouseDownLocation = e.Location;
+               /* _mouseDownLocation = e.Location;
                 int horizontalTranslation = horizontalScrollBar.Visible ? -horizontalScrollBar.Value : 0;
-                int verticleTranslation = verticalScrollBar.Visible ? -verticalScrollBar.Value : 0;
-                 /*   
+                int verticleTranslation = verticalScrollBar.Visible ? -verticalScrollBar.Value : 0;*/
+                //MousePosition = new Point((int)(_mouseDownLocation.X / _zoomScale) - horizontalTranslation, (int)(_mouseDownLocation.Y / _zoomScale) - verticleTranslation);
+                /*   
                 using (Graphics g = Graphics.FromImage(Image))
                 {
                     Point p = new Point((int)(_mouseDownLocation.X / _zoomScale) - horizontalTranslation, (int)(_mouseDownLocation.Y / _zoomScale) - verticleTranslation);
@@ -94,8 +113,8 @@ namespace StoneCount {
                     }
                 }*/
                 //MessageBox.Show(e.Location.ToString());
-                //MessageBox.Show(shift.ToString() + "Zoom" + _zoomScale.ToString());
-                Refresh();
+               // MessageBox.Show(MousePosition.ToString());
+                //Refresh();
             }
         }
 
@@ -258,6 +277,11 @@ namespace StoneCount {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnMouseMove(object sender, MouseEventArgs e) {
+
+            int horizontalTranslation = horizontalScrollBar.Visible ? -horizontalScrollBar.Value : 0;
+            int verticleTranslation = verticalScrollBar.Visible ? -verticalScrollBar.Value : 0;
+            MousePosition = new Point((int)(e.Location.X / _zoomScale) - horizontalTranslation, (int)(e.Location.Y / _zoomScale) - verticleTranslation);
+            //MessageBox.Show(MousePosition.ToString());
             if (_mouseDownButton == MouseButtons.Middle && (horizontalScrollBar.Visible || verticalScrollBar.Visible)) {
                 int horizontalShift = (int)((e.X - _mouseDownPosition.X) / _zoomScale);
                 int verticalShift = (int)((e.Y - _mouseDownPosition.Y) / _zoomScale);
@@ -279,6 +303,13 @@ namespace StoneCount {
 
                 Invalidate();
             } 
+        }
+        private void OnMouseHover(object sender, EventArgs e)
+        {
+         /*   int horizontalTranslation = horizontalScrollBar.Visible ? -horizontalScrollBar.Value : 0;
+            int verticleTranslation = verticalScrollBar.Visible ? -verticalScrollBar.Value : 0;
+            MousePosition = new Point((int)(_mouseDownLocation.X / _zoomScale) - horizontalTranslation, (int)(_mouseDownLocation.Y / _zoomScale) - verticleTranslation);
+            Refresh();    */
         }
 
         /// <summary>

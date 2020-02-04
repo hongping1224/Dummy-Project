@@ -73,6 +73,10 @@ namespace StoneCount.UI
                     FirstSieve_box.Visible = true;
                     sieves[0].InitiateSieve(PreprocessedImage, 0);
                     flowbox.Refresh();
+                    Focus();
+                    TopMost = true;
+                    Show();
+                    TopMost = false;
                 });
                 OriginalImage_Lbl.Text = "Processing :" + Path.GetFileName(openFileDialog1.FileName);
             }
@@ -236,7 +240,12 @@ namespace StoneCount.UI
             combine.Ellipse = Ellipse.ToArray();
             combine.size = size.ToArray();
             combine.coordinates = coor;
-            combine.SaveResult(sender, e);
+            string path = combine.SaveResult(sender, e);
+            if (path != "")
+            {
+                label1.Text = "Save to " + path;
+            }
+
         }
     }
 }
