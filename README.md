@@ -29,7 +29,7 @@ Executable is in
 
 Or Download from
 
-> https://github.com/hongping1224/Dummy-Project/releases/tag/v1.1-alpha
+> https://github.com/hongping1224/Dummy-Project/releases/tag/v1.2-alpha
 
 Tutorial :
 
