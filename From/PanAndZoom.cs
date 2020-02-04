@@ -21,7 +21,7 @@ namespace StoneCount {
         private InterpolationMode _interpolationMode = InterpolationMode.NearestNeighbor;
         private static readonly Cursor _defaultCursor = Cursors.Cross;
         private Point _MousePosition;
-        public Point MousePosition
+        public Point MousePositionOnImage
         {
             get
             {
@@ -280,7 +280,7 @@ namespace StoneCount {
 
             int horizontalTranslation = horizontalScrollBar.Visible ? -horizontalScrollBar.Value : 0;
             int verticleTranslation = verticalScrollBar.Visible ? -verticalScrollBar.Value : 0;
-            MousePosition = new Point((int)(e.Location.X / _zoomScale) - horizontalTranslation, (int)(e.Location.Y / _zoomScale) - verticleTranslation);
+            MousePositionOnImage = new Point((int)(e.Location.X / _zoomScale) - horizontalTranslation, (int)(e.Location.Y / _zoomScale) - verticleTranslation);
             //MessageBox.Show(MousePosition.ToString());
             if (_mouseDownButton == MouseButtons.Middle && (horizontalScrollBar.Visible || verticalScrollBar.Visible)) {
                 int horizontalShift = (int)((e.X - _mouseDownPosition.X) / _zoomScale);

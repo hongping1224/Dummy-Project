@@ -98,7 +98,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
             this.Name = "SieveUI";
-            this.Text = "ProcessingImage";
+            this.Text = "Sieve";
             this.Load += new System.EventHandler(this.SieveUI_Load);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();

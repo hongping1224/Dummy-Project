@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MathWorks.MATLAB.NET.Arrays;
+
 namespace StoneCount
 {   
     public partial class ImageForm : Form
@@ -106,6 +103,7 @@ namespace StoneCount
 
         private void PictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
+           
             if (e.Button == MouseButtons.Left)
             {
                 RedrawImage(null, null);

@@ -33,7 +33,7 @@ namespace StoneCount
         public int[] size;
         public int[,] coordinates;
         private string titleText;
-        BackgroundWorker backgroundWorker1;
+        //BackgroundWorker backgroundWorker1;
         private int threshold=0;
 
         public Sieve(UI.ProjectForm project)

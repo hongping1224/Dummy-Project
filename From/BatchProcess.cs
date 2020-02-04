@@ -40,7 +40,7 @@ namespace StoneCount {
                 Bitmap bi = NativeIP.FastBinaryConvert(b);
 
                 // Run Logs
-                Bitmap result = Logs.ApplyLog(bi, logs);
+                Bitmap result = Log.ApplyLog(bi, logs);
                 //Save Image
                 string filename = Path.GetFileName(file);
                 Console.WriteLine("Save");
