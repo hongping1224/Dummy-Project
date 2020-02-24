@@ -40,7 +40,7 @@ namespace StoneCount {
             this.Resize += Form2_Resize;
             this.FormClosing += Form2_Closing;
             RefreshPictureBoxSize();
-            PictureBox1.SetZoomScale(0.25, new Point(1, 1));
+            PictureBox1.SetZoomScale(0.667 * 0.667, new Point(1, 1));
         }
         private void PictureBox1_MouseUp(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {

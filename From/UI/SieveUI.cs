@@ -31,7 +31,7 @@ namespace StoneCount.UI
             PictureBox1.Bounds = new Rectangle(10, 10, 50, 50);
             PictureBox1.MouseDown += PictureBox1_MouseDown;
             PictureBox1.MouseUp += PictureBox1_MouseUp;
-            groupBox1.Controls.Add(PictureBox1);
+            groupBox2.Controls.Add(PictureBox1);
             if(overlay == null)
             {
                 overlay = OriImage;
@@ -67,7 +67,7 @@ namespace StoneCount.UI
             OriginalImageArray = PImage.Bitmap2NetArray(OriImage);
             TimeSpan timeItTook = DateTime.Now - start;
 
-            PictureBox1.SetZoomScale(0.75, new Point(0, 0));
+           
             Size = new Size(750, 750);
             segments = Pick(OriginalImageArray);
             for(int i =0; i < segments.Length; i++)
@@ -100,6 +100,7 @@ namespace StoneCount.UI
                 segmentsCount[i] = segments[i].Count;
             }
             this.WindowState = FormWindowState.Maximized;
+            PictureBox1.SetZoomScale(0.667 * 0.667, new Point(0, 0));
             refreshImage(threshold);
         }
         public SieveUI(Bitmap image, Sieve sieve,Bitmap overlay = null,int threshold =-1): this(image,threshold,overlay)
@@ -268,8 +269,9 @@ namespace StoneCount.UI
         }
         private void RefreshPictureBoxSize()
         {
-            groupBox1.Size = new Size(Size.Width, Size.Height - 30);
-            PictureBox1.SetBounds(groupBox1.Location.X, groupBox1.Location.Y, groupBox1.Size.Width - 20, groupBox1.Size.Height - 20);
+            groupBox2.Size = new Size(Size.Width- 135, Size.Height - 30);
+            groupBox1.Size = new Size(135, Size.Height - 30);
+            PictureBox1.SetBounds(0, 0, groupBox2.Size.Width - 20, groupBox2.Size.Height - 20);
         }
         //Maximize and minimize handle
         private void Form2_Resize(object sender, EventArgs e)

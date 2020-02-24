@@ -47,7 +47,7 @@ namespace StoneCount {
         /// </summary>
         public PanAndZoom() {
             InitializeComponent();
-            _zoomScale = 1.0;
+            _zoomScale = 1;
 
             SetScrollBarVisibilityAndMaxMin();
             //Enable double buffering

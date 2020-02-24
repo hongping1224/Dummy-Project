@@ -83,7 +83,7 @@ namespace StoneCount
             }
             Overlay = overlay;
             PictureBox1.Image = OriImage;
-            PictureBox1.SetZoomScale(1, new Point(0, 0));
+            PictureBox1.SetZoomScale(0.667 * 0.667, new Point(0, 0));
             Size = new Size(700, 700);
             StartPosition = FormStartPosition.Manual;
             p.Y += 150;
@@ -369,11 +369,16 @@ namespace StoneCount
         {
             var image = this.CurrentImage;
             MWLogicalArray imagearr = PImage.Bitmap2array(image);
-            MWNumericArray el = (MWNumericArray)PImage.processor.FitEllipse(imagearr, 8, (MWArray)("noholes"));
-            elarr = (double[,])el.ToArray();
-            RedrawImage(null, null);
-        }
+            try {
+                MWNumericArray el = (MWNumericArray)PImage.processor.FitEllipse(imagearr, 8, (MWArray)("noholes"));
+                elarr = (double[,])el.ToArray();
+                RedrawImage(null, null);
+            }
+            catch(Exception ex)
+            {
 
+            }
+        }
         private Bitmap DrawEllipse(Bitmap image)
         {
             if(elarr == null)

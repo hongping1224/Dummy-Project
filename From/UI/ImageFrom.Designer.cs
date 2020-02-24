@@ -102,10 +102,9 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(112, 277);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(33, 12);
+            this.label3.Size = new System.Drawing.Size(95, 26);
             this.label3.TabIndex = 16;
             this.label3.Text = "label3";
             // 
@@ -114,6 +113,8 @@
             this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox1.Location = new System.Drawing.Point(114, 258);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(84, 16);
@@ -130,7 +131,6 @@
             this.button12.TabIndex = 14;
             this.button12.Text = "Fit Ellipse";
             this.button12.UseVisualStyleBackColor = true;
-            this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
             // label2
             // 

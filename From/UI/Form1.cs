@@ -24,7 +24,6 @@ namespace StoneCount {
             });
             backgroundWorker1.RunWorkerCompleted += new RunWorkerCompletedEventHandler((obj,e) => {
                 label1.Text = "MR Done";
-             
                 label1.Refresh();
             });
             backgroundWorker1.RunWorkerAsync();
