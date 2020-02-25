@@ -24,10 +24,7 @@ Download at
 >>sp 
 
 
-Executable is in  
-> From\bin\x64\Release\StoneCount.exe
-
-Or Download from
+Download Release Executable is in  
 
 > https://github.com/hongping1224/Dummy-Project/releases/tag/v1.2-alpha
 

@@ -11,16 +11,26 @@ namespace StoneCount
 {   
     public partial class ImageForm : Form
     {
+        private struct ImageFrame
+        {
+            public ImageFrame(Bitmap image, double[,] arr)
+            {
+                this.image = image;
+                this.arr = arr;
+            }
+            public readonly Bitmap image;
+            public readonly double[,] arr;
+        }
+
         public Bitmap OriImage;
         public Bitmap Overlay;
         public Bitmap CurrentImage;
         private MWArray currentImageArray;
         public Log log;
         private bool preview;
-     
-        public Stack<Bitmap> undo;
-        public Stack<Bitmap> redo;
-        public bool b_DrawEllipse;
+        private Stack<ImageFrame> undo;
+        private Stack<ImageFrame> redo;
+        public bool b_DrawEllipse = true;
         double[,] elarr;
         public PanAndZoom PictureBox1;
         public Form optionform = null;
@@ -88,8 +98,8 @@ namespace StoneCount
             StartPosition = FormStartPosition.Manual;
             p.Y += 150;
             Location = p;
-            undo = new Stack<Bitmap>();
-            redo = new Stack<Bitmap>();
+            undo = new Stack<ImageFrame>();
+            redo = new Stack<ImageFrame>();
             if (hideTrack)
             {
                 trackBar1.Enabled = false;
@@ -161,34 +171,52 @@ namespace StoneCount
         #region setimage
         public void SetImage(MWArray image)
         {
-            undo.Push(CurrentImage);
+
+            if (CurrentImage != null)
+            {
+                undo.Push(new ImageFrame(CurrentImage, elarr));
+            }
+            double[,] ellpise = new double[0,2];
+            if (image.GetType() ==  typeof(MWLogicalArray))
+            {
+                ellpise =  FitEllipse((MWLogicalArray)image);
+            }
             //clear forward when anything new done
-            redo = new Stack<Bitmap>();
-            setImage(image);
+            if (redo.Count != 0)
+            {
+                redo = new Stack<ImageFrame>();
+            }
+            setImage(image, ellpise);
         }
         public void SetImage(Bitmap image)
         {
             if (CurrentImage != null)
             {
-                undo.Push(CurrentImage);
+                undo.Push(new ImageFrame(CurrentImage, elarr));
             }
+            double[,] ellpise = new double[0, 2];
+            ellpise = FitEllipse(PImage.Bitmap2array(image));
             //clear forward when anything new done
-            redo = new Stack<Bitmap>();
-            setImage(image);
+            if (redo.Count != 0)
+            {
+                redo = new Stack<ImageFrame>();
+            }
+            setImage(image, ellpise);
         }
         public event Action<Bitmap> OnSetImage;
 
-        private void setImage(Bitmap image)
+        private void setImage(Bitmap image, double[,] elarr)
         {
-            setImage(image, null);
+            setImage(image, null, elarr);
         }
-        private void setImage(MWArray imagearr)
+        private void setImage(MWArray imagearr,double[,] elarr)
         {
-            setImage(PImage.Array2bitmap(imagearr, OriImage.Width, OriImage.Height), imagearr);
+            setImage(PImage.Array2bitmap(imagearr, OriImage.Width, OriImage.Height), imagearr, elarr);
         }
 
-        private void setImage(Bitmap image, MWArray imagearr)
+        private void setImage(Bitmap image, MWArray imagearr, double[,] elarr)
         {
+            this.elarr = elarr;
             CurrentImageArray = imagearr;
             CurrentImage = image;
             RedrawImage(null, null);
@@ -210,8 +238,9 @@ namespace StoneCount
                 return;
             }
             Console.WriteLine(undo.Count);
-            redo.Push(CurrentImage);
-            setImage(undo.Pop());
+            redo.Push(new ImageFrame( CurrentImage,elarr));
+            var tmp = undo.Pop();
+            setImage(tmp.image,tmp.arr);
             log.Undo();
         }
         public void Redo()
@@ -221,8 +250,9 @@ namespace StoneCount
                 return;
             }
             Console.WriteLine(redo.Count);
-            undo.Push(CurrentImage);
-            setImage(redo.Pop());
+            undo.Push(new ImageFrame(CurrentImage, elarr));
+            var tmp = redo.Pop();
+            setImage(tmp.image, tmp.arr);
             log.Redo();
         }
 
@@ -365,18 +395,15 @@ namespace StoneCount
 
             this.Close();
         }
-        private void button12_Click(object sender, EventArgs e)
+        private double[,] FitEllipse(MWLogicalArray imagearr)
         {
-            var image = this.CurrentImage;
-            MWLogicalArray imagearr = PImage.Bitmap2array(image);
             try {
                 MWNumericArray el = (MWNumericArray)PImage.processor.FitEllipse(imagearr, 8, (MWArray)("noholes"));
-                elarr = (double[,])el.ToArray();
-                RedrawImage(null, null);
+                return elarr = (double[,])el.ToArray();
             }
             catch(Exception ex)
             {
-
+                return new double[0,2];
             }
         }
         private Bitmap DrawEllipse(Bitmap image)
@@ -417,10 +444,10 @@ namespace StoneCount
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             b_DrawEllipse = checkBox1.Checked;
-            if (b_DrawEllipse)
+            /*if (b_DrawEllipse)
             {
                 PictureBox1.Image = DrawEllipse(CurrentImage);
-            }
+            }*/
             RedrawImage(null,null);
         }
 
