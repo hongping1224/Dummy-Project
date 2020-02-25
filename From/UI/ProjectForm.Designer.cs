@@ -40,9 +40,9 @@
             this.ForthSieve_box = new System.Windows.Forms.GroupBox();
             this.FifthSieve_box = new System.Windows.Forms.GroupBox();
             this.SieveMaster_box = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.finishProject_btn = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.label1 = new System.Windows.Forms.Label();
             this.groupBox5.SuspendLayout();
             this.flowbox.SuspendLayout();
             this.ThirdSieve_box.SuspendLayout();
@@ -168,6 +168,13 @@
             this.SieveMaster_box.Text = "SieveProcess";
             this.SieveMaster_box.Visible = false;
             // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(4, 364);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(190, 36);
+            this.label1.TabIndex = 6;
+            // 
             // finishProject_btn
             // 
             this.finishProject_btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -178,14 +185,6 @@
             this.finishProject_btn.Text = "Done Project";
             this.finishProject_btn.UseVisualStyleBackColor = true;
             this.finishProject_btn.Click += new System.EventHandler(this.finishProject_btn_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 379);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 12);
-            this.label1.TabIndex = 6;
             // 
             // ProjectForm
             // 
@@ -202,7 +201,6 @@
             this.flowbox.ResumeLayout(false);
             this.ThirdSieve_box.ResumeLayout(false);
             this.SieveMaster_box.ResumeLayout(false);
-            this.SieveMaster_box.PerformLayout();
             this.ResumeLayout(false);
 
         }
