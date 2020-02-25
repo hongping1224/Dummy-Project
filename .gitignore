@@ -2,5 +2,7 @@
 *.sln
 *.csproj
 *.suo
+/From/bin/x64/Debug
+/From/bin/x64/Release
 /From/bin/x64/Debug/bin/ori
 /From/bin/x64/Release.zip
