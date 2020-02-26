@@ -16,7 +16,7 @@ namespace StoneCount
     public class Sieve
     {
         private UI.ProjectForm Project;
-        private GroupBox groupBox;
+        public GroupBox groupBox;
         private FlowLayoutPanel flowPanel;
         private Button Sieve_Btn;
         //private Button Discard_Btn;
@@ -28,6 +28,7 @@ namespace StoneCount
         private Label Log_Lbl;
         private Sieve NextSieve;
         public Bitmap image;
+        public Bitmap smaller;
         public Bitmap OriImage;
         public string[] Ellipse;
         public int[] size;
@@ -35,6 +36,7 @@ namespace StoneCount
         private string titleText;
         //BackgroundWorker backgroundWorker1;
         private int threshold=0;
+        public int index;
 
         public Sieve(UI.ProjectForm project)
         {
@@ -116,7 +118,7 @@ namespace StoneCount
             Save_Btn.Enabled = false;*/
             this.threshold = threshold;
             //Process_Btn.Enabled = true;
-
+          
             //NextSieve_Btn.Enabled = false;
             if (NextSieve != null)
             {
@@ -214,14 +216,11 @@ namespace StoneCount
             Log_Lbl.Refresh();
             ui.Show();
         }
-        public void StartSieveCallBack(int threshold, Bitmap larger, Bitmap smaller)
+        public void StartSieveCallBack(int threshold, Bitmap larger, Bitmap small)
         {
             image = larger;
-            if (NextSieve != null)
-            {
-                NextSieve.InitiateSieve(smaller, threshold);
-                NextSieve.DisableSieve();
-            }
+            smaller = small;
+            this.threshold = threshold;
             groupBox.Text = titleText + "threshold = " + threshold;
             StartProcess(this, EventArgs.Empty);
         }
@@ -269,8 +268,12 @@ namespace StoneCount
             Sieve_Btn.Enabled = false;
             /*  Discard_Btn.Enabled = true;
               Preview_Btn.Enabled = true;*/
+            var next = Project.AddSieve(index + 1);
+            NextSieve = next;
             if (NextSieve != null)
             {
+                NextSieve.InitiateSieve(smaller, threshold);
+                NextSieve.DisableSieve();
                 NextSieve.EnableSieve();
             }
         }

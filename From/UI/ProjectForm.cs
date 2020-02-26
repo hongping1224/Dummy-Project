@@ -12,7 +12,6 @@ namespace StoneCount.UI
 {
     public partial class ProjectForm : Form
     {
-
         #region Constructor
         public static ProjectForm instance;
         public ProjectForm()
@@ -20,13 +19,30 @@ namespace StoneCount.UI
             InitializeComponent();
             instance = this;
             initialAll_Button();
-            sieves = new Sieve[5];
-            sieves[4] = new Sieve(FifthSieve_box, null, this);
-            sieves[3] = new Sieve(ForthSieve_box, sieves[4], this);
-            sieves[2] = new Sieve(ThirdSieve_box, sieves[3], this);
-            sieves[1] = new Sieve(SecondSieve_box, sieves[2], this);
-            sieves[0] = new Sieve(FirstSieve_box, sieves[1], this);
+            sieves = new List<Sieve>();
+            AddSieve(0);
         }
+        public Sieve AddSieve(int index)
+        {
+            GroupBox gp = new GroupBox();
+            flowbox.Controls.Add(gp);
+            gp.Location = new Point(3, 3 + (sieves.Count * 65));
+            int space = 3 + ((sieves.Count + 1) * 65);
+            label1.Text = $"add  {sieves.Count + 1}";
+            flowbox.Size = new Size(flowbox.Size.Width, space + 50);
+            if(flowbox.Size.Height > SieveMaster_box.Size.Height-75)
+            {
+                vScrollBar1.Maximum = flowbox.Size.Height - (SieveMaster_box.Size.Height-75);
+            }
+            gp.Size = new Size(220, 60);
+            gp.Text = $"Sieve #{sieves.Count + 1}";
+            gp.Visible = true;
+            var si = new Sieve(gp, null, this);
+            si.index = index;
+            sieves.Add(si);
+            return si;
+        }
+       
         public ProjectForm(string FilePath)
         {
             OriginalImageFilePath = FilePath;
@@ -45,7 +61,7 @@ namespace StoneCount.UI
         private const string PreprocessedImageFilePath = "tmp/preprocess.bmp";
         private Bitmap PreprocessedImage;
         public ImageForm ProcessingImageForm;
-        private Sieve[] sieves;
+        private List<Sieve> sieves;
         #endregion
 
         #region Original Function
@@ -70,7 +86,7 @@ namespace StoneCount.UI
                     PreprocessedImage = image;
                     SieveMaster_box.Visible = true;
                     flowbox.Visible = true;
-                    FirstSieve_box.Visible = true;
+                    sieves[0].groupBox.Visible = true;
                     sieves[0].InitiateSieve(PreprocessedImage, 0);
                     flowbox.Refresh();
                     Focus();
@@ -122,7 +138,7 @@ namespace StoneCount.UI
         {
             SieveMaster_box.Visible = true;
             flowbox.Visible = true;
-            FirstSieve_box.Visible = true;
+            sieves[0].groupBox.Visible = true;
             sieves[0].InitiateSieve(PreprocessedImage,0);
             flowbox.Refresh();
         }
@@ -181,7 +197,7 @@ namespace StoneCount.UI
             Bitmap baseImage = NativeIP.FastBinaryConvert(sieves[0].image);
 
 
-            for (int i = 1; i < sieves.Length; i++)
+            for (int i = 1; i < sieves.Count; i++)
             {
                 if (sieves[i].image == null || sieves[i].OriImage == null)
                 {
@@ -199,7 +215,7 @@ namespace StoneCount.UI
             List<string> Ellipse = new List<string>();
             List<int> size = new List<int>();
             int coCount = 0;
-            for (int i = 0; i < sieves.Length; i++)
+            for (int i = 0; i < sieves.Count; i++)
             {
                 if (sieves[i] == null)
                 {
@@ -246,6 +262,12 @@ namespace StoneCount.UI
                 label1.Text = "Save to " + path;
             }
 
+        }
+        private int oriflowLocation = 21;
+        private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
+        {
+           // label1.Text = vScrollBar1.Value.ToString()  + flowbox.Location.ToString();
+            flowbox.Location = new Point(flowbox.Location.X, oriflowLocation - vScrollBar1.Value);
         }
     }
 }
