@@ -203,7 +203,6 @@ namespace StoneCount
                 string exe_path = Path.Combine(path, "zerocontour/gdal_contour");
                 string command = string.Format("-b 1 -a ELEV -i 10.0 {0} {1}", intemediatekrggingResult, intemediate);
                 strCmdText = "/c " + exe_path+ " "+command;
-
                 System.Diagnostics.Process process = new System.Diagnostics.Process();
                 System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
                 startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;

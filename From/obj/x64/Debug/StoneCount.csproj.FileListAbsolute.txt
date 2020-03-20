@@ -25,3 +25,4 @@ F:\PersonalProject\Stone\UIForm\From\obj\x64\Debug\StoneCount.csproj.CopyComplet
 F:\PersonalProject\Stone\UIForm\From\obj\x64\Debug\StoneCount.exe
 F:\PersonalProject\Stone\UIForm\From\obj\x64\Debug\StoneCount.pdb
 F:\PersonalProject\Stone\UIForm\From\obj\x64\Debug\StoneCount.csprojAssemblyReference.cache
+F:\PersonalProject\Stone\UIForm\From\obj\x64\Debug\StoneCount.UI.TFWGenerator.resources

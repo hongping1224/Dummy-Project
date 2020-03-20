@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-
+using StoneCount.UI;
 namespace StoneCount {
     public partial class Form1 : Form {
         public static Form1 instance;
@@ -42,7 +42,7 @@ namespace StoneCount {
         }
 
         BackgroundWorker backgroundWorker2 = new BackgroundWorker();
-        public void CreateShpFile(string output, string ellipse, string boundaries , string refference)
+        public void CreateShpFile(string output, string ellipse, string boundaries , string tfw)
         {
             while (backgroundWorker2.IsBusy)
             {
@@ -52,7 +52,7 @@ namespace StoneCount {
                 string strCmdText;
                 string path = Directory.GetCurrentDirectory();
                 string exe_path = Path.Combine(path, "DrawShp","main.exe");
-                strCmdText = String.Format("/c {4} --o={0} --eclipse={1} --boundaries={2} --ref={3}", output, ellipse, boundaries, refference, exe_path);
+                strCmdText = String.Format("/c {4} --o={0} --eclipse={1} --boundaries={2} --tfw={3}", output, ellipse, boundaries, tfw, exe_path);
                 System.Diagnostics.Process process = new System.Diagnostics.Process();
                 System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
                 startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
@@ -81,17 +81,11 @@ namespace StoneCount {
                 {
                     Bitmap b = new Bitmap(openfile);
                     string extension = Path.GetExtension(openfile);
-                    b.Save(openfile.Replace(extension, ".tif"), System.Drawing.Imaging.ImageFormat.Tiff);
-                    string[] tfw = new string[6];
-                    tfw[0] = "1";
-                    tfw[1] = "0";
-                    tfw[2] = "0";
-                    tfw[3] = "-1";
-                    tfw[4] = "0.5";
-                    tfw[5] = (b.Height - 0.5f).ToString();
-                    File.WriteAllLines(openfile.Replace(extension, ".tfw"), tfw);
+                    b.Save(Path.ChangeExtension(openfile,".tif"), System.Drawing.Imaging.ImageFormat.Tiff);
                 }
-
+                TFWGenerator tFWGenerator = new TFWGenerator(Path.ChangeExtension(openfile, ".tif"));
+                tFWGenerator.StartPosition = FormStartPosition.CenterParent;
+                tFWGenerator.ShowDialog(this);
             }
             else
             {

@@ -158,6 +158,12 @@
     <Compile Include="UI\SieveUI.Designer.cs">
       <DependentUpon>SieveUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\TFWGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\TFWGenerator.Designer.cs">
+      <DependentUpon>TFWGenerator.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ToolBar.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -203,6 +209,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SieveUI.resx">
       <DependentUpon>SieveUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\TFWGenerator.resx">
+      <DependentUpon>TFWGenerator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ToolBar.resx">
       <DependentUpon>ToolBar.cs</DependentUpon>

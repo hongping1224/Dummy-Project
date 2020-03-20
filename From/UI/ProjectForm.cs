@@ -18,7 +18,7 @@ namespace StoneCount.UI
         {
             InitializeComponent();
             instance = this;
-            initialAll_Button();
+            //initialAll_Button();
             sieves = new List<Sieve>();
             AddSieve(0);
         }
@@ -210,8 +210,40 @@ namespace StoneCount.UI
             OpenPreviewForm(baseImage);
         }
 
+        private bool CheckTFW()
+        {
+            string tfwpath = Path.ChangeExtension(OriginalImageFilePath, ".tfw");
+            if (!File.Exists(tfwpath))
+            {
+                //TODO generate tfw
+                TFWGenerator tFWGenerator =  new TFWGenerator(OriginalImageFilePath);
+                tFWGenerator.StartPosition = FormStartPosition.CenterParent;
+                var Result = tFWGenerator.ShowDialog(this);
+                if (Result != DialogResult.OK)
+                {
+                    return false;
+                }
+                else
+                {
+                    MessageBox.Show("world file created",
+              "World File succesfully created.",
+               MessageBoxButtons.OK,
+               MessageBoxIcon.Information);
+                }
+            }
+            return true;
+        }
+
         private void finishProject_btn_Click(object sender, EventArgs e)
         {
+            if (CheckTFW() == false)
+            {
+                MessageBox.Show("world file not found!",
+                 "Please Create a world file to export result",
+                  MessageBoxButtons.OK,
+                  MessageBoxIcon.Error);
+                return; 
+            }
             List<string> Ellipse = new List<string>();
             List<int> size = new List<int>();
             int coCount = 0;
@@ -256,7 +288,8 @@ namespace StoneCount.UI
             combine.Ellipse = Ellipse.ToArray();
             combine.size = size.ToArray();
             combine.coordinates = coor;
-            string path = combine.SaveResult(sender, e);
+            string tfwPath = Path.ChangeExtension(OriginalImageFilePath, ".tfw");
+            string path = combine.SaveResult(tfwPath);
             if (path != "")
             {
                 label1.Text = "Save to " + path;

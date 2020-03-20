@@ -24,3 +24,5 @@ F:\PersonalProject\Stone\UIForm\From\obj\x64\Release\StoneCount.csproj.CoreCompi
 F:\PersonalProject\Stone\UIForm\From\obj\x64\Release\StoneCount.csproj.CopyComplete
 F:\PersonalProject\Stone\UIForm\From\obj\x64\Release\StoneCount.exe
 F:\PersonalProject\Stone\UIForm\From\obj\x64\Release\StoneCount.pdb
+F:\PersonalProject\Stone\UIForm\From\obj\x64\Release\StoneCount.csprojAssemblyReference.cache
+F:\PersonalProject\Stone\UIForm\From\obj\x64\Release\StoneCount.UI.TFWGenerator.resources

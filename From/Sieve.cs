@@ -99,7 +99,7 @@ namespace StoneCount
             */
 
             Log_Lbl = new Label();
-            Log_Lbl.Size = new Size(300, 30);
+            Log_Lbl.Size = new Size(200, 30);
             Log_Lbl.TextAlign = ContentAlignment.MiddleLeft;
             Log_Lbl.Text = "Start Sieve Process"; 
             flowPanel.Controls.Add(Log_Lbl);
@@ -171,7 +171,7 @@ namespace StoneCount
             }
             return false;
         }
-        public string SaveResult(object sender, EventArgs e)
+        public string SaveResult(string tfwpath)
         {
             var svd  = Project.SaveFilePrompt("SaveAs", "All files (*.*)|*.*");
             if(svd.ShowDialog()== DialogResult.OK)
@@ -180,12 +180,12 @@ namespace StoneCount
                 filename = filename.Split('.')[0];
                 string eCSVExtend = "_e.csv";
                 string bTXTExtend = "_b.txt";
-                string refTXTExtend = "_ref.txt";
+              
                 File.WriteAllLines(filename + eCSVExtend, Ellipse);
                 File.WriteAllLines(filename + bTXTExtend, BoundaryTxt());
                 var edge = new string[] { OriImage.Width.ToString(), OriImage.Height.ToString() };
-                File.WriteAllLines(filename + refTXTExtend, edge);
-                Form1.instance.CreateShpFile(filename, filename + eCSVExtend, filename + bTXTExtend, filename + refTXTExtend);
+
+                Form1.instance.CreateShpFile(filename, filename + eCSVExtend, filename + bTXTExtend, tfwpath);
                 return filename;
             }
             return "";
@@ -200,7 +200,7 @@ namespace StoneCount
             }
             for (int i = 0; i < coordinates.GetLength(0); i++)
             {
-                ou.Add(coordinates[i, 0] + "," + (OriImage.Height - coordinates[i, 1]-1));
+                ou.Add(coordinates[i, 0] + "," + (coordinates[i, 1]-1));
             }
             return ou.ToArray();
         }
@@ -341,7 +341,7 @@ namespace StoneCount
                         gr.DrawEllipse(thick_pen, rect);
                         gr.RotateTransform((float)-theta);
                         gr.TranslateTransform(-dx, -dy);
-                        output.Add(String.Format("{0},{1},{2},{3},{4}", a, b, dx, OriImage.Height-dy-1, theta));
+                        output.Add(String.Format("{0},{1},{2},{3},{4}", a, b, dx, dy-1, theta));
                     }
                 }
             }
