@@ -64,7 +64,8 @@ namespace StoneCount {
                 process.WaitForExit();
             });
             backgroundWorker2.RunWorkerCompleted += new RunWorkerCompletedEventHandler((a, ee) => {
-
+                File.Delete(ellipse);
+                File.Delete(boundaries);
             });
             backgroundWorker2.RunWorkerAsync();
         }

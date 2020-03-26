@@ -119,29 +119,6 @@ namespace StoneCount.UI
                 e.Cancel = true;
             }
         }
-        public void ReturnPreProcessedImage(Bitmap m, ImageForm imform)
-        {
-            PreprocessedImage = m;
-            if (!Directory.Exists("tmp"))
-            {
-                Directory.CreateDirectory("tmp");
-            }
-            PreprocessedImage.Save(PreprocessedImageFilePath, System.Drawing.Imaging.ImageFormat.Bmp);
-        }
-
-        private void PreProcessedPreview_Btn_Click(object sender, EventArgs e)
-        {
-            OpenPreviewForm(PreprocessedImage);
-        }
-
-        private void DonePreprocess_Btn_Click(object sender, EventArgs e)
-        {
-            SieveMaster_box.Visible = true;
-            flowbox.Visible = true;
-            sieves[0].groupBox.Visible = true;
-            sieves[0].InitiateSieve(PreprocessedImage,0);
-            flowbox.Refresh();
-        }
 
         #endregion
 
@@ -178,8 +155,7 @@ namespace StoneCount.UI
                 }
 
             };
-            ProcessingImageForm.Show();
-
+            ProcessingImageForm.ShowDialog();
         }
 
 

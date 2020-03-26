@@ -214,7 +214,7 @@ namespace StoneCount
             UI.SieveUI ui = new UI.SieveUI(OriImage,this,UI.ProjectForm.instance.OriginalImage,(int)Math.Floor(((float)threshold)/2f));
             Log_Lbl.Text = "Done";
             Log_Lbl.Refresh();
-            ui.Show();
+            ui.ShowDialog();
         }
         public void StartSieveCallBack(int threshold, Bitmap larger, Bitmap small)
         {
