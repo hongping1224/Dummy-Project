@@ -54,9 +54,14 @@ namespace StoneCount.UI
             tfw[1] = "0";
             tfw[2] = "0";
             tfw[3] = (-pSize).ToString();
-            tfw[4] = (pSize * 0.5f).ToString();
-            tfw[5] = ((b.Height*pSize) - (pSize * 0.5f)).ToString();
+            tfw[4] = x.ToString();
+            tfw[5] = y.ToString();
             File.WriteAllLines(ImagePath.Replace(extension, ".tfw"), tfw);
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

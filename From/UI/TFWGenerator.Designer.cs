@@ -105,7 +105,7 @@
             this.topleftY.Name = "topleftY";
             this.topleftY.Size = new System.Drawing.Size(100, 22);
             this.topleftY.TabIndex = 13;
-            this.topleftY.Text = "0";
+            this.topleftY.Text = "6";
             // 
             // label4
             // 
@@ -114,7 +114,8 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(164, 12);
             this.label4.TabIndex = 14;
-            this.label4.Text = "*Top-Left corner, not pixel center";
+            this.label4.Text = "*Top-Left pixel center, not corner";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // TFWGenerator
             // 

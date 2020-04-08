@@ -26,7 +26,6 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.generateLocalWorldFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zerocontourToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zerocontourComponentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,8 +59,7 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.startProjectToolStripMenuItem,
-            this.generateLocalWorldFileToolStripMenuItem});
+            this.startProjectToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -69,16 +67,9 @@
             // startProjectToolStripMenuItem
             // 
             this.startProjectToolStripMenuItem.Name = "startProjectToolStripMenuItem";
-            this.startProjectToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.startProjectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.startProjectToolStripMenuItem.Text = "StartProject";
             this.startProjectToolStripMenuItem.Click += new System.EventHandler(this.startProjectToolStripMenuItem_Click);
-            // 
-            // generateLocalWorldFileToolStripMenuItem
-            // 
-            this.generateLocalWorldFileToolStripMenuItem.Name = "generateLocalWorldFileToolStripMenuItem";
-            this.generateLocalWorldFileToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
-            this.generateLocalWorldFileToolStripMenuItem.Text = "Generate Local World File";
-            this.generateLocalWorldFileToolStripMenuItem.Click += new System.EventHandler(this.generateLocalWorldFileToolStripMenuItem_Click);
             // 
             // extraToolStripMenuItem
             // 
@@ -219,7 +210,6 @@
         private System.Windows.Forms.ToolStripMenuItem extraToolStripMenuItem;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem startProjectToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem generateLocalWorldFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem zerocontourToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem zerocontourComponentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem planerDetrendingToolStripMenuItem;

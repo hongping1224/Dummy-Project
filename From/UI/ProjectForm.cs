@@ -77,11 +77,23 @@ namespace StoneCount.UI
             }
 
             openFileDialog1.Title = "Pick an image file";
-            openFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
+            openFileDialog1.Filter = "All files (*.*)|*.*";
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                OriginalImageFilePath = openFileDialog1.FileName;
-                OriginalImage = new Bitmap(openFileDialog1.FileName);
+                string openfile = openFileDialog1.FileName;
+                if (!openfile.EndsWith(".tif"))
+                {
+                    Bitmap b = new Bitmap(openfile);
+                    string extension = Path.GetExtension(openfile);
+                    b.Save(Path.ChangeExtension(openfile, ".tif"), System.Drawing.Imaging.ImageFormat.Tiff);
+                }
+                if (!File.Exists(Path.ChangeExtension(openfile, ".tfw"))) {
+                    TFWGenerator tFWGenerator = new TFWGenerator(Path.ChangeExtension(openfile, ".tif"));
+                    tFWGenerator.StartPosition = FormStartPosition.CenterParent;
+                    tFWGenerator.ShowDialog(this);
+                }
+                OriginalImageFilePath = Path.ChangeExtension(openfile, ".tif");
+                OriginalImage = new Bitmap(OriginalImageFilePath);
                 OpenImageForm(OriginalImage,(image,form)=> {
                     PreprocessedImage = image;
                     SieveMaster_box.Visible = true;
@@ -93,8 +105,9 @@ namespace StoneCount.UI
                     TopMost = true;
                     Show();
                     TopMost = false;
+                    Select_Ori_Btn.Enabled = false;
                 });
-                OriginalImage_Lbl.Text = "Processing :" + Path.GetFileName(openFileDialog1.FileName);
+                OriginalImage_Lbl.Text = "Processing :" + Path.GetFileName(OriginalImageFilePath);
             }
         }
    

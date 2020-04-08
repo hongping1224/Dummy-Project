@@ -259,6 +259,7 @@ namespace StoneCount
         }
         private void StartProcess(object sender, EventArgs e)
         {
+
             Project.OpenImageForm(image, ProcessImageCallback);
         }
         private void ProcessImageCallback(Bitmap m, ImageForm imform)
