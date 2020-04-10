@@ -77,7 +77,7 @@ namespace StoneCount.UI
             }
 
             openFileDialog1.Title = "Pick an image file";
-            openFileDialog1.Filter = "All files (*.*)|*.*";
+            openFileDialog1.Filter = "tif files (*.tif)|*.tif|All files (*.*)|*.*";
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string openfile = openFileDialog1.FileName;

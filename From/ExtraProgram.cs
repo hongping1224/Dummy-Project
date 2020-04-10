@@ -180,15 +180,15 @@ namespace StoneCount
 
             SetLabel(label, "Generating Contour...");
             string[] krigResult = File.ReadAllLines(intemediatekrggingResult);
-            float diff, sx, sy;
+            float diff, sx, sy, ex, ey;
             int xsize, ysize;
             {
                 string[] colume = krigResult[0].Split('\t');
                 sx = float.Parse(colume[0]);
                 sy = float.Parse(colume[1]);
                 colume = krigResult[krigResult.Length - 1].Split('\t');
-                float ex = float.Parse(colume[0]);
-                float ey = float.Parse(colume[1]);
+                ex = float.Parse(colume[0]);
+                ey = float.Parse(colume[1]);
                 colume = krigResult[krigResult.Length - 2].Split('\t');
                 diff = Math.Abs(ex - float.Parse(colume[0]));
                 xsize = (int)((ex - sx) / diff) + 1;
@@ -237,14 +237,30 @@ namespace StoneCount
                 });
                 backgroundWorker2.RunWorkerCompleted += new RunWorkerCompletedEventHandler((aa, eee) =>
                 {
-                    File.Delete(intemediatekrggingResult);
-                    File.Delete(intemediate.Replace(".shp",".dbf"));
-                    File.Delete(intemediate.Replace(".shp", ".shx"));
-                    File.Delete(intemediate);
+                 
                     if(OnDone != null)
                     {
                         OnDone();
                     }
+                    string bmppath = savefile;
+                    Bitmap b = new Bitmap(bmppath);
+                    b.Save(Path.ChangeExtension(bmppath, ".tif"), ImageFormat.Tiff);
+                    string extension = Path.GetExtension(bmppath);
+                    string[] tfw = new string[6];
+                    
+                    tfw[0] = (diff / 4f).ToString();
+                    tfw[1] = "0";
+                    tfw[2] = "0";
+                    tfw[3] = (-diff / 4f).ToString();
+                    tfw[4] = (sx + (diff / 4f)).ToString();
+                    tfw[5] = (sy+((diff / 4f) * ysize*4)).ToString();
+
+                    File.WriteAllLines(bmppath.Replace(extension, ".tfw"), tfw);
+                    File.Delete(intemediatekrggingResult);
+                    File.Delete(intemediate.Replace(".shp", ".dbf"));
+                    File.Delete(intemediate.Replace(".shp", ".shx"));
+                    File.Delete(intemediate);
+
                 });
                 backgroundWorker2.RunWorkerAsync();
             });
