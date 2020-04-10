@@ -105,7 +105,7 @@
             this.topleftY.Name = "topleftY";
             this.topleftY.Size = new System.Drawing.Size(100, 22);
             this.topleftY.TabIndex = 13;
-            this.topleftY.Text = "6";
+            this.topleftY.Text = "0";
             // 
             // label4
             // 
