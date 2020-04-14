@@ -35,7 +35,7 @@ namespace StoneCount
                     {
                         SetLabel(l, "Generating Contour...");
                         GenerateSHPContour(FactorialResultPath, ImageOutPath,l, () => {
-                            Bitmap zero = new Bitmap(ImageOutPath);
+                            Bitmap zero = new Bitmap(Path.ChangeExtension(ImageOutPath,".tif"));
                             ExtraProgram.OpenPreviewForm(zero, "zero contour");
                         });
                         SetLabel(l, "Done Generate Contour");
@@ -222,7 +222,7 @@ namespace StoneCount
                     string strCmdText;
                     string path = Directory.GetCurrentDirectory();
                     string exe_path = Path.Combine(path, "zerocontour/gdal_rasterize");
-                    string command = string.Format("-burn 255 -burn 255 -burn 255 -ot Byte -ts {0} {1} -l OUTPUT {2} {3}", xsize*4,ysize*4, intemediate, savefile);
+                    string command = string.Format("-burn 255 -burn 255 -burn 255 -ot Byte -ts {0} {1} -l OUTPUT {2} {3}", xsize*4,ysize*4, intemediate, Path.ChangeExtension(savefile,".bmp"));
                     strCmdText = "/c " + exe_path + " " + command;
                     System.Diagnostics.Process process = new System.Diagnostics.Process();
                     System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
@@ -237,14 +237,11 @@ namespace StoneCount
                 });
                 backgroundWorker2.RunWorkerCompleted += new RunWorkerCompletedEventHandler((aa, eee) =>
                 {
-                 
-                    if(OnDone != null)
-                    {
-                        OnDone();
-                    }
+                
                     string bmppath = savefile;
-                    Bitmap b = new Bitmap(bmppath);
+                    Bitmap b = new Bitmap(Path.ChangeExtension(bmppath, ".bmp"));
                     b.Save(Path.ChangeExtension(bmppath, ".tif"), ImageFormat.Tiff);
+                    b.Dispose();
                     string extension = Path.GetExtension(bmppath);
                     string[] tfw = new string[6];
                     
@@ -260,6 +257,12 @@ namespace StoneCount
                     File.Delete(intemediate.Replace(".shp", ".dbf"));
                     File.Delete(intemediate.Replace(".shp", ".shx"));
                     File.Delete(intemediate);
+                    File.Delete(Path.ChangeExtension(bmppath, ".bmp"));
+                    File.Delete(Path.ChangeExtension(bmppath, ".bmp.aux.xml"));
+                    if (OnDone != null)
+                    {
+                        OnDone();
+                    }
 
                 });
                 backgroundWorker2.RunWorkerAsync();

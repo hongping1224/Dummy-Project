@@ -108,7 +108,7 @@ namespace StoneCount {
                 return;
             }
             saveFileDialog1.Title = "Save output contour Image";
-            saveFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
+            saveFileDialog1.Filter = "tif files (*.tif)|*.tif|All files (*.*)|*.*";
             if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 savefile = saveFileDialog1.FileName;
@@ -253,7 +253,7 @@ namespace StoneCount {
                 return;
             }
             saveFileDialog1.Title = "Save Zero Contour Image";
-            saveFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|All files (*.*)|*.*";
+            saveFileDialog1.Filter = "tif files (*.tif)|*.tif|All files (*.*)|*.*";
             if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 savefile = saveFileDialog1.FileName;
