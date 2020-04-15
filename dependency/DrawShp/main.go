@@ -67,7 +67,7 @@ func main() {
 		ar := strings.Split(scanner.Text(), ",")
 		x, _ := strconv.ParseFloat(ar[2], 64)
 		y, _ := strconv.ParseFloat(ar[3], 64)
-		x, y = world.Img2WorldCoordinate(x+1, y+1)
+		x, y = world.Img2WorldCoordinate(x, y)
 		a, _ := strconv.ParseFloat(ar[0], 64)
 		b, _ := strconv.ParseFloat(ar[1], 64)
 		a = world.Pixel2Distance(a)
@@ -100,7 +100,7 @@ func main() {
 			ar := strings.Split(bscanner.Text(), ",")
 			x, _ := strconv.ParseFloat(ar[0], 64)
 			y, _ := strconv.ParseFloat(ar[1], 64)
-			x, y = world.Img2WorldCoordinate(x+1, y+1)
+			x, y = world.Img2WorldCoordinate(x, y)
 			p := shp.Point{X: x, Y: y}
 			bd[i] = p
 		}

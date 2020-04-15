@@ -200,7 +200,7 @@ namespace StoneCount
             }
             for (int i = 0; i < coordinates.GetLength(0); i++)
             {
-                ou.Add(coordinates[i, 0] + "," + (coordinates[i, 1]-1));
+                ou.Add(coordinates[i, 0] + "," + (coordinates[i, 1]));
             }
             return ou.ToArray();
         }
