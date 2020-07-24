@@ -26,7 +26,7 @@ Download at
 
 Download Release Executable is in  
 
-> https://github.com/hongping1224/Dummy-Project/releases/tag/v1.4-alpha
+> https://github.com/hongping1224/Dummy-Project/releases/download/v2.0-alpha/Release.zip
 
 Tutorial :
 
