@@ -1,7 +1,9 @@
 
 *.sln
 *.csproj
-*.suo
+*.suo/
+/From/obj
+/From/bin
 /From/bin/x64/Debug
 /From/bin/x64/Release
 /From/bin/x64/Debug/bin/ori
