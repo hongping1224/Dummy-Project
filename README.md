@@ -15,20 +15,26 @@ After Install Add Following folder to Path
 
 #### R library
 
-use R studio to install package for R
+use R 3.6.x studio to install package for R
 Download at 
 > https://rstudio.com/products/rstudio/download/#download
 
->library required:
->>gstat  
->>sp 
-
+>R library required:
+```
+library(gstat)  
+lirary(sp) 
+```
 
 Download Release Executable is in  
 
 > https://github.com/hongping1224/Dummy-Project/releases/download/v2.0-alpha/Release.zip
 
-Tutorial :
 
-> https://youtu.be/j4dLMib21cY
+Tutorial
+
+> https://youtu.be/znkjusawqEU
+
+
+More details please Check the manual [click here](manual.pdf)
+
 
