@@ -24,18 +24,19 @@ namespace StoneCount.UI
         }
         public Sieve AddSieve(int index)
         {
+            int Height = 100;
             GroupBox gp = new GroupBox();
             flowbox.Controls.Add(gp);
-            gp.Location = new Point(3, 3 + (sieves.Count * 65));
-            int space = 3 + ((sieves.Count + 1) * 65);
-            label1.Text = $"add  {sieves.Count + 1}";
+            gp.Location = new Point(3, 3 + (sieves.Count * Height));
+            int space = 3 + ((sieves.Count + 1) * Height);
+            label1.Text = $"add Level {sieves.Count + 1}";
             flowbox.Size = new Size(flowbox.Size.Width, space + 50);
             if(flowbox.Size.Height > SieveMaster_box.Size.Height-75)
             {
                 vScrollBar1.Maximum = flowbox.Size.Height - (SieveMaster_box.Size.Height-75);
             }
-            gp.Size = new Size(220, 60);
-            gp.Text = $"Sieve #{sieves.Count + 1}";
+            gp.Size = new Size(flowbox.Width-4, Height-5);
+            gp.Text = $"Level #{sieves.Count + 1}";
             gp.Visible = true;
             var si = new Sieve(gp, null, this);
             si.index = index;
@@ -94,7 +95,7 @@ namespace StoneCount.UI
                 }
                 OriginalImageFilePath = Path.ChangeExtension(openfile, ".tif");
                 OriginalImage = new Bitmap(OriginalImageFilePath);
-                OpenImageForm(OriginalImage,(image,form)=> {
+                OpenImageForm(OriginalImage,"Stage 1",(image,form)=> {
                     PreprocessedImage = image;
                     SieveMaster_box.Visible = true;
                     flowbox.Visible = true;
@@ -106,7 +107,7 @@ namespace StoneCount.UI
                     Show();
                     TopMost = false;
                     Select_Ori_Btn.Enabled = false;
-                });
+                },"Enter Stage 2");
                 OriginalImage_Lbl.Text = "Processing :" + Path.GetFileName(OriginalImageFilePath);
             }
         }
@@ -141,21 +142,21 @@ namespace StoneCount.UI
             MessageBox.Show("Process window has Opened", "Process window had already been opened.", MessageBoxButtons.OK);
         }
 
-        public void OpenImageForm(Bitmap image, Action<Bitmap, ImageForm> OnDone, Action OnCloseCallBack = null)
+        public void OpenImageForm(Bitmap image,string title, Action<Bitmap, ImageForm> OnDone,string DoneButtonText, Action OnCloseCallBack = null)
         {
             if (ProcessingImageForm != null)
             {
                 ShowImageFormOpenAlertPopUpWindow();
                 return;
             }
-            ImageForm form = new ImageForm(image, this.Location, (s, ev) =>
+            ImageForm form = new ImageForm(image, title, this.Location, (s, ev) =>
             {
                 ProcessingImageForm.FormClosing -= FormCloseAlert;
                 if (OnDone != null)
                 {
                     OnDone(s, ev);
                 }
-            }, OriginalImage);
+            }, OriginalImage,DoneButtonText);
             ProcessingImageForm = form;
      
             ProcessingImageForm.FormClosing += FormCloseAlert;
@@ -174,8 +175,7 @@ namespace StoneCount.UI
 
         public void OpenPreviewForm(Bitmap image, string title = "Preview Image")
         {
-            ImageForm form = new ImageForm(image, this.Location, true,OriginalImage);
-            form.Text = title;
+            ImageForm form = new ImageForm(image,title, this.Location, true,OriginalImage);
             form.Show();
         }
 
@@ -281,9 +281,8 @@ namespace StoneCount.UI
             string path = combine.SaveResult(tfwPath);
             if (path != "")
             {
-                label1.Text = "Save to " + path;
+                label1.Text = "Saved\n" + path;
             }
-
         }
         private int oriflowLocation = 21;
         private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)

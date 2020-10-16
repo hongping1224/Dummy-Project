@@ -7,15 +7,20 @@ using System.Windows.Forms;
 using System.Drawing.Imaging;
 using MathWorks.MATLAB.NET.Arrays;
 using System.Drawing;
+using StoneCount.UI;
 
 namespace StoneCount
 {
     static class ExtraProgram
     {
+
+        public static System.Diagnostics.ProcessWindowStyle windowstyle =  System.Diagnostics.ProcessWindowStyle.Hidden;
         public static void DoAll(string DSMPath, string ImageOutPath, Label label)
         {
             string DetrendFileName = "DetrendingDSM.txt";
-            string FactorialResult = "DetrendingDSM.out";
+            string FactorialResult = "FactorialResult.out";
+            string outPath = Path.GetDirectoryName(ImageOutPath);
+            string outPrefix = Path.GetFileName(ImageOutPath).Split('.')[0];
             string DetrendingDSMPath = Path.Combine(Directory.GetCurrentDirectory(), "factorialkriging", DetrendFileName);
             string FactorialResultPath = Path.Combine(Directory.GetCurrentDirectory(), "factorialkriging", FactorialResult);
             //hot5dtdem
@@ -31,14 +36,16 @@ namespace StoneCount
                  //Facotorial
                  CreateParFile(DetrendFileName, FactorialResult, VGMModelFile, TemplateFilePath, ParFilePath, la);
                  SetupHeaderForKriging(DetrendingDSMPath);
-                 FactorialKrigging(la, FactorialResultPath, (l) =>
+                 FactorialKrigging(la, FactorialResultPath, true,(l) =>
                     {
-                        SetLabel(l, "Generating Contour...");
                         GenerateSHPContour(FactorialResultPath, ImageOutPath,l, () => {
                             Bitmap zero = new Bitmap(Path.ChangeExtension(ImageOutPath,".tif"));
-                            ExtraProgram.OpenPreviewForm(zero, "zero contour");
+                            ExtraProgram.OpenPreviewForm(zero, "Zero-Level Contour");
+                            File.Copy(DetrendingDSMPath,Path.Combine(outPath,$"{outPrefix}_{DetrendFileName}"));
+                            File.Copy(VGMFile, Path.Combine(outPath,$"{outPrefix}_VGM.txt"));
+                            File.Copy(VGMModelFile, Path.Combine(outPath,$"{outPrefix}_VGM_Model.txt"));
+                            File.Copy(FactorialResultPath, Path.Combine(outPath,$"{outPrefix}_{FactorialResult}"));
                         });
-                        SetLabel(l, "Done Generate Contour");
                     });
              });
         }
@@ -172,13 +179,39 @@ namespace StoneCount
             return PImage.NetArray2Bitmap(bi, PixelFormat.Format24bppRgb);
         }
 
-        public static void GenerateSHPContour(string openfile, string savefile, Label label,Action OnDone)
+        public static void SaveResultTiff(string dem, string detrenddem,string fk)
+        {
+            BackgroundWorker backgroundWorker1 = new BackgroundWorker();
+            backgroundWorker1.DoWork += new DoWorkEventHandler((s, ee) =>
+            {
+                string strCmdText;
+                string path = Directory.GetCurrentDirectory();
+                string exe_path = Path.Combine(path, "DrawTiff", "main.exe");
+                strCmdText = String.Format("/c {3} --fk={0} --dem={1} --detrenddem={2}", fk, dem, detrenddem,  exe_path);
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                startInfo.WindowStyle = windowstyle;
+                startInfo.FileName = "cmd.exe";
+                startInfo.UseShellExecute = true;
+                startInfo.Arguments = strCmdText;
+                process.StartInfo = startInfo;
+                process.Start();
+                process.WaitForExit();
+            });
+            backgroundWorker1.RunWorkerAsync();
+            while (backgroundWorker1.IsBusy)
+            {
+                Thread.Sleep(100);
+            }
+        }
+
+
+        public static void GenerateSHPContour(string openfile, string savefile, Label label, Action OnDone)
         {
             string intemediatekrggingResult = Path.Combine(Directory.GetCurrentDirectory(), "zerocontour", "kriged_result_img.txt");
             ExtraProgram.ReformatKriggingResult(openfile, intemediatekrggingResult);
             string intemediate = Path.Combine(Directory.GetCurrentDirectory(), "zerocontour", "OUTPUT.shp");
 
-            SetLabel(label, "Generating Contour...");
             string[] krigResult = File.ReadAllLines(intemediatekrggingResult);
             float diff, sx, sy, ex, ey;
             int xsize, ysize;
@@ -202,10 +235,10 @@ namespace StoneCount
                 string path = Directory.GetCurrentDirectory();
                 string exe_path = Path.Combine(path, "zerocontour/gdal_contour");
                 string command = string.Format("-b 1 -a ELEV -i 10.0 {0} {1}", intemediatekrggingResult, intemediate);
-                strCmdText = "/c " + exe_path+ " "+command;
+                strCmdText = "/c " + exe_path + " " + command;
                 System.Diagnostics.Process process = new System.Diagnostics.Process();
                 System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
+                startInfo.WindowStyle = windowstyle;
                 startInfo.FileName = "cmd.exe";
                 startInfo.WorkingDirectory = Path.Combine(path);
                 startInfo.Arguments = strCmdText;
@@ -222,11 +255,11 @@ namespace StoneCount
                     string strCmdText;
                     string path = Directory.GetCurrentDirectory();
                     string exe_path = Path.Combine(path, "zerocontour/gdal_rasterize");
-                    string command = string.Format("-burn 255 -burn 255 -burn 255 -ot Byte -ts {0} {1} -l OUTPUT {2} {3}", xsize*4,ysize*4, intemediate, Path.ChangeExtension(savefile,".bmp"));
+                    string command = string.Format("-burn 255 -burn 255 -burn 255 -ot Byte -ts {0} {1} -l OUTPUT {2} {3}", xsize * 4, ysize * 4, intemediate, Path.ChangeExtension(savefile, ".tif"));
                     strCmdText = "/c " + exe_path + " " + command;
                     System.Diagnostics.Process process = new System.Diagnostics.Process();
                     System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
+                    startInfo.WindowStyle = windowstyle;
                     startInfo.FileName = "cmd.exe";
                     startInfo.WorkingDirectory = Path.Combine(path);
                     startInfo.Arguments = strCmdText;
@@ -237,37 +270,48 @@ namespace StoneCount
                 });
                 backgroundWorker2.RunWorkerCompleted += new RunWorkerCompletedEventHandler((aa, eee) =>
                 {
-                
-                    string bmppath = savefile;
+
+                    /*string bmppath = savefile;
                     Bitmap b = new Bitmap(Path.ChangeExtension(bmppath, ".bmp"));
                     b.Save(Path.ChangeExtension(bmppath, ".tif"), ImageFormat.Tiff);
-                    b.Dispose();
-                    string extension = Path.GetExtension(bmppath);
+                    b.Dispose();*/
+                    string extension = Path.GetExtension(savefile);
                     string[] tfw = new string[6];
-                    
+
                     tfw[0] = (diff / 4f).ToString();
                     tfw[1] = "0";
                     tfw[2] = "0";
                     tfw[3] = (-diff / 4f).ToString();
                     tfw[4] = (sx + (diff / 4f)).ToString();
-                    tfw[5] = (sy+((diff / 4f) * ysize*4)).ToString();
-
-                    File.WriteAllLines(bmppath.Replace(extension, ".tfw"), tfw);
-                    File.Delete(intemediatekrggingResult);
-                    File.Delete(intemediate.Replace(".shp", ".dbf"));
-                    File.Delete(intemediate.Replace(".shp", ".shx"));
-                    File.Delete(intemediate);
-                    File.Delete(Path.ChangeExtension(bmppath, ".bmp"));
-                    File.Delete(Path.ChangeExtension(bmppath, ".bmp.aux.xml"));
+                    tfw[5] = (sy + ((diff / 4f) * ysize * 4)).ToString();
+                    if (!string.IsNullOrEmpty(extension))
+                    {
+                        File.WriteAllLines(savefile.Replace(extension, ".tfw"), tfw);
+                    }
+                    else
+                    {
+                        File.WriteAllLines(savefile + ".tfw", tfw);
+                    }
                     if (OnDone != null)
                     {
                         OnDone();
                     }
-
+                    File.Delete(intemediatekrggingResult);
+                    File.Delete(intemediate.Replace(".shp", ".dbf"));
+                    File.Delete(intemediate.Replace(".shp", ".shx"));
+                    File.Delete(intemediate);
                 });
                 backgroundWorker2.RunWorkerAsync();
+                while (backgroundWorker2.IsBusy)
+                {
+                    Thread.Sleep(100);
+                }
             });
             backgroundWorker1.RunWorkerAsync();
+            while (backgroundWorker1.IsBusy)
+            {
+                Thread.Sleep(100);
+            }
         }
                 
         public static void OpenPreviewForm(Bitmap image, string title = "Preview Image")
@@ -281,12 +325,10 @@ namespace StoneCount
 
         public static void PlanarDetrending(string openfile, string savefile, Label label)
         {
-            OpenPreviewForm(DrawInputDSM(openfile), "Original DSM");
-            SetLabel(label, "Planar Detrending...");
+            OpenPreviewForm(DrawInputDSM(openfile), "Original DEM");
             Thread.Sleep(100);
             PImage.processor.ho5dtdem(openfile, savefile);
-            SetLabel(label, "Planar Detrending Done");
-            OpenPreviewForm(DrawDetrendDSM(savefile), "Detrended DSM");
+            OpenPreviewForm(DrawDetrendDSM(savefile), "Detrended DEM");
         }
 
         public static string CreateParFile(string DSMFile, string ReusltFile, string VGMFile, string TemplateFile, string ParFile, Label label)
@@ -341,10 +383,9 @@ namespace StoneCount
             return "";
         }
 
-        public static void FactorialKrigging(Label label,String resultPath, Action<Label> onDone = null)
+        public static void FactorialKrigging(Label label, String resultPath, bool visuallize = false, Action<Label> onDone = null)
         {
-   
-            SetLabel(label, "Factorial Kriging...");
+
             BackgroundWorker backgroundWorker1 = new BackgroundWorker();
             backgroundWorker1.DoWork += new DoWorkEventHandler((s, ee) =>
             {
@@ -354,7 +395,7 @@ namespace StoneCount
                 strCmdText = "/c " + exe_path;
                 System.Diagnostics.Process process = new System.Diagnostics.Process();
                 System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
+                startInfo.WindowStyle = windowstyle;
                 startInfo.FileName = "cmd.exe";
                 startInfo.WorkingDirectory = Path.Combine(path, "factorialkriging");
                 startInfo.Arguments = strCmdText;
@@ -363,17 +404,21 @@ namespace StoneCount
                 process.WaitForExit();
 
             });
+
             backgroundWorker1.RunWorkerCompleted += new RunWorkerCompletedEventHandler((a, ee) =>
             {
-                SetLabel(label, "Kriging Done");
-                Bitmap[] bitmaps = DrawKrigingShortAndLongComponent(resultPath);
-                if(bitmaps == null)
+                if (visuallize)
                 {
-                    return;
+                    Bitmap[] bitmaps = DrawKrigingShortAndLongComponent(resultPath);
+                    if (bitmaps == null)
+                    {
+                        return;
+                    }
+                    OpenPreviewForm(bitmaps[0], "FK short range DEM");
+                    OpenPreviewForm(bitmaps[1], "FK long range DEM");
+                    OpenPreviewForm(bitmaps[2], "Ordinary Kriged DEM");
                 }
-                OpenPreviewForm(bitmaps[0], "Local Component");
-                OpenPreviewForm(bitmaps[1], "Region Component");
-                OpenPreviewForm(bitmaps[2], "Combine Component");
+
                 if (onDone != null)
                 {
                     onDone(label);
@@ -381,11 +426,14 @@ namespace StoneCount
                 backgroundWorker1.Dispose();
             });
             backgroundWorker1.RunWorkerAsync();
+            while (backgroundWorker1.IsBusy)
+            {
+                Thread.Sleep(100);
+            }
         }
 
         public static void VGM(string openfile, string savefile,string modelfile, Label label, Action<Label> onDone = null)
         {
-            SetLabel(label, "Running vgm...");
             BackgroundWorker backgroundWorker1 = new BackgroundWorker();
             backgroundWorker1.DoWork += new DoWorkEventHandler((s, ee) =>
             {
@@ -394,7 +442,7 @@ namespace StoneCount
                 strCmdText = "/c Rscript --vanilla ./vgm/ho1vgm.r " + openfile + " " + savefile+" "+ modelfile;
                 System.Diagnostics.Process process = new System.Diagnostics.Process();
                 System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
+                startInfo.WindowStyle = windowstyle;
                 startInfo.FileName = "cmd.exe";
                 string path = Directory.GetCurrentDirectory();
                 startInfo.WorkingDirectory = path;
@@ -408,7 +456,6 @@ namespace StoneCount
             backgroundWorker1.RunWorkerCompleted += new RunWorkerCompletedEventHandler((a, ee) =>
             {
                
-                SetLabel(label, "vgm Done");
                 if (onDone != null)
                 {
                     onDone(label);
@@ -416,13 +463,9 @@ namespace StoneCount
                 backgroundWorker1.Dispose();
             });
             backgroundWorker1.RunWorkerAsync();
-        }
-        public static void SetLabel(Label label, string s)
-        {
-            if (label != null)
+            while (backgroundWorker1.IsBusy)
             {
-                label.Text = s;
-                label.Refresh();
+                Thread.Sleep(100);
             }
         }
 

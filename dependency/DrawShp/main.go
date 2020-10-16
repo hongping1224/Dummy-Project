@@ -70,9 +70,16 @@ func main() {
 		x, y = world.Img2WorldCoordinate(x, y)
 		a, _ := strconv.ParseFloat(ar[0], 64)
 		b, _ := strconv.ParseFloat(ar[1], 64)
+		tilt, _ := strconv.ParseFloat(ar[4], 64)
+		if b > a {
+			tmp := a
+			a = b
+			b = tmp
+			tilt += 90
+		}
+
 		a = world.Pixel2Distance(a)
 		b = world.Pixel2Distance(b)
-		tilt, _ := strconv.ParseFloat(ar[4], 64)
 		e := []float64{x, y, a, b, tilt}
 		ecli = append(ecli, e)
 	}
@@ -123,8 +130,8 @@ func drawBoundariesShp(filename string, boundariesData [][]shp.Point, ellipseDat
 		shp.NumberField("ID", 8),
 		shp.FloatField("x", 30, 4),
 		shp.FloatField("y", 30, 4),
-		shp.FloatField("a", 30, 4),
-		shp.FloatField("b", 30, 4),
+		shp.FloatField("a", 30, 16),
+		shp.FloatField("b", 30, 16),
 		shp.FloatField("tilt", 30, 4),
 	}
 	boundaryShp.SetFields(fields)
@@ -141,11 +148,11 @@ func drawBoundariesShp(filename string, boundariesData [][]shp.Point, ellipseDat
 		if err != nil {
 			fmt.Println(err)
 		}
-		err = boundaryShp.WriteAttribute(i, 3, el[2])
+		err = boundaryShp.WriteAttribute(i, 3, el[2]*2)
 		if err != nil {
 			fmt.Println(err)
 		}
-		err = boundaryShp.WriteAttribute(i, 4, el[3])
+		err = boundaryShp.WriteAttribute(i, 4, el[3]*2)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -169,8 +176,8 @@ func drawEllipseShp(filename string, ellipseData [][]float64, NumberOfPoints int
 		shp.NumberField("ID", 8),
 		shp.FloatField("x", 30, 4),
 		shp.FloatField("y", 30, 4),
-		shp.FloatField("a", 30, 4),
-		shp.FloatField("b", 30, 4),
+		shp.FloatField("a", 30, 16),
+		shp.FloatField("b", 30, 16),
 		shp.FloatField("tilt", 30, 4),
 	}
 	ellipseShp.SetFields(fields)
@@ -187,11 +194,11 @@ func drawEllipseShp(filename string, ellipseData [][]float64, NumberOfPoints int
 		if err != nil {
 			fmt.Println(err)
 		}
-		err = ellipseShp.WriteAttribute(i, 3, el[2])
+		err = ellipseShp.WriteAttribute(i, 3, el[2]*2)
 		if err != nil {
 			fmt.Println(err)
 		}
-		err = ellipseShp.WriteAttribute(i, 4, el[3])
+		err = ellipseShp.WriteAttribute(i, 4, el[3]*2)
 		if err != nil {
 			fmt.Println(err)
 		}

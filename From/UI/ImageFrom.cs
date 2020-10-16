@@ -62,13 +62,13 @@ namespace StoneCount
             };
         }
 
-        public ImageForm(Bitmap image, Point p, Action<Bitmap, ImageForm> OnDone, Bitmap overlay = null) : this(image, p, false,  overlay)
+        public ImageForm(Bitmap image,string Title, Point p, Action<Bitmap, ImageForm> OnDone, Bitmap overlay = null,string DoneButtonText = "Done") : this(image,Title, p, false,  overlay,true,false,DoneButtonText)
         {
             OnDoneClick += OnDone;
         }
-        public ImageForm(Bitmap image, Point p, bool Preview, Bitmap overlay = null, bool convertbinary = true, bool hideTrack = false) : this()
+        public ImageForm(Bitmap image, string Title, Point p, bool Preview, Bitmap overlay = null, bool convertbinary = true, bool hideTrack = false,string DoneButtonText = "Done") : this()
         {
-
+            Text = Title;
             preview = Preview;
             PictureBox1 = new PanAndZoom();
             PictureBox1.Bounds = new Rectangle(10, 10, 50, 50);
@@ -107,7 +107,7 @@ namespace StoneCount
             }
             this.WindowState = FormWindowState.Maximized;
             Resize += (e, s) => { RefreshPictureBoxSize(); };
-
+            done_Button.Text = DoneButtonText;
         }
         #endregion 
 
@@ -546,6 +546,10 @@ namespace StoneCount
                 }
             }
         }
-      
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

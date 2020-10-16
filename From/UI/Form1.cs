@@ -35,12 +35,6 @@ namespace StoneCount {
             return openFileDialog1;
         }
 
-        private void startProjectToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var project = new UI.ProjectForm();
-            project.Show();
-        }
-
         BackgroundWorker backgroundWorker2 = new BackgroundWorker();
         public void CreateShpFile(string output, string ellipse, string boundaries , string tfw)
         {
@@ -107,8 +101,8 @@ namespace StoneCount {
             {
                 return;
             }
-            saveFileDialog1.Title = "Save output contour Image";
-            saveFileDialog1.Filter = "tif files (*.tif)|*.tif|All files (*.*)|*.*";
+            saveFileDialog1.Title = "Save Output";
+            saveFileDialog1.Filter = "All files (*.*)|*.*";
             if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 savefile = saveFileDialog1.FileName;
@@ -117,7 +111,9 @@ namespace StoneCount {
             {
                 return;
             }
-            ExtraProgram.DoAll(openfile, savefile, label1);
+            UI.ProgressForm f = new ProgressForm();
+            f.Show();
+            f.DoAll(openfile, savefile);
         }
 
 
@@ -229,7 +225,7 @@ namespace StoneCount {
             // Create Par file
             ExtraProgram.CreateParFile(DetrendFileName, FactorialResult, VGMmodel, TemplateFilePath, ParFilePath,label1);
             //run program
-            ExtraProgram.FactorialKrigging(label1, FactorialResultPath,(l)=> {
+            ExtraProgram.FactorialKrigging(label1, FactorialResultPath,true,(l)=> {
                 Thread.Sleep(100);
                 if (File.Exists(savefile))
                 {
@@ -265,7 +261,7 @@ namespace StoneCount {
             
             ExtraProgram.GenerateSHPContour(openfile, savefile,label1,() => {
                 Bitmap zero = new Bitmap(savefile);
-                ExtraProgram.OpenPreviewForm(zero, "zero contour");
+                ExtraProgram.OpenPreviewForm(zero, "Zero-Level Contour");
             });
       
         }
@@ -283,7 +279,7 @@ namespace StoneCount {
             {
                 return;
             }
-            ExtraProgram.OpenPreviewForm(ExtraProgram.DrawInputDSM(openfile),"DSM");
+            ExtraProgram.OpenPreviewForm(ExtraProgram.DrawInputDSM(openfile),"Original DEM");
         }
 
         private void detrendDSMToolStripMenuItem_Click(object sender, EventArgs e)
@@ -299,7 +295,7 @@ namespace StoneCount {
             {
                 return;
             }
-            ExtraProgram.OpenPreviewForm(ExtraProgram.DrawDetrendDSM(openfile),"Detrend DSM");
+            ExtraProgram.OpenPreviewForm(ExtraProgram.DrawDetrendDSM(openfile),"Detrended DEM");
         }
 
         private void kriggingToolStripMenuItem_Click(object sender, EventArgs e)
@@ -318,9 +314,9 @@ namespace StoneCount {
             Bitmap[] s = ExtraProgram.DrawKrigingShortAndLongComponent(openfile);
             if(s != null)
             {
-                ExtraProgram.OpenPreviewForm(s[0], "Local Component");
-                ExtraProgram.OpenPreviewForm(s[1], "Regional Component");
-                ExtraProgram.OpenPreviewForm(s[2], "Combine Component");
+                ExtraProgram.OpenPreviewForm(s[0], "FK short range DEM");
+                ExtraProgram.OpenPreviewForm(s[1], "FK long range DEM");;
+                ExtraProgram.OpenPreviewForm(s[2], "Ordinary Kriged DEM");
             }
         }
 
@@ -337,7 +333,13 @@ namespace StoneCount {
             {
                 return;
             }
-            ExtraProgram.OpenPreviewForm(new Bitmap(openfile), "Zero Contour");
+            ExtraProgram.OpenPreviewForm(new Bitmap(openfile), "Zero-Level Contour");
+        }
+
+        private void fileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var project = new UI.ProjectForm();
+            project.Show();
         }
     }
 }

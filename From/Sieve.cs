@@ -56,55 +56,26 @@ namespace StoneCount
         private void GenerateButton(GroupBox groupBox)
         {
             flowPanel = new FlowLayoutPanel();
-            flowPanel.Size = new Size(680, 30);
+            flowPanel.Size = new Size(groupBox.Size.Width-4, 40+4);
             flowPanel.TabIndex = 0;
-
             groupBox.Controls.Add(flowPanel);
-            flowPanel.Location = new Point(6, 21);
+            flowPanel.Location = new Point(6, 40);
             flowPanel.SuspendLayout();
             Sieve_Btn = new Button();
-            Sieve_Btn.Size = new Size(60, 23);
+            Sieve_Btn.Size = new Size(100, 40);
             Sieve_Btn.Text = "Start";
             Sieve_Btn.UseVisualStyleBackColor = true;
             Sieve_Btn.Click += new EventHandler(this.StartSieve);
             flowPanel.Controls.Add(Sieve_Btn);
-            /*
-            Discard_Btn = new Button();
-            Discard_Btn.Size = new Size(60, 23);
-            Discard_Btn.Text = "Discard All";
-            Discard_Btn.UseVisualStyleBackColor = true;
-            Discard_Btn.Click += new EventHandler(this.DiscardPrompt);
-            flowPanel.Controls.Add(Discard_Btn);
-        
-            Preview_Btn = new Button();
-            Preview_Btn.Size = new Size(90, 23);
-            Preview_Btn.Text = "View Result";
-            Preview_Btn.UseVisualStyleBackColor = true;
-            Preview_Btn.Click += new EventHandler(this.Preview);
-            flowPanel.Controls.Add(Preview_Btn);
-
-            NextSieve_Btn = new Button();
-            NextSieve_Btn.Size = new Size(60, 23);
-            NextSieve_Btn.Text = "Next Sieve";
-            NextSieve_Btn.UseVisualStyleBackColor = true;
-            NextSieve_Btn.Click += new EventHandler(this.StartNextSieve);
-            flowPanel.Controls.Add(NextSieve_Btn);
-
-            Save_Btn = new Button();
-            Save_Btn.Size = new Size(60, 23);
-            Save_Btn.Text = "Save";
-            Save_Btn.UseVisualStyleBackColor = true;
-            Save_Btn.Click += new EventHandler(this.SaveResult);
-            flowPanel.Controls.Add(Save_Btn);
-            */
 
             Log_Lbl = new Label();
-            Log_Lbl.Size = new Size(200, 30);
+            Log_Lbl.Size = new Size(flowPanel.Size.Width-100-4, 40);
+            Log_Lbl.AutoSize = false;
             Log_Lbl.TextAlign = ContentAlignment.MiddleLeft;
-            Log_Lbl.Text = "Start Sieve Process"; 
+            Log_Lbl.Anchor = AnchorStyles.Right|AnchorStyles.Top|AnchorStyles.Bottom;
+            Log_Lbl.Text = "";
             flowPanel.Controls.Add(Log_Lbl);
             flowPanel.ResumeLayout();
-
         }
 
         public void InitiateSieve(Bitmap image,int threshold)
@@ -221,7 +192,7 @@ namespace StoneCount
             image = larger;
             smaller = small;
             this.threshold = threshold;
-            groupBox.Text = titleText + "threshold = " + threshold;
+            groupBox.Text = titleText + " threshold = " + threshold;
             StartProcess(this, EventArgs.Empty);
         }
 
@@ -259,8 +230,7 @@ namespace StoneCount
         }
         private void StartProcess(object sender, EventArgs e)
         {
-
-            Project.OpenImageForm(image, ProcessImageCallback);
+            Project.OpenImageForm(image,$"Level {index+1}", ProcessImageCallback, $"Enter Level {index + 2}");
         }
         private void ProcessImageCallback(Bitmap m, ImageForm imform)
         {
@@ -342,7 +312,7 @@ namespace StoneCount
                         gr.DrawEllipse(thick_pen, rect);
                         gr.RotateTransform((float)-theta);
                         gr.TranslateTransform(-dx, -dy);
-                        output.Add(String.Format("{0},{1},{2},{3},{4}", a, b, dx, dy-1, theta));
+                        output.Add(String.Format("{0},{1},{2},{3},{4}", Math.Round(elarr[i, 1],6), Math.Round(elarr[i,0], 6), dx, dy-1, theta));
                     }
                 }
             }

@@ -7,7 +7,7 @@
     <ProjectGuid>{D7422E50-B391-4F64-9E91-9C9AAAF574A6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>StoneCount</RootNamespace>
-    <AssemblyName>StoneCount</AssemblyName>
+    <AssemblyName>FKgrain</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -146,6 +146,12 @@
     <Compile Include="UI\MaskOption.Designer.cs">
       <DependentUpon>MaskOption.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ProgressForm.Designer.cs">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ProjectForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -203,6 +209,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MaskOption.resx">
       <DependentUpon>MaskOption.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ProgressForm.resx">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProjectForm.resx">
       <DependentUpon>ProjectForm.cs</DependentUpon>

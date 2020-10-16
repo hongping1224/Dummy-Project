@@ -103,9 +103,10 @@ namespace StoneCount.UI
             PictureBox1.SetZoomScale(0.667 * 0.667, new Point(0, 0));
             refreshImage(threshold);
         }
-        public SieveUI(Bitmap image, Sieve sieve,Bitmap overlay = null,int threshold =-1): this(image,threshold,overlay)
+        public SieveUI(Bitmap image, Sieve sieve,Bitmap overlay = null,int threshold =-1 ): this(image,threshold,overlay)
         {
             this.sieve = sieve;
+            this.Text = $"Level {sieve.index + 1}";
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -269,8 +270,9 @@ namespace StoneCount.UI
         }
         private void RefreshPictureBoxSize()
         {
-            groupBox2.Size = new Size(Size.Width- 135, Size.Height - 30);
-            groupBox1.Size = new Size(135, Size.Height - 30);
+            groupBox2.Size = new Size(Size.Width- 310, Size.Height - 30);
+            groupBox2.Location = new Point(310,1);
+            groupBox1.Size = new Size(300, Size.Height - 30);
             PictureBox1.SetBounds(0, 0, groupBox2.Size.Width - 20, groupBox2.Size.Height - 20);
         }
         //Maximize and minimize handle
